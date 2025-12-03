@@ -33,15 +33,15 @@ export function HeroBanner() {
   };
 
   return (
-    <section className="relative h-[280px] md:h-[320px] overflow-hidden bg-gradient-to-br from-muted via-background to-secondary/30">
+    <section className="relative h-[240px] md:h-[280px] overflow-hidden bg-background">
       {/* Animated Background Grid */}
       <div className="absolute inset-0 overflow-hidden">
         {/* Top Row - Moving Left */}
-        <div className="absolute top-4 left-0 flex gap-3 animate-scroll-left">
+        <div className="absolute top-3 left-0 flex gap-3 animate-scroll-left">
           {[...backgroundImages.slice(0, 8), ...backgroundImages.slice(0, 8)].map((img, i) => (
             <div
               key={`top-${i}`}
-              className="flex-shrink-0 w-24 h-24 md:w-28 md:h-28 rounded-xl overflow-hidden bg-card shadow-md"
+              className="flex-shrink-0 w-20 h-20 md:w-24 md:h-24 rounded-xl overflow-hidden bg-card shadow-md"
             >
               <img src={img} alt="" className="w-full h-full object-cover" />
             </div>
@@ -49,19 +49,16 @@ export function HeroBanner() {
         </div>
 
         {/* Bottom Row - Moving Right */}
-        <div className="absolute bottom-4 left-0 flex gap-3 animate-scroll-right">
+        <div className="absolute bottom-3 left-0 flex gap-3 animate-scroll-right">
           {[...backgroundImages.slice(8, 16), ...backgroundImages.slice(8, 16)].map((img, i) => (
             <div
               key={`bottom-${i}`}
-              className="flex-shrink-0 w-24 h-24 md:w-28 md:h-28 rounded-xl overflow-hidden bg-card shadow-md"
+              className="flex-shrink-0 w-20 h-20 md:w-24 md:h-24 rounded-xl overflow-hidden bg-card shadow-md"
             >
               <img src={img} alt="" className="w-full h-full object-cover" />
             </div>
           ))}
         </div>
-
-        {/* Gradient Overlay - softer for better visibility */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/70 to-background/40" />
       </div>
 
       {/* Center Content */}
@@ -69,31 +66,28 @@ export function HeroBanner() {
         {/* Search Bar */}
         <form
           onSubmit={handleSearch}
-          className="w-full max-w-2xl animate-fade-in-up delay-200"
+          className="w-full max-w-md"
         >
-          <div className="relative group">
-            <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-accent/20 to-primary/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <div className="relative flex items-center bg-card/95 backdrop-blur-xl border border-border/50 rounded-full shadow-card hover:shadow-card-hover transition-all duration-300 overflow-hidden">
-              <Search className="w-5 h-5 text-muted-foreground ml-5" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Ask anything..."
-                className="flex-1 px-4 py-4 md:py-5 bg-transparent text-foreground placeholder:text-muted-foreground focus:outline-none text-base md:text-lg"
-              />
-              <button
-                type="button"
-                className="p-3 mr-2 text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <Mic className="w-5 h-5" />
-              </button>
-            </div>
+          <div className="relative flex items-center bg-card border border-border rounded-full shadow-md overflow-hidden">
+            <Search className="w-4 h-4 text-muted-foreground ml-4" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Ask anything..."
+              className="flex-1 px-3 py-2.5 bg-transparent text-foreground placeholder:text-muted-foreground focus:outline-none text-sm"
+            />
+            <button
+              type="button"
+              className="p-2 mr-1 text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <Mic className="w-4 h-4" />
+            </button>
           </div>
         </form>
 
         {/* Quick Links */}
-        <div className="flex flex-wrap justify-center gap-3 mt-8 animate-fade-in-up delay-300">
+        <div className="flex flex-wrap justify-center gap-2 mt-4">
           {["Electronics", "Fashion", "Home", "Sports"].map((category) => (
             <button
               key={category}
