@@ -113,9 +113,9 @@ export function HeroBanner({ isFullScreen = false }: HeroBannerProps) {
               <div 
                 className="absolute -inset-2 rounded-[50px] bg-muted/40 backdrop-blur-sm border border-border/50"
               />
-              {/* Aurora gradient glow - enhanced on focus */}
+              {/* Aurora gradient glow - enhanced on focus with pulse */}
               <div 
-                className={`absolute -inset-1 rounded-[48px] blur-xl transition-opacity duration-300 ${isFocused ? 'opacity-80' : 'opacity-40'}`}
+                className={`absolute -inset-1 rounded-[48px] blur-xl transition-opacity duration-300 ${isFocused ? 'opacity-80 animate-pulse' : 'opacity-40'}`}
                 style={{
                   background: 'linear-gradient(90deg, #0081CF, #FF6FD8, #0081CF)',
                   transform: 'translateY(6px)'
