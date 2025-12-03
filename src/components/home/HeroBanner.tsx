@@ -91,16 +91,6 @@ export function HeroBanner() {
 
       {/* Center Content */}
       <div className="relative z-10 h-full flex flex-col items-center justify-center px-4">
-        {/* Brand */}
-        <div className="text-center mb-8 animate-fade-in-up">
-          <h1 className="text-4xl md:text-6xl font-display font-bold text-foreground mb-2">
-            Shop<span className="text-primary">Hub</span>
-          </h1>
-          <p className="text-muted-foreground text-lg md:text-xl">
-            AI-Powered Shopping Experience
-          </p>
-        </div>
-
         {/* Search Bar */}
         <form
           onSubmit={handleSearch}
