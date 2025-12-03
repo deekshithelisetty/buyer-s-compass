@@ -113,6 +113,14 @@ export function HeroBanner({ isFullScreen = false }: HeroBannerProps) {
               <div 
                 className="absolute -inset-2 rounded-[50px] bg-muted/40 backdrop-blur-sm border border-border/50"
               />
+              {/* Rainbow gradient glow - enhanced on focus */}
+              <div 
+                className={`absolute -inset-1 rounded-[48px] blur-xl transition-opacity duration-300 ${isFocused ? 'opacity-80' : 'opacity-40'}`}
+                style={{
+                  background: 'linear-gradient(90deg, #f5cba7, #f7dc6f, #a3e4d7, #85c1e9, #d2b4de)',
+                  transform: 'translateY(6px)'
+                }}
+              />
               {/* Rainbow gradient border - animated on focus */}
               <div 
                 className={`absolute -inset-2 rounded-[50px] transition-opacity duration-300 ${isFocused ? 'opacity-100' : 'opacity-0'}`}
@@ -120,14 +128,6 @@ export function HeroBanner({ isFullScreen = false }: HeroBannerProps) {
                   background: 'linear-gradient(90deg, #f5cba7, #f7dc6f, #a3e4d7, #85c1e9, #d2b4de, #f5cba7)',
                   backgroundSize: '200% 100%',
                   animation: isFocused ? 'gradient 3s linear infinite' : 'none'
-                }}
-              />
-              {/* Rainbow gradient glow effect */}
-              <div 
-                className="absolute inset-0 rounded-[45px] blur-md opacity-60"
-                style={{
-                  background: 'linear-gradient(90deg, #f5cba7, #f7dc6f, #a3e4d7, #85c1e9, #d2b4de)',
-                  transform: 'translateY(4px)'
                 }}
               />
               {/* Search input container */}
