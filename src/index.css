@@ -334,12 +334,35 @@
   to { transform: rotate(360deg); }
 }
 
+@keyframes aurora-flow {
+  0% { 
+    transform: rotate(0deg);
+    filter: blur(12px);
+  }
+  50% {
+    filter: blur(16px);
+  }
+  100% { 
+    transform: rotate(360deg);
+    filter: blur(12px);
+  }
+}
+
+@keyframes aurora-border {
+  0% { 
+    transform: rotate(0deg);
+  }
+  100% { 
+    transform: rotate(360deg);
+  }
+}
+
 .animate-spin-slow {
-  animation: spin-slow 3s linear infinite;
+  animation: aurora-flow 4s linear infinite;
 }
 
 .animate-spin-slower {
-  animation: spin-slow 2s linear infinite;
+  animation: aurora-border 3s linear infinite;
 }
 
 /* Animation delays for staggered effects */
