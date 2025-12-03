@@ -128,7 +128,7 @@ export function HeroBanner({ isFullScreen = false }: HeroBannerProps) {
               }}
             />
               {/* Search input container */}
-              <div className="relative flex items-center bg-card rounded-[45px] shadow-lg border border-border/30">
+              <div className="relative flex items-center bg-muted rounded-[45px] shadow-lg border border-border/30">
                 <input
                   type="text"
                   value={searchQuery}
