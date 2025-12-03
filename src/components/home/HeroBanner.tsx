@@ -117,7 +117,7 @@ export function HeroBanner({ isFullScreen = false }: HeroBannerProps) {
               <div 
                 className={`absolute -inset-1 rounded-[48px] blur-xl transition-opacity duration-300 ${isFocused ? 'opacity-80' : 'opacity-40'}`}
                 style={{
-                  background: 'linear-gradient(90deg, #0081CF, #FF6FD8, #FFD700, #9B59B6, #00ffbf, #0081CF)',
+                  background: 'linear-gradient(90deg, #0081CF, #FF6FD8, #0081CF)',
                   transform: 'translateY(6px)'
                 }}
               />
@@ -125,8 +125,8 @@ export function HeroBanner({ isFullScreen = false }: HeroBannerProps) {
               <div 
                 className={`absolute -inset-[3px] rounded-[47px] transition-opacity duration-300 ${isFocused ? 'opacity-100' : 'opacity-0'}`}
                 style={{
-                  background: 'conic-gradient(from 0deg, #0081CF, #FF6FD8, #FFD700, #9B59B6, #00ffbf, #0081CF)',
-                  animation: isFocused ? 'border-rotate 2s linear infinite' : 'none'
+                  background: 'conic-gradient(from 0deg, #0081CF, #FF6FD8, #0081CF, #FF6FD8, #0081CF)',
+                  animation: isFocused ? 'spin 2s linear infinite' : 'none'
                 }}
               />
               {/* Search input container */}
