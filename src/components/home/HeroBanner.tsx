@@ -57,8 +57,9 @@ export function HeroBanner({
           <div className={`absolute ${isFullScreen ? 'w-[450px] h-[200px]' : 'w-[320px] h-[140px]'} bg-background blur-[30px] rounded-[50%] -z-10`} />
           
           {/* Logo for full screen */}
-          {isFullScreen && <div className="text-center -mb-2">
-              <img src="/images/infinityhub-logo.png" alt="InfinityHub - Endless Choices" className="h-36 md:h-36 w-auto mx-auto shadow-none" />
+          {isFullScreen && <div className="text-center -mb-2 relative">
+              <div className="absolute inset-0 bg-background/90 blur-[40px] rounded-full scale-150 -z-10" />
+              <img src="/images/infinityhub-logo.png" alt="InfinityHub - Endless Choices" className="h-36 md:h-36 w-auto mx-auto shadow-none relative z-10" />
             </div>}
 
           {/* Search Bar with rainbow gradient glow */}
