@@ -125,7 +125,7 @@ export function HeroBanner({ isFullScreen = false }: HeroBannerProps) {
               <div 
                 className={`absolute -inset-[3px] rounded-[47px] transition-opacity duration-300 ${isFocused ? 'opacity-100' : 'opacity-0'}`}
                 style={{
-                  background: 'conic-gradient(from 0deg, #0081CF, #FF6FD8, #0081CF, #FF6FD8, #0081CF)',
+                  background: 'conic-gradient(from 0deg, #0081CF, #FFD700, #FF6FD8, #9B59B6, #00ffbf, #0081CF)',
                   animation: isFocused ? 'spin 2s linear infinite' : 'none'
                 }}
               />
