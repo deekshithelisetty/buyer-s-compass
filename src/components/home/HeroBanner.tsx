@@ -109,10 +109,6 @@ export function HeroBanner({ isFullScreen = false }: HeroBannerProps) {
             className={`w-full ${isFullScreen ? 'max-w-[580px]' : 'max-w-lg'}`}
           >
             <div className="relative">
-              {/* Glassy gray border - always visible */}
-              <div 
-                className="absolute -inset-2 rounded-[50px] bg-muted/40 backdrop-blur-sm border border-border/50"
-              />
               {/* Aurora gradient glow - only on focus */}
               <div 
                 className={`absolute -inset-[6px] rounded-[50px] blur-md transition-opacity duration-300 animate-spin-slow ${isFocused ? 'opacity-70' : 'opacity-0'}`}
