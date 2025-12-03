@@ -140,9 +140,9 @@ export function HeroBanner({ isFullScreen = false }: HeroBannerProps) {
                 />
                 <button
                   type="submit"
-                  className="p-3 mr-2 rounded-full text-white transition-all hover:opacity-90"
+                  className="p-3 mr-2 rounded-full text-white transition-all hover:opacity-90 hover:scale-105"
                   style={{
-                    background: 'linear-gradient(135deg, #0081CF, #FF6FD8)'
+                    background: 'conic-gradient(from 0deg, #0081CF, #FFD700, #FF6FD8, #9B59B6, #00ffbf, #0081CF)'
                   }}
                 >
                   <ArrowRight className="w-5 h-5 text-white" />
