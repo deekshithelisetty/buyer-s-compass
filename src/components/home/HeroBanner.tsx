@@ -47,23 +47,23 @@ export function HeroBanner({
       </div>
 
       {/* Center Content - Floating overlay */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none" style={{
+      <div className="absolute inset-0 flex items-center justify-center" style={{
       marginTop: '-70px'
     }}>
-        <div className="relative flex flex-col items-center justify-center pointer-events-auto w-full max-w-[800px] px-4">
-          {/* Fog/Blur background - strong visible effect like reference */}
-          <div className={`absolute ${isFullScreen ? 'w-[700px] h-[350px]' : 'w-[500px] h-[250px]'} bg-background blur-[100px] rounded-[50%] -z-10 opacity-95`} />
-          <div className={`absolute ${isFullScreen ? 'w-[600px] h-[300px]' : 'w-[420px] h-[200px]'} bg-background blur-[70px] rounded-[50%] -z-10`} />
-          <div className={`absolute ${isFullScreen ? 'w-[500px] h-[250px]' : 'w-[350px] h-[160px]'} bg-background blur-[40px] rounded-[50%] -z-10`} />
+        <div className="relative flex flex-col items-center justify-center w-full max-w-[800px] px-4">
+          {/* Fog/Blur background - positioned above product images */}
+          <div className={`absolute ${isFullScreen ? 'w-[750px] h-[400px]' : 'w-[550px] h-[280px]'} bg-background rounded-[50%]`} style={{ filter: 'blur(80px)', zIndex: 1 }} />
+          <div className={`absolute ${isFullScreen ? 'w-[650px] h-[350px]' : 'w-[450px] h-[230px]'} bg-background rounded-[50%]`} style={{ filter: 'blur(50px)', zIndex: 1 }} />
+          <div className={`absolute ${isFullScreen ? 'w-[550px] h-[300px]' : 'w-[380px] h-[180px]'} bg-background rounded-[50%]`} style={{ filter: 'blur(30px)', zIndex: 1 }} />
+          
           
           {/* Logo for full screen */}
-          {isFullScreen && <div className="text-center -mb-2 relative">
-              <div className="absolute inset-0 bg-background/90 blur-[40px] rounded-full scale-150 -z-10" />
-              <img src="/images/infinityhub-logo.png" alt="InfinityHub - Endless Choices" className="h-36 md:h-36 w-auto mx-auto shadow-none relative z-10" />
+          {isFullScreen && <div className="text-center -mb-2 relative z-10">
+              <img src="/images/infinityhub-logo.png" alt="InfinityHub - Endless Choices" className="h-36 md:h-36 w-auto mx-auto shadow-none" />
             </div>}
 
           {/* Search Bar with rainbow gradient glow */}
-          <form onSubmit={handleSearch} className={`w-full ${isFullScreen ? 'max-w-[580px]' : 'max-w-lg'}`}>
+          <form onSubmit={handleSearch} className={`w-full ${isFullScreen ? 'max-w-[580px]' : 'max-w-lg'} relative z-10`}>
             <div className="relative">
               {/* Glassy gray border - always visible */}
               <div className="absolute -inset-2 rounded-[50px] bg-muted/40 backdrop-blur-sm border border-border/50" />
@@ -88,7 +88,7 @@ export function HeroBanner({
           </form>
 
           {/* Quick Links */}
-          <div className="flex flex-wrap justify-center gap-2 mt-3">
+          <div className="flex flex-wrap justify-center gap-2 mt-3 relative z-10">
             {["Electronics", "Fashion", "Home", "Sports"].map(category => <button key={category} onClick={() => navigate(`/?category=${category.toLowerCase()}`)} className={`px-4 ${isFullScreen ? 'py-2' : 'py-1.5'} bg-card border border-border/50 rounded-full text-sm font-medium text-muted-foreground hover:text-foreground hover:border-primary/50 transition-all duration-300`}>
                 {category}
               </button>)}
