@@ -37,60 +37,20 @@ export function HeroBanner({ isFullScreen = false }: HeroBannerProps) {
   };
 
   const containerHeight = isFullScreen 
-    ? "h-[500px] md:h-[600px]" 
+    ? "h-full" 
     : "h-[280px] md:h-[320px]";
+
+  const cardSize = isFullScreen 
+    ? 'w-36 h-36 md:w-44 md:h-44' 
+    : 'w-20 h-20 md:w-24 md:h-24';
 
   return (
     <section className={`relative ${containerHeight} overflow-hidden bg-background`}>
-      {/* Animated Background Grid */}
-      <div className="absolute inset-0 overflow-hidden">
-        {/* Top Row - Moving Left */}
-        <div className="absolute top-4 left-0 flex gap-3 animate-scroll-left">
-          {[...backgroundImages.slice(0, 8), ...backgroundImages.slice(0, 8)].map((img, i) => (
-            <div
-              key={`top-${i}`}
-              className={`flex-shrink-0 ${isFullScreen ? 'w-28 h-28 md:w-36 md:h-36' : 'w-20 h-20 md:w-24 md:h-24'} rounded-2xl overflow-hidden bg-card shadow-lg`}
-            >
-              <img src={img} alt="" className="w-full h-full object-cover" />
-            </div>
-          ))}
-        </div>
-
-        {/* Middle Row - Moving Right */}
-        <div className="absolute top-1/2 -translate-y-1/2 left-0 flex gap-3 animate-scroll-right">
-          {[...backgroundImages.slice(4, 12), ...backgroundImages.slice(4, 12)].map((img, i) => (
-            <div
-              key={`middle-${i}`}
-              className={`flex-shrink-0 ${isFullScreen ? 'w-28 h-28 md:w-36 md:h-36' : 'w-20 h-20 md:w-24 md:h-24'} rounded-2xl overflow-hidden bg-card shadow-lg`}
-            >
-              <img src={img} alt="" className="w-full h-full object-cover" />
-            </div>
-          ))}
-        </div>
-
-        {/* Bottom Row - Moving Left */}
-        <div className="absolute bottom-4 left-0 flex gap-3 animate-scroll-left" style={{ animationDelay: '-10s' }}>
-          {[...backgroundImages.slice(8, 16), ...backgroundImages.slice(8, 16)].map((img, i) => (
-            <div
-              key={`bottom-${i}`}
-              className={`flex-shrink-0 ${isFullScreen ? 'w-28 h-28 md:w-36 md:h-36' : 'w-20 h-20 md:w-24 md:h-24'} rounded-2xl overflow-hidden bg-card shadow-lg`}
-            >
-              <img src={img} alt="" className="w-full h-full object-cover" />
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Fog Effect Behind Search */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className={`${isFullScreen ? 'w-[600px] h-[250px]' : 'w-[500px] h-[160px]'} bg-background/85 blur-3xl rounded-full`} />
-      </div>
-
-      {/* Center Content */}
-      <div className="relative z-10 h-full flex flex-col items-center justify-center px-4">
+      {/* Center Content - Positioned at top */}
+      <div className="relative z-10 pt-8 md:pt-12 flex flex-col items-center px-4">
         {/* Logo for full screen */}
         {isFullScreen && (
-          <div className="text-center mb-6">
+          <div className="text-center mb-4">
             <h1 className="text-3xl md:text-4xl font-display font-bold text-foreground">
               Shop<span className="text-primary">Hub</span>
             </h1>
@@ -122,7 +82,7 @@ export function HeroBanner({ isFullScreen = false }: HeroBannerProps) {
         </form>
 
         {/* Quick Links */}
-        <div className="flex flex-wrap justify-center gap-2 mt-5">
+        <div className="flex flex-wrap justify-center gap-2 mt-4">
           {["Electronics", "Fashion", "Home", "Sports"].map((category) => (
             <button
               key={category}
@@ -131,6 +91,45 @@ export function HeroBanner({ isFullScreen = false }: HeroBannerProps) {
             >
               {category}
             </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Animated Background Grid - Below content */}
+      <div className="absolute inset-0 overflow-hidden pt-48 md:pt-56">
+        {/* Top Row - Moving Left */}
+        <div className="absolute top-0 left-0 flex gap-3 animate-scroll-left">
+          {[...backgroundImages.slice(0, 8), ...backgroundImages.slice(0, 8)].map((img, i) => (
+            <div
+              key={`top-${i}`}
+              className={`flex-shrink-0 ${cardSize} rounded-2xl overflow-hidden bg-card shadow-lg`}
+            >
+              <img src={img} alt="" className="w-full h-full object-cover" />
+            </div>
+          ))}
+        </div>
+
+        {/* Middle Row - Moving Right */}
+        <div className="absolute top-1/2 -translate-y-1/2 left-0 flex gap-3 animate-scroll-right">
+          {[...backgroundImages.slice(4, 12), ...backgroundImages.slice(4, 12)].map((img, i) => (
+            <div
+              key={`middle-${i}`}
+              className={`flex-shrink-0 ${cardSize} rounded-2xl overflow-hidden bg-card shadow-lg`}
+            >
+              <img src={img} alt="" className="w-full h-full object-cover" />
+            </div>
+          ))}
+        </div>
+
+        {/* Bottom Row - Moving Left */}
+        <div className="absolute bottom-4 left-0 flex gap-3 animate-scroll-left" style={{ animationDelay: '-10s' }}>
+          {[...backgroundImages.slice(8, 16), ...backgroundImages.slice(8, 16)].map((img, i) => (
+            <div
+              key={`bottom-${i}`}
+              className={`flex-shrink-0 ${cardSize} rounded-2xl overflow-hidden bg-card shadow-lg`}
+            >
+              <img src={img} alt="" className="w-full h-full object-cover" />
+            </div>
           ))}
         </div>
       </div>
