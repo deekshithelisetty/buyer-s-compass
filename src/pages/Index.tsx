@@ -1,11 +1,6 @@
 import { useSearchParams } from "react-router-dom";
-import { Layout } from "@/components/layout/Layout";
 import { HeroBanner } from "@/components/home/HeroBanner";
-import { PromoBanner } from "@/components/home/PromoBanner";
-import { BrowseCategories } from "@/components/home/BrowseCategories";
-import { HeroCarousel } from "@/components/home/HeroCarousel";
-import { FeaturedProductsGrid } from "@/components/home/FeaturedProductsGrid";
-import { CategoryTabs } from "@/components/home/CategoryTabs";
+import { SearchResults } from "@/components/search/SearchResults";
 
 const Index = () => {
   const [searchParams] = useSearchParams();
@@ -25,13 +20,12 @@ const Index = () => {
     );
   }
 
-  // Show full landing page with products after search
+  // Show search results page with zoom-in animation
   return (
-    <Layout>
-      <HeroBanner />
-      <FeaturedProductsGrid categoryFilter={categoryFilter} searchQuery={searchQuery} />
-      <CategoryTabs />
-    </Layout>
+    <SearchResults 
+      searchQuery={searchQuery} 
+      categoryFilter={categoryFilter} 
+    />
   );
 };
 
