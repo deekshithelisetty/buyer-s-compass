@@ -33,15 +33,15 @@ export function HeroBanner() {
   };
 
   return (
-    <section className="relative h-[500px] md:h-[600px] overflow-hidden bg-gradient-to-br from-muted via-background to-secondary/30">
+    <section className="relative h-[280px] md:h-[320px] overflow-hidden bg-gradient-to-br from-muted via-background to-secondary/30">
       {/* Animated Background Grid */}
       <div className="absolute inset-0 overflow-hidden">
         {/* Top Row - Moving Left */}
-        <div className="absolute top-0 left-0 flex gap-4 animate-scroll-left">
+        <div className="absolute top-4 left-0 flex gap-3 animate-scroll-left">
           {[...backgroundImages.slice(0, 8), ...backgroundImages.slice(0, 8)].map((img, i) => (
             <div
               key={`top-${i}`}
-              className="flex-shrink-0 w-32 h-32 md:w-40 md:h-40 rounded-2xl overflow-hidden opacity-60"
+              className="flex-shrink-0 w-24 h-24 md:w-28 md:h-28 rounded-xl overflow-hidden bg-card shadow-md"
             >
               <img src={img} alt="" className="w-full h-full object-cover" />
             </div>
@@ -49,44 +49,19 @@ export function HeroBanner() {
         </div>
 
         {/* Bottom Row - Moving Right */}
-        <div className="absolute bottom-0 left-0 flex gap-4 animate-scroll-right">
+        <div className="absolute bottom-4 left-0 flex gap-3 animate-scroll-right">
           {[...backgroundImages.slice(8, 16), ...backgroundImages.slice(8, 16)].map((img, i) => (
             <div
               key={`bottom-${i}`}
-              className="flex-shrink-0 w-32 h-32 md:w-40 md:h-40 rounded-2xl overflow-hidden opacity-60"
+              className="flex-shrink-0 w-24 h-24 md:w-28 md:h-28 rounded-xl overflow-hidden bg-card shadow-md"
             >
               <img src={img} alt="" className="w-full h-full object-cover" />
             </div>
           ))}
         </div>
 
-        {/* Left Column - Moving Up */}
-        <div className="absolute top-0 left-0 flex flex-col gap-4 animate-scroll-up">
-          {[...backgroundImages.slice(0, 4), ...backgroundImages.slice(0, 4)].map((img, i) => (
-            <div
-              key={`left-${i}`}
-              className="flex-shrink-0 w-28 h-28 md:w-36 md:h-36 rounded-2xl overflow-hidden opacity-50"
-            >
-              <img src={img} alt="" className="w-full h-full object-cover" />
-            </div>
-          ))}
-        </div>
-
-        {/* Right Column - Moving Down */}
-        <div className="absolute top-0 right-0 flex flex-col gap-4 animate-scroll-down">
-          {[...backgroundImages.slice(4, 8), ...backgroundImages.slice(4, 8)].map((img, i) => (
-            <div
-              key={`right-${i}`}
-              className="flex-shrink-0 w-28 h-28 md:w-36 md:h-36 rounded-2xl overflow-hidden opacity-50"
-            >
-              <img src={img} alt="" className="w-full h-full object-cover" />
-            </div>
-          ))}
-        </div>
-
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background/80" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/70 via-transparent to-background/70" />
+        {/* Gradient Overlay - softer for better visibility */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/70 to-background/40" />
       </div>
 
       {/* Center Content */}
