@@ -106,7 +106,7 @@ export function HeroBanner({ isFullScreen = false }: HeroBannerProps) {
           {/* Search Bar with rainbow gradient glow */}
           <form
             onSubmit={handleSearch}
-            className={`w-full ${isFullScreen ? 'max-w-2xl' : 'max-w-xl'}`}
+            className={`w-full ${isFullScreen ? 'max-w-[576px]' : 'max-w-lg'}`}
           >
             <div className="relative">
               {/* Glassy gray border on focus */}
