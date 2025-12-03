@@ -57,7 +57,7 @@ export function HeroBanner({
           <div className={`absolute ${isFullScreen ? 'w-[450px] h-[200px]' : 'w-[320px] h-[140px]'} bg-background blur-[30px] rounded-[50%] -z-10`} />
           
           {/* Logo for full screen */}
-          {isFullScreen && <div className="text-center mb-2">
+          {isFullScreen && <div className="text-center mb-0">
               <img src="/images/infinityhub-logo.png" alt="InfinityHub - Endless Choices" className="h-36 md:h-36 w-auto mx-auto shadow-none" />
             </div>}
 
