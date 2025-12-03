@@ -88,11 +88,11 @@ export function HeroBanner({ isFullScreen = false }: HeroBannerProps) {
 
       {/* Center Content - Floating overlay */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="relative flex flex-col items-center pointer-events-auto px-4">
+        <div className="relative flex flex-col items-center pointer-events-auto w-full max-w-[800px] px-4">
           {/* Fog/Blur background - multiple layers for better effect */}
-          <div className={`absolute ${isFullScreen ? 'w-[600px] h-[280px]' : 'w-[450px] h-[180px]'} bg-background blur-3xl rounded-full -z-10`} />
-          <div className={`absolute ${isFullScreen ? 'w-[500px] h-[240px]' : 'w-[380px] h-[160px]'} bg-background/95 blur-2xl rounded-full -z-10`} />
-          <div className={`absolute ${isFullScreen ? 'w-[400px] h-[200px]' : 'w-[320px] h-[140px]'} bg-background blur-xl rounded-full -z-10`} />
+          <div className={`absolute ${isFullScreen ? 'w-[750px] h-[280px]' : 'w-[450px] h-[180px]'} bg-background blur-3xl rounded-full -z-10`} />
+          <div className={`absolute ${isFullScreen ? 'w-[650px] h-[240px]' : 'w-[380px] h-[160px]'} bg-background/95 blur-2xl rounded-full -z-10`} />
+          <div className={`absolute ${isFullScreen ? 'w-[550px] h-[200px]' : 'w-[320px] h-[140px]'} bg-background blur-xl rounded-full -z-10`} />
           
           {/* Logo for full screen */}
           {isFullScreen && (
