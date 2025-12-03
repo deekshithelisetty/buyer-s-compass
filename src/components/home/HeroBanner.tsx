@@ -113,20 +113,20 @@ export function HeroBanner({ isFullScreen = false }: HeroBannerProps) {
               <div 
                 className="absolute -inset-2 rounded-[50px] bg-muted/40 backdrop-blur-sm border border-border/50"
               />
-              {/* Aurora gradient glow - enhanced on focus */}
+              {/* Aurora gradient glow - always visible, enhanced on focus */}
               <div 
-                className={`absolute -inset-1 rounded-[48px] blur-xl transition-opacity duration-300 ${isFocused ? 'opacity-80' : 'opacity-40'}`}
-                style={{
-                  background: 'linear-gradient(90deg, #0081CF, #FF6FD8, #0081CF)',
-                  transform: 'translateY(6px)'
-                }}
-              />
-              {/* Aurora gradient border - rotating animation on focus */}
-              <div 
-                className={`absolute -inset-[3px] rounded-[47px] transition-opacity duration-300 ${isFocused ? 'opacity-100' : 'opacity-0'}`}
+                className={`absolute -inset-[6px] rounded-[50px] blur-md transition-opacity duration-300 ${isFocused ? 'opacity-70' : 'opacity-40'}`}
                 style={{
                   background: 'conic-gradient(from 0deg, #0081CF, #FFD700, #FF6FD8, #9B59B6, #00ffbf, #0081CF)',
-                  animation: isFocused ? 'spin 2s linear infinite' : 'none'
+                  animation: 'spin 3s linear infinite'
+                }}
+              />
+              {/* Aurora gradient border - rotating animation always visible */}
+              <div 
+                className={`absolute -inset-[3px] rounded-[47px] transition-opacity duration-300 ${isFocused ? 'opacity-100' : 'opacity-60'}`}
+                style={{
+                  background: 'conic-gradient(from 0deg, #0081CF, #FFD700, #FF6FD8, #9B59B6, #00ffbf, #0081CF)',
+                  animation: 'spin 2s linear infinite'
                 }}
               />
               {/* Search input container */}
