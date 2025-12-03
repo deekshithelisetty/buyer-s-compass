@@ -39,8 +39,8 @@ export function SearchResults({ searchQuery, categoryFilter }: SearchResultsProp
   ];
 
   return (
-    <div className="min-h-screen bg-muted/30 p-4 animate-zoom-in">
-      <div className="bg-background rounded-3xl min-h-[calc(100vh-2rem)] overflow-hidden shadow-xl">
+    <div className="min-h-screen bg-muted/30 p-2 animate-zoom-in">
+      <div className="bg-background rounded-3xl min-h-[calc(100vh-1rem)] overflow-hidden shadow-xl">
         {/* Header */}
         <header className="sticky top-0 z-50 bg-card/95 backdrop-blur-md border-b border-border/30 rounded-t-3xl">
           <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between gap-6">
