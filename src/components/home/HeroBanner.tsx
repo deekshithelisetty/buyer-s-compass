@@ -21,7 +21,11 @@ const backgroundImages = [
   "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400",
 ];
 
-export function HeroBanner() {
+interface HeroBannerProps {
+  isFullScreen?: boolean;
+}
+
+export function HeroBanner({ isFullScreen = false }: HeroBannerProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
 
@@ -32,16 +36,20 @@ export function HeroBanner() {
     }
   };
 
+  const containerHeight = isFullScreen 
+    ? "h-[500px] md:h-[600px]" 
+    : "h-[280px] md:h-[320px]";
+
   return (
-    <section className="relative h-[280px] md:h-[320px] overflow-hidden bg-background">
+    <section className={`relative ${containerHeight} overflow-hidden bg-background`}>
       {/* Animated Background Grid */}
       <div className="absolute inset-0 overflow-hidden">
         {/* Top Row - Moving Left */}
-        <div className="absolute top-2 left-0 flex gap-3 animate-scroll-left">
+        <div className="absolute top-4 left-0 flex gap-3 animate-scroll-left">
           {[...backgroundImages.slice(0, 8), ...backgroundImages.slice(0, 8)].map((img, i) => (
             <div
               key={`top-${i}`}
-              className="flex-shrink-0 w-20 h-20 md:w-24 md:h-24 rounded-xl overflow-hidden bg-card shadow-md"
+              className={`flex-shrink-0 ${isFullScreen ? 'w-28 h-28 md:w-36 md:h-36' : 'w-20 h-20 md:w-24 md:h-24'} rounded-2xl overflow-hidden bg-card shadow-lg`}
             >
               <img src={img} alt="" className="w-full h-full object-cover" />
             </div>
@@ -53,7 +61,7 @@ export function HeroBanner() {
           {[...backgroundImages.slice(4, 12), ...backgroundImages.slice(4, 12)].map((img, i) => (
             <div
               key={`middle-${i}`}
-              className="flex-shrink-0 w-20 h-20 md:w-24 md:h-24 rounded-xl overflow-hidden bg-card shadow-md"
+              className={`flex-shrink-0 ${isFullScreen ? 'w-28 h-28 md:w-36 md:h-36' : 'w-20 h-20 md:w-24 md:h-24'} rounded-2xl overflow-hidden bg-card shadow-lg`}
             >
               <img src={img} alt="" className="w-full h-full object-cover" />
             </div>
@@ -61,11 +69,11 @@ export function HeroBanner() {
         </div>
 
         {/* Bottom Row - Moving Left */}
-        <div className="absolute bottom-2 left-0 flex gap-3 animate-scroll-left" style={{ animationDelay: '-10s' }}>
+        <div className="absolute bottom-4 left-0 flex gap-3 animate-scroll-left" style={{ animationDelay: '-10s' }}>
           {[...backgroundImages.slice(8, 16), ...backgroundImages.slice(8, 16)].map((img, i) => (
             <div
               key={`bottom-${i}`}
-              className="flex-shrink-0 w-20 h-20 md:w-24 md:h-24 rounded-xl overflow-hidden bg-card shadow-md"
+              className={`flex-shrink-0 ${isFullScreen ? 'w-28 h-28 md:w-36 md:h-36' : 'w-20 h-20 md:w-24 md:h-24'} rounded-2xl overflow-hidden bg-card shadow-lg`}
             >
               <img src={img} alt="" className="w-full h-full object-cover" />
             </div>
@@ -75,41 +83,51 @@ export function HeroBanner() {
 
       {/* Fog Effect Behind Search */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="w-[500px] h-[160px] bg-background/80 blur-3xl rounded-full" />
+        <div className={`${isFullScreen ? 'w-[600px] h-[250px]' : 'w-[500px] h-[160px]'} bg-background/85 blur-3xl rounded-full`} />
       </div>
 
       {/* Center Content */}
       <div className="relative z-10 h-full flex flex-col items-center justify-center px-4">
+        {/* Logo for full screen */}
+        {isFullScreen && (
+          <div className="text-center mb-6">
+            <h1 className="text-3xl md:text-4xl font-display font-bold text-foreground">
+              Shop<span className="text-primary">Hub</span>
+            </h1>
+            <p className="text-muted-foreground text-sm mt-1">AI-Powered Shopping Experience</p>
+          </div>
+        )}
+
         {/* Search Bar */}
         <form
           onSubmit={handleSearch}
-          className="w-full max-w-md"
+          className={`w-full ${isFullScreen ? 'max-w-lg' : 'max-w-md'}`}
         >
-          <div className="relative flex items-center bg-card border border-border rounded-full shadow-md overflow-hidden">
-            <Search className="w-4 h-4 text-muted-foreground ml-4" />
+          <div className="relative flex items-center bg-card border border-border rounded-full shadow-lg overflow-hidden">
+            <Search className="w-5 h-5 text-muted-foreground ml-4" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Ask anything..."
-              className="flex-1 px-3 py-2.5 bg-transparent text-foreground placeholder:text-muted-foreground focus:outline-none text-sm"
+              className={`flex-1 px-3 ${isFullScreen ? 'py-3.5' : 'py-2.5'} bg-transparent text-foreground placeholder:text-muted-foreground focus:outline-none text-sm`}
             />
             <button
               type="button"
-              className="p-2 mr-1 text-muted-foreground hover:text-foreground transition-colors"
+              className="p-2 mr-2 text-muted-foreground hover:text-foreground transition-colors"
             >
-              <Mic className="w-4 h-4" />
+              <Mic className="w-5 h-5" />
             </button>
           </div>
         </form>
 
         {/* Quick Links */}
-        <div className="flex flex-wrap justify-center gap-2 mt-4">
+        <div className="flex flex-wrap justify-center gap-2 mt-5">
           {["Electronics", "Fashion", "Home", "Sports"].map((category) => (
             <button
               key={category}
               onClick={() => navigate(`/?category=${category.toLowerCase()}`)}
-              className="px-4 py-2 bg-card/80 backdrop-blur-sm border border-border/50 rounded-full text-sm font-medium text-muted-foreground hover:text-foreground hover:border-primary/50 transition-all duration-300"
+              className={`px-4 ${isFullScreen ? 'py-2.5' : 'py-2'} bg-card/80 backdrop-blur-sm border border-border/50 rounded-full text-sm font-medium text-muted-foreground hover:text-foreground hover:border-primary/50 transition-all duration-300`}
             >
               {category}
             </button>
