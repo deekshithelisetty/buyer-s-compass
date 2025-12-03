@@ -47,7 +47,7 @@ export function HeroBanner({
       </div>
 
       {/* Center Content - Floating overlay */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none" style={{ marginTop: '-40px' }}>
         <div className="relative flex flex-col items-center justify-center pointer-events-auto w-full max-w-[800px] px-4">
           {/* Fog/Blur background - enhanced layers */}
           <div className={`absolute ${isFullScreen ? 'w-[650px] h-[280px]' : 'w-[480px] h-[200px]'} bg-background/95 blur-[80px] rounded-[50%] -z-10`} />
