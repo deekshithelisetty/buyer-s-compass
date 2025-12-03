@@ -52,8 +52,8 @@ export function HeroBanner({
     }}>
         <div className="relative flex flex-col items-center justify-center w-full max-w-[800px] px-4">
           {/* Fog/Blur background - positioned above product images */}
-          <div className={`absolute ${isFullScreen ? 'w-[750px] h-[400px]' : 'w-[550px] h-[280px]'} bg-background/70 rounded-[50%]`} style={{ filter: 'blur(80px)', zIndex: 1 }} />
-          <div className={`absolute ${isFullScreen ? 'w-[650px] h-[350px]' : 'w-[450px] h-[230px]'} bg-background/60 rounded-[50%]`} style={{ filter: 'blur(50px)', zIndex: 1 }} />
+          <div className={`absolute ${isFullScreen ? 'w-[750px] h-[400px]' : 'w-[550px] h-[280px]'} bg-background/60 rounded-[50%]`} style={{ filter: 'blur(80px)', zIndex: 1 }} />
+          <div className={`absolute ${isFullScreen ? 'w-[650px] h-[350px]' : 'w-[450px] h-[230px]'} bg-background/50 rounded-[50%]`} style={{ filter: 'blur(50px)', zIndex: 1 }} />
           <div className={`absolute ${isFullScreen ? 'w-[550px] h-[300px]' : 'w-[380px] h-[180px]'} bg-background/50 rounded-[50%]`} style={{ filter: 'blur(30px)', zIndex: 1 }} />
           
           
