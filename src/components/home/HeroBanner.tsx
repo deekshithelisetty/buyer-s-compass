@@ -113,22 +113,31 @@ export function HeroBanner({ isFullScreen = false }: HeroBannerProps) {
               <div 
                 className="absolute -inset-2 rounded-[50px] bg-muted/40 backdrop-blur-sm border border-border/50"
               />
-            {/* Aurora gradient glow - only on focus */}
-            <div 
-              className={`absolute -inset-[8px] rounded-[52px] blur-md transition-opacity duration-500 ${isFocused ? 'opacity-60' : 'opacity-0'}`}
-              style={{
-                background: 'conic-gradient(from 0deg, #0081CF, #FFD700, #FF6FD8, #9B59B6, #00ffbf, #0081CF)'
-              }}
-            />
-            {/* Aurora gradient border - only on focus */}
-            <div 
-              className={`absolute -inset-[3px] rounded-[47px] transition-opacity duration-500 ${isFocused ? 'opacity-100' : 'opacity-0'}`}
-              style={{
-                background: 'conic-gradient(from 0deg, #0081CF, #FFD700, #FF6FD8, #9B59B6, #00ffbf, #0081CF)'
-              }}
-            />
+              {/* Aurora gradient glow - only on focus */}
+              <div 
+                className={`absolute -inset-[8px] rounded-[52px] blur-md transition-opacity duration-500 ${isFocused ? 'opacity-60' : 'opacity-0'}`}
+                style={{
+                  background: 'conic-gradient(from 0deg, #0081CF, #FFD700, #FF6FD8, #9B59B6, #00ffbf, #0081CF)',
+                  animation: isFocused ? 'aurora-flow 3s linear infinite' : 'none'
+                }}
+              />
+              {/* Aurora gradient border - only on focus */}
+              <div 
+                className={`absolute -inset-[3px] rounded-[47px] transition-opacity duration-500 ${isFocused ? 'opacity-100' : 'opacity-0'}`}
+                style={{
+                  background: 'conic-gradient(from 0deg, #0081CF, #FFD700, #FF6FD8, #9B59B6, #00ffbf, #0081CF)',
+                  animation: isFocused ? 'aurora-flow 3s linear infinite' : 'none'
+                }}
+              />
               {/* Search input container */}
-              <div className="relative flex items-center bg-muted rounded-[45px] shadow-lg border border-border/30">
+              <div 
+                className="relative flex items-center rounded-[45px] shadow-lg border border-border/30 transition-all duration-300"
+                style={{
+                  background: isFocused 
+                    ? 'linear-gradient(135deg, rgba(0,129,207,0.1), rgba(255,111,216,0.1), rgba(155,89,182,0.1), rgba(0,255,191,0.1))' 
+                    : 'hsl(var(--muted))'
+                }}
+              >
                 <input
                   type="text"
                   value={searchQuery}
