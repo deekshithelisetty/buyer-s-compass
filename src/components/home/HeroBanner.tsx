@@ -33,11 +33,11 @@ export function HeroBanner() {
   };
 
   return (
-    <section className="relative h-[240px] md:h-[280px] overflow-hidden bg-background">
+    <section className="relative h-[280px] md:h-[320px] overflow-hidden bg-background">
       {/* Animated Background Grid */}
       <div className="absolute inset-0 overflow-hidden">
         {/* Top Row - Moving Left */}
-        <div className="absolute top-3 left-0 flex gap-3 animate-scroll-left">
+        <div className="absolute top-2 left-0 flex gap-3 animate-scroll-left">
           {[...backgroundImages.slice(0, 8), ...backgroundImages.slice(0, 8)].map((img, i) => (
             <div
               key={`top-${i}`}
@@ -48,8 +48,20 @@ export function HeroBanner() {
           ))}
         </div>
 
-        {/* Bottom Row - Moving Right */}
-        <div className="absolute bottom-3 left-0 flex gap-3 animate-scroll-right">
+        {/* Middle Row - Moving Right */}
+        <div className="absolute top-1/2 -translate-y-1/2 left-0 flex gap-3 animate-scroll-right">
+          {[...backgroundImages.slice(4, 12), ...backgroundImages.slice(4, 12)].map((img, i) => (
+            <div
+              key={`middle-${i}`}
+              className="flex-shrink-0 w-20 h-20 md:w-24 md:h-24 rounded-xl overflow-hidden bg-card shadow-md"
+            >
+              <img src={img} alt="" className="w-full h-full object-cover" />
+            </div>
+          ))}
+        </div>
+
+        {/* Bottom Row - Moving Left */}
+        <div className="absolute bottom-2 left-0 flex gap-3 animate-scroll-left" style={{ animationDelay: '-10s' }}>
           {[...backgroundImages.slice(8, 16), ...backgroundImages.slice(8, 16)].map((img, i) => (
             <div
               key={`bottom-${i}`}
@@ -59,6 +71,11 @@ export function HeroBanner() {
             </div>
           ))}
         </div>
+      </div>
+
+      {/* Fog Effect Behind Search */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div className="w-[500px] h-[160px] bg-background/80 blur-3xl rounded-full" />
       </div>
 
       {/* Center Content */}
