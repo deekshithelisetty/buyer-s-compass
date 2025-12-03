@@ -46,59 +46,10 @@ export function HeroBanner({ isFullScreen = false }: HeroBannerProps) {
 
   return (
     <section className={`relative ${containerHeight} overflow-hidden bg-background`}>
-      {/* Center Content - Positioned at top */}
-      <div className="relative z-10 pt-8 md:pt-12 flex flex-col items-center px-4">
-        {/* Logo for full screen */}
-        {isFullScreen && (
-          <div className="text-center mb-4">
-            <h1 className="text-3xl md:text-4xl font-display font-bold text-foreground">
-              Shop<span className="text-primary">Hub</span>
-            </h1>
-            <p className="text-muted-foreground text-sm mt-1">AI-Powered Shopping Experience</p>
-          </div>
-        )}
-
-        {/* Search Bar */}
-        <form
-          onSubmit={handleSearch}
-          className={`w-full ${isFullScreen ? 'max-w-lg' : 'max-w-md'}`}
-        >
-          <div className="relative flex items-center bg-card border border-border rounded-full shadow-lg overflow-hidden">
-            <Search className="w-5 h-5 text-muted-foreground ml-4" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Ask anything..."
-              className={`flex-1 px-3 ${isFullScreen ? 'py-3.5' : 'py-2.5'} bg-transparent text-foreground placeholder:text-muted-foreground focus:outline-none text-sm`}
-            />
-            <button
-              type="button"
-              className="p-2 mr-2 text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <Mic className="w-5 h-5" />
-            </button>
-          </div>
-        </form>
-
-        {/* Quick Links */}
-        <div className="flex flex-wrap justify-center gap-2 mt-4">
-          {["Electronics", "Fashion", "Home", "Sports"].map((category) => (
-            <button
-              key={category}
-              onClick={() => navigate(`/?category=${category.toLowerCase()}`)}
-              className={`px-4 ${isFullScreen ? 'py-2.5' : 'py-2'} bg-card/80 backdrop-blur-sm border border-border/50 rounded-full text-sm font-medium text-muted-foreground hover:text-foreground hover:border-primary/50 transition-all duration-300`}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Animated Background Grid - Below content */}
-      <div className="absolute inset-0 overflow-hidden pt-48 md:pt-56">
+      {/* Animated Background Grid - Three evenly spaced rows */}
+      <div className="absolute inset-0 flex flex-col justify-between py-4">
         {/* Top Row - Moving Left */}
-        <div className="absolute top-0 left-0 flex gap-3 animate-scroll-left">
+        <div className="flex gap-3 animate-scroll-left">
           {[...backgroundImages.slice(0, 8), ...backgroundImages.slice(0, 8)].map((img, i) => (
             <div
               key={`top-${i}`}
@@ -110,7 +61,7 @@ export function HeroBanner({ isFullScreen = false }: HeroBannerProps) {
         </div>
 
         {/* Middle Row - Moving Right */}
-        <div className="absolute top-1/2 -translate-y-1/2 left-0 flex gap-3 animate-scroll-right">
+        <div className="flex gap-3 animate-scroll-right">
           {[...backgroundImages.slice(4, 12), ...backgroundImages.slice(4, 12)].map((img, i) => (
             <div
               key={`middle-${i}`}
@@ -122,7 +73,7 @@ export function HeroBanner({ isFullScreen = false }: HeroBannerProps) {
         </div>
 
         {/* Bottom Row - Moving Left */}
-        <div className="absolute bottom-4 left-0 flex gap-3 animate-scroll-left" style={{ animationDelay: '-10s' }}>
+        <div className="flex gap-3 animate-scroll-left" style={{ animationDelay: '-10s' }}>
           {[...backgroundImages.slice(8, 16), ...backgroundImages.slice(8, 16)].map((img, i) => (
             <div
               key={`bottom-${i}`}
@@ -131,6 +82,61 @@ export function HeroBanner({ isFullScreen = false }: HeroBannerProps) {
               <img src={img} alt="" className="w-full h-full object-cover" />
             </div>
           ))}
+        </div>
+      </div>
+
+      {/* Center Content - Floating overlay */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div className="flex flex-col items-center pointer-events-auto">
+          {/* Fog/Blur background */}
+          <div className={`absolute ${isFullScreen ? 'w-[550px] h-[220px]' : 'w-[400px] h-[150px]'} bg-background/90 blur-3xl rounded-full -z-10`} />
+          
+          {/* Logo for full screen */}
+          {isFullScreen && (
+            <div className="text-center mb-3">
+              <h1 className="text-3xl md:text-4xl font-display font-bold text-foreground">
+                Shop<span className="text-primary">Hub</span>
+              </h1>
+              <p className="text-muted-foreground text-sm mt-1">AI-Powered Shopping Experience</p>
+            </div>
+          )}
+
+          {/* Search Bar with gradient border */}
+          <form
+            onSubmit={handleSearch}
+            className={`w-full ${isFullScreen ? 'max-w-lg' : 'max-w-md'} px-4`}
+          >
+            <div className="relative p-[2px] rounded-full bg-gradient-to-r from-amber-200 via-rose-200 to-violet-200">
+              <div className="relative flex items-center bg-card rounded-full shadow-lg overflow-hidden">
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Ask anything..."
+                  className={`flex-1 px-5 ${isFullScreen ? 'py-4' : 'py-3'} bg-transparent text-foreground placeholder:text-muted-foreground focus:outline-none text-sm`}
+                />
+                <button
+                  type="submit"
+                  className="p-2 mr-2 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors"
+                >
+                  <Search className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+          </form>
+
+          {/* Quick Links */}
+          <div className="flex flex-wrap justify-center gap-2 mt-4 px-4">
+            {["Electronics", "Fashion", "Home", "Sports"].map((category) => (
+              <button
+                key={category}
+                onClick={() => navigate(`/?category=${category.toLowerCase()}`)}
+                className={`px-4 ${isFullScreen ? 'py-2' : 'py-1.5'} bg-card/90 backdrop-blur-sm border border-border/50 rounded-full text-sm font-medium text-muted-foreground hover:text-foreground hover:border-primary/50 transition-all duration-300`}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </section>
