@@ -113,19 +113,19 @@ export function HeroBanner({ isFullScreen = false }: HeroBannerProps) {
               <div 
                 className="absolute -inset-2 rounded-[50px] bg-muted/40 backdrop-blur-sm border border-border/50"
               />
-              {/* Rainbow gradient glow - enhanced on focus */}
+              {/* Aurora gradient glow - enhanced on focus */}
               <div 
                 className={`absolute -inset-1 rounded-[48px] blur-xl transition-opacity duration-300 ${isFocused ? 'opacity-80' : 'opacity-40'}`}
                 style={{
-                  background: 'linear-gradient(90deg, #f5cba7, #f7dc6f, #a3e4d7, #85c1e9, #d2b4de)',
+                  background: 'linear-gradient(90deg, #0081CF, #FF6FD8, #0081CF)',
                   transform: 'translateY(6px)'
                 }}
               />
-              {/* Rainbow gradient border - animated on focus */}
+              {/* Aurora gradient border - animated on focus */}
               <div 
-                className={`absolute -inset-2 rounded-[50px] transition-opacity duration-300 ${isFocused ? 'opacity-100' : 'opacity-0'}`}
+                className={`absolute -inset-[3px] rounded-[47px] transition-opacity duration-300 ${isFocused ? 'opacity-100' : 'opacity-0'}`}
                 style={{
-                  background: 'linear-gradient(90deg, #f5cba7, #f7dc6f, #a3e4d7, #85c1e9, #d2b4de, #f5cba7)',
+                  background: 'linear-gradient(90deg, #0081CF, #FF6FD8, #0081CF, #FF6FD8)',
                   backgroundSize: '200% 100%',
                   animation: isFocused ? 'gradient 3s linear infinite' : 'none'
                 }}
