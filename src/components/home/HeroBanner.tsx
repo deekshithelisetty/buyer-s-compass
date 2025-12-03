@@ -25,16 +25,16 @@ const row2Images = [
   "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400", // Sunglasses
 ];
 
-// Row 3 - Kids dresses, footwear, home
+// Row 3 - Kids girls collection and electronic accessories
 const row3Images = [
-  "https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=400", // Kids dress
+  "https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?w=400", // Girl in pink dress
+  "https://images.unsplash.com/photo-1503919545889-aef636e10ad4?w=400", // Girls fashion
   "https://images.unsplash.com/photo-1622290291468-a28f7a7dc6a8?w=400", // Kids shoes
-  "https://images.unsplash.com/photo-1471286174890-9c112ffca5b4?w=400", // Baby clothes
-  "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400", // Store
+  "https://images.unsplash.com/photo-1588099768531-a72d4a198538?w=400", // Girls outfit
   "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=400", // Camera
-  "https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=400", // Colorful sneakers
-  "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400", // Leather bag
-  "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400", // Watch
+  "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400", // Headphones accessory
+  "https://images.unsplash.com/photo-1625772452859-1c03d5bf1137?w=400", // USB cables
+  "https://images.unsplash.com/photo-1610438235354-a6ae5528385c?w=400", // Keyboard
 ];
 interface HeroBannerProps {
   isFullScreen?: boolean;
