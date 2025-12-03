@@ -1,5 +1,6 @@
 import { useSearchParams } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
+import { HeroBanner } from "@/components/home/HeroBanner";
 import { HeroCarousel } from "@/components/home/HeroCarousel";
 import { FeaturedProductsGrid } from "@/components/home/FeaturedProductsGrid";
 import { CategoryTabs } from "@/components/home/CategoryTabs";
@@ -11,7 +12,12 @@ const Index = () => {
 
   return (
     <Layout>
-      {!categoryFilter && !searchQuery && <HeroCarousel />}
+      {!categoryFilter && !searchQuery && (
+        <>
+          <HeroBanner />
+          <HeroCarousel />
+        </>
+      )}
       <FeaturedProductsGrid categoryFilter={categoryFilter} searchQuery={searchQuery} />
       <CategoryTabs />
     </Layout>
