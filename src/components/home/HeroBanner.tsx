@@ -48,15 +48,15 @@ export function HeroBanner({
 
       {/* Center Content - Floating overlay */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="relative flex flex-col items-center pointer-events-auto w-full max-w-[800px] px-4">
-          {/* Fog/Blur background - enhanced layers like reference */}
-          <div className={`absolute ${isFullScreen ? 'w-[700px] h-[320px]' : 'w-[500px] h-[220px]'} bg-background/90 blur-[60px] rounded-[40%] -z-10`} />
-          <div className={`absolute ${isFullScreen ? 'w-[600px] h-[280px]' : 'w-[420px] h-[180px]'} bg-background blur-[40px] rounded-[40%] -z-10`} />
-          <div className={`absolute ${isFullScreen ? 'w-[500px] h-[240px]' : 'w-[350px] h-[150px]'} bg-background blur-[25px] rounded-[40%] -z-10`} />
+        <div className="relative flex flex-col items-center justify-center pointer-events-auto w-full max-w-[800px] px-4">
+          {/* Fog/Blur background - enhanced layers */}
+          <div className={`absolute ${isFullScreen ? 'w-[650px] h-[280px]' : 'w-[480px] h-[200px]'} bg-background/95 blur-[80px] rounded-[50%] -z-10`} />
+          <div className={`absolute ${isFullScreen ? 'w-[550px] h-[240px]' : 'w-[400px] h-[170px]'} bg-background blur-[50px] rounded-[50%] -z-10`} />
+          <div className={`absolute ${isFullScreen ? 'w-[450px] h-[200px]' : 'w-[320px] h-[140px]'} bg-background blur-[30px] rounded-[50%] -z-10`} />
           
           {/* Logo for full screen */}
-          {isFullScreen && <div className="text-center mb-4">
-              <img src="/images/infinityhub-logo.png" alt="InfinityHub - Endless Choices" className="h-36 md:h-20 w-auto mx-auto" />
+          {isFullScreen && <div className="text-center mb-2">
+              <img src="/images/infinityhub-logo.png" alt="InfinityHub - Endless Choices" className="h-16 md:h-14 w-auto mx-auto" />
             </div>}
 
           {/* Search Bar with rainbow gradient glow */}
@@ -85,7 +85,7 @@ export function HeroBanner({
           </form>
 
           {/* Quick Links */}
-          <div className="flex flex-wrap justify-center gap-2 mt-4">
+          <div className="flex flex-wrap justify-center gap-2 mt-3">
             {["Electronics", "Fashion", "Home", "Sports"].map(category => <button key={category} onClick={() => navigate(`/?category=${category.toLowerCase()}`)} className={`px-4 ${isFullScreen ? 'py-2' : 'py-1.5'} bg-card border border-border/50 rounded-full text-sm font-medium text-muted-foreground hover:text-foreground hover:border-primary/50 transition-all duration-300`}>
                 {category}
               </button>)}
