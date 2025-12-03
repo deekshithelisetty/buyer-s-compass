@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { ArrowRight, Mic } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-// Row 1 - Electronics, watches, headphones
+// Row 1 - Electronics, watches, headphones, mobiles
 const row1Images = [
   "https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=400", // TV
-  "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400", // Watch
+  "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400", // Mobile phone
   "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400", // Headphones
   "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400", // Red sneaker
-  "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=400", // Smart TV
+  "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?w=400", // iPhone
   "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400", // Smart watch
   "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400", // Perfume
   "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=400", // Sneaker
@@ -25,16 +25,16 @@ const row2Images = [
   "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400", // Sunglasses
 ];
 
-// Row 3 - Kids, toys, home
+// Row 3 - Kids dresses, footwear, home
 const row3Images = [
-  "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=400", // Kids toys
-  "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=400", // Teddy bear
-  "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=400", // Kids clothes
+  "https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=400", // Kids dress
+  "https://images.unsplash.com/photo-1622290291468-a28f7a7dc6a8?w=400", // Kids shoes
+  "https://images.unsplash.com/photo-1471286174890-9c112ffca5b4?w=400", // Baby clothes
   "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400", // Store
   "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=400", // Camera
-  "https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=400", // Kids shoes
+  "https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=400", // Colorful sneakers
   "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400", // Leather bag
-  "https://images.unsplash.com/photo-1558171813-4c088753af8f?w=400", // Kids room
+  "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400", // Watch
 ];
 interface HeroBannerProps {
   isFullScreen?: boolean;
