@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Mic } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const backgroundImages = [
@@ -138,12 +138,21 @@ export function HeroBanner({ isFullScreen = false }: HeroBannerProps) {
                   placeholder="Ask anything..."
                   className={`flex-1 ${isFullScreen ? 'px-6 py-4' : 'px-5 py-3'} bg-transparent rounded-[45px] text-foreground placeholder:text-muted-foreground focus:outline-none text-base`}
                 />
-                <button
-                  type="submit"
-                  className="p-3 mr-2 rounded-full bg-[#0081CF] text-white transition-all hover:bg-[#006bb3] shadow-[0_0_15px_rgba(0,129,207,0.5)]"
-                >
-                  <ArrowRight className="w-5 h-5" />
-                </button>
+                {searchQuery.trim() ? (
+                  <button
+                    type="submit"
+                    className="p-3 mr-2 rounded-full bg-[#0081CF] text-white transition-all hover:bg-[#006bb3] shadow-[0_0_15px_rgba(0,129,207,0.5)]"
+                  >
+                    <ArrowRight className="w-5 h-5" />
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    className="p-3 mr-2 rounded-full bg-white transition-all"
+                  >
+                    <Mic className="w-5 h-5 text-gray-500 opacity-70" />
+                  </button>
+                )}
               </div>
             </div>
           </form>
