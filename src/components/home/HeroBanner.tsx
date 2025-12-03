@@ -99,7 +99,6 @@ export function HeroBanner({ isFullScreen = false }: HeroBannerProps) {
               <h1 className="text-3xl md:text-4xl font-display font-bold text-foreground">
                 Shop<span className="text-primary">Hub</span>
               </h1>
-              <p className="text-muted-foreground text-sm mt-1">AI-Powered Shopping Experience</p>
             </div>
           )}
 
