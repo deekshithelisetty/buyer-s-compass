@@ -115,7 +115,7 @@ export function HeroBanner({ isFullScreen = false }: HeroBannerProps) {
               />
               {/* Rainbow gradient border - animated on focus */}
               <div 
-                className={`absolute -inset-[3px] rounded-[48px] transition-opacity duration-300 ${isFocused ? 'opacity-100' : 'opacity-0'}`}
+                className={`absolute -inset-2 rounded-[50px] transition-opacity duration-300 ${isFocused ? 'opacity-100' : 'opacity-0'}`}
                 style={{
                   background: 'linear-gradient(90deg, #f5cba7, #f7dc6f, #a3e4d7, #85c1e9, #d2b4de, #f5cba7)',
                   backgroundSize: '200% 100%',
