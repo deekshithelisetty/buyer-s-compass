@@ -27,6 +27,7 @@ interface HeroBannerProps {
 
 export function HeroBanner({ isFullScreen = false }: HeroBannerProps) {
   const [searchQuery, setSearchQuery] = useState("");
+  const [isFocused, setIsFocused] = useState(false);
   const navigate = useNavigate();
 
   const handleSearch = (e: React.FormEvent) => {
@@ -105,9 +106,17 @@ export function HeroBanner({ isFullScreen = false }: HeroBannerProps) {
           {/* Search Bar with rainbow gradient glow */}
           <form
             onSubmit={handleSearch}
-            className={`w-full ${isFullScreen ? 'max-w-lg' : 'max-w-md'}`}
+            className={`w-full ${isFullScreen ? 'max-w-xl' : 'max-w-lg'}`}
           >
             <div className="relative">
+              {/* Glassy gray border on focus */}
+              <div 
+                className={`absolute -inset-2 rounded-[50px] transition-all duration-300 ${
+                  isFocused 
+                    ? 'bg-muted/40 backdrop-blur-sm border border-border/50' 
+                    : 'opacity-0'
+                }`}
+              />
               {/* Rainbow gradient glow effect */}
               <div 
                 className="absolute inset-0 rounded-[45px] blur-md opacity-60"
@@ -122,6 +131,8 @@ export function HeroBanner({ isFullScreen = false }: HeroBannerProps) {
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
+                  onFocus={() => setIsFocused(true)}
+                  onBlur={() => setIsFocused(false)}
                   placeholder="Ask anything..."
                   className={`flex-1 ${isFullScreen ? 'px-6 py-4' : 'px-5 py-3'} bg-transparent rounded-[45px] text-foreground placeholder:text-muted-foreground focus:outline-none text-base`}
                 />
