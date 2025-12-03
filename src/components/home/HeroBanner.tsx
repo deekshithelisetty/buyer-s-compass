@@ -56,7 +56,7 @@ export function HeroBanner({
           
           {/* Logo for full screen */}
           {isFullScreen && <div className="text-center mb-2">
-              <img src="/images/infinityhub-logo.png" alt="InfinityHub - Endless Choices" className="h-16 md:h-14 w-auto mx-auto" />
+              <img src="/images/infinityhub-logo.png" alt="InfinityHub - Endless Choices" className="h-36 md:h-14 w-auto mx-auto shadow-none" />
             </div>}
 
           {/* Search Bar with rainbow gradient glow */}
