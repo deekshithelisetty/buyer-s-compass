@@ -17,8 +17,8 @@ const Index = () => {
   // Show full-screen promotional section only (no header/footer)
   if (!hasSearchOrCategory) {
     return (
-      <div className="min-h-screen bg-muted/30 flex items-center justify-center p-4">
-        <div className="w-full max-w-6xl bg-background rounded-3xl overflow-hidden shadow-2xl">
+      <div className="h-screen bg-muted/30 p-4">
+        <div className="w-full h-full bg-background rounded-3xl overflow-hidden shadow-2xl">
           <HeroBanner isFullScreen />
         </div>
       </div>
