@@ -44,7 +44,7 @@ function ProductCardNew({ product, index }: { product: Product; index: number })
 
       {/* Product Info */}
       <div className="px-1">
-        <h3 className="text-sm font-medium text-foreground line-clamp-2 mb-1 group-hover:text-primary transition-colors">
+        <h3 className="text-sm font-medium text-foreground line-clamp-2 mb-1 group-hover:text-primary transition-colors font-display">
           {product.name}
         </h3>
         
