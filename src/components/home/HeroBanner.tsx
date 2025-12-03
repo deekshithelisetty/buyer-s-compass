@@ -115,18 +115,16 @@ export function HeroBanner({ isFullScreen = false }: HeroBannerProps) {
               />
             {/* Aurora gradient glow - only on focus */}
             <div 
-              className={`absolute -inset-[8px] rounded-[52px] transition-opacity duration-500 ${isFocused ? 'opacity-80' : 'opacity-0'}`}
+              className={`absolute -inset-[8px] rounded-[52px] blur-md transition-opacity duration-500 ${isFocused ? 'opacity-60' : 'opacity-0'}`}
               style={{
-                background: 'conic-gradient(from 0deg, #0081CF, #FFD700, #FF6FD8, #9B59B6, #00ffbf, #0081CF)',
-                animation: isFocused ? 'aurora-flow 4s linear infinite' : 'none'
+                background: 'conic-gradient(from 0deg, #0081CF, #FFD700, #FF6FD8, #9B59B6, #00ffbf, #0081CF)'
               }}
             />
-            {/* Aurora gradient border - only on focus with rotating animation */}
+            {/* Aurora gradient border - only on focus */}
             <div 
               className={`absolute -inset-[3px] rounded-[47px] transition-opacity duration-500 ${isFocused ? 'opacity-100' : 'opacity-0'}`}
               style={{
-                background: 'conic-gradient(from 0deg, #0081CF, #FFD700, #FF6FD8, #9B59B6, #00ffbf, #0081CF)',
-                animation: isFocused ? 'aurora-border 3s linear infinite' : 'none'
+                background: 'conic-gradient(from 0deg, #0081CF, #FFD700, #FF6FD8, #9B59B6, #00ffbf, #0081CF)'
               }}
             />
               {/* Search input container */}
