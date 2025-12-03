@@ -102,33 +102,36 @@ export function HeroBanner({ isFullScreen = false }: HeroBannerProps) {
             </div>
           )}
 
-          {/* Search Bar with rainbow gradient border */}
+          {/* Search Bar with rainbow gradient glow */}
           <form
             onSubmit={handleSearch}
             className={`w-full ${isFullScreen ? 'max-w-lg' : 'max-w-md'}`}
           >
-            <div 
-              className="p-[3px] rounded-[45px] flex items-center"
-              style={{
-                background: 'linear-gradient(90deg, #f5cba7, #f7dc6f, #a3e4d7, #85c1e9, #d2b4de)'
-              }}
-            >
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Ask anything..."
-                className={`flex-1 ${isFullScreen ? 'px-5 py-4' : 'px-4 py-3'} bg-card rounded-[40px] text-foreground placeholder:text-muted-foreground focus:outline-none text-base`}
-              />
-              <button
-                type="submit"
-                className="p-3 mr-1 rounded-full text-white transition-all hover:opacity-90"
+            <div className="relative">
+              {/* Rainbow gradient glow effect */}
+              <div 
+                className="absolute inset-0 rounded-[45px] blur-md opacity-60"
                 style={{
-                  background: 'linear-gradient(135deg, #5dade2, #7d3c98)'
+                  background: 'linear-gradient(90deg, #f5cba7, #f7dc6f, #a3e4d7, #85c1e9, #d2b4de)',
+                  transform: 'translateY(4px)'
                 }}
-              >
-                <ArrowRight className="w-5 h-5" />
-              </button>
+              />
+              {/* Search input container */}
+              <div className="relative flex items-center bg-card rounded-[45px] shadow-lg border border-border/30">
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Ask anything..."
+                  className={`flex-1 ${isFullScreen ? 'px-6 py-4' : 'px-5 py-3'} bg-transparent rounded-[45px] text-foreground placeholder:text-muted-foreground focus:outline-none text-base`}
+                />
+                <button
+                  type="submit"
+                  className="p-3 mr-2 rounded-full text-white transition-all hover:opacity-90 bg-[#5dade2]"
+                >
+                  <ArrowRight className="w-5 h-5" />
+                </button>
+              </div>
             </div>
           </form>
 
