@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Search, Mic } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const backgroundImages = [
@@ -87,13 +87,15 @@ export function HeroBanner({ isFullScreen = false }: HeroBannerProps) {
 
       {/* Center Content - Floating overlay */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="flex flex-col items-center pointer-events-auto">
-          {/* Fog/Blur background */}
-          <div className={`absolute ${isFullScreen ? 'w-[550px] h-[220px]' : 'w-[400px] h-[150px]'} bg-background/90 blur-3xl rounded-full -z-10`} />
+        <div className="relative flex flex-col items-center pointer-events-auto px-4">
+          {/* Fog/Blur background - multiple layers for better effect */}
+          <div className={`absolute ${isFullScreen ? 'w-[600px] h-[280px]' : 'w-[450px] h-[180px]'} bg-background blur-3xl rounded-full -z-10`} />
+          <div className={`absolute ${isFullScreen ? 'w-[500px] h-[240px]' : 'w-[380px] h-[160px]'} bg-background/95 blur-2xl rounded-full -z-10`} />
+          <div className={`absolute ${isFullScreen ? 'w-[400px] h-[200px]' : 'w-[320px] h-[140px]'} bg-background blur-xl rounded-full -z-10`} />
           
           {/* Logo for full screen */}
           {isFullScreen && (
-            <div className="text-center mb-3">
+            <div className="text-center mb-4">
               <h1 className="text-3xl md:text-4xl font-display font-bold text-foreground">
                 Shop<span className="text-primary">Hub</span>
               </h1>
@@ -101,37 +103,43 @@ export function HeroBanner({ isFullScreen = false }: HeroBannerProps) {
             </div>
           )}
 
-          {/* Search Bar with gradient border */}
+          {/* Search Bar with rainbow gradient border */}
           <form
             onSubmit={handleSearch}
-            className={`w-full ${isFullScreen ? 'max-w-lg' : 'max-w-md'} px-4`}
+            className={`w-full ${isFullScreen ? 'max-w-lg' : 'max-w-md'}`}
           >
-            <div className="relative p-[2px] rounded-full bg-gradient-to-r from-amber-200 via-rose-200 to-violet-200">
-              <div className="relative flex items-center bg-card rounded-full shadow-lg overflow-hidden">
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Ask anything..."
-                  className={`flex-1 px-5 ${isFullScreen ? 'py-4' : 'py-3'} bg-transparent text-foreground placeholder:text-muted-foreground focus:outline-none text-sm`}
-                />
-                <button
-                  type="submit"
-                  className="p-2 mr-2 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors"
-                >
-                  <Search className="w-5 h-5" />
-                </button>
-              </div>
+            <div 
+              className="p-[3px] rounded-[45px] flex items-center"
+              style={{
+                background: 'linear-gradient(90deg, #f5cba7, #f7dc6f, #a3e4d7, #85c1e9, #d2b4de)'
+              }}
+            >
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Ask anything..."
+                className={`flex-1 ${isFullScreen ? 'px-5 py-4' : 'px-4 py-3'} bg-card rounded-[40px] text-foreground placeholder:text-muted-foreground focus:outline-none text-base`}
+              />
+              <button
+                type="submit"
+                className="p-3 mr-1 rounded-full text-white transition-all hover:opacity-90"
+                style={{
+                  background: 'linear-gradient(135deg, #5dade2, #7d3c98)'
+                }}
+              >
+                <ArrowRight className="w-5 h-5" />
+              </button>
             </div>
           </form>
 
           {/* Quick Links */}
-          <div className="flex flex-wrap justify-center gap-2 mt-4 px-4">
+          <div className="flex flex-wrap justify-center gap-2 mt-4">
             {["Electronics", "Fashion", "Home", "Sports"].map((category) => (
               <button
                 key={category}
                 onClick={() => navigate(`/?category=${category.toLowerCase()}`)}
-                className={`px-4 ${isFullScreen ? 'py-2' : 'py-1.5'} bg-card/90 backdrop-blur-sm border border-border/50 rounded-full text-sm font-medium text-muted-foreground hover:text-foreground hover:border-primary/50 transition-all duration-300`}
+                className={`px-4 ${isFullScreen ? 'py-2' : 'py-1.5'} bg-card border border-border/50 rounded-full text-sm font-medium text-muted-foreground hover:text-foreground hover:border-primary/50 transition-all duration-300`}
               >
                 {category}
               </button>
