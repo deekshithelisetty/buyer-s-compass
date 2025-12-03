@@ -121,13 +121,12 @@ export function HeroBanner({ isFullScreen = false }: HeroBannerProps) {
                   transform: 'translateY(6px)'
                 }}
               />
-              {/* Aurora gradient border - animated on focus */}
+              {/* Aurora gradient border - rotating animation on focus */}
               <div 
                 className={`absolute -inset-[3px] rounded-[47px] transition-opacity duration-300 ${isFocused ? 'opacity-100' : 'opacity-0'}`}
                 style={{
-                  background: 'linear-gradient(90deg, #0081CF, #FF6FD8, #0081CF, #FF6FD8)',
-                  backgroundSize: '200% 100%',
-                  animation: isFocused ? 'gradient 3s linear infinite' : 'none'
+                  background: 'conic-gradient(from 0deg, #0081CF, #FF6FD8, #0081CF, #FF6FD8, #0081CF)',
+                  animation: isFocused ? 'spin 2s linear infinite' : 'none'
                 }}
               />
               {/* Search input container */}
@@ -143,9 +142,12 @@ export function HeroBanner({ isFullScreen = false }: HeroBannerProps) {
                 />
                 <button
                   type="submit"
-                  className="p-3 mr-2 rounded-full text-white transition-all hover:opacity-90 bg-[#5dade2]"
+                  className="p-3 mr-2 rounded-full text-white transition-all hover:opacity-90"
+                  style={{
+                    background: 'linear-gradient(135deg, #0081CF, #FF6FD8)'
+                  }}
                 >
-                  <ArrowRight className="w-5 h-5" />
+                  <ArrowRight className="w-5 h-5 text-white" />
                 </button>
               </div>
             </div>
