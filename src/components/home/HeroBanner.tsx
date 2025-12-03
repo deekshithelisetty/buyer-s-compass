@@ -89,10 +89,10 @@ export function HeroBanner({ isFullScreen = false }: HeroBannerProps) {
       {/* Center Content - Floating overlay */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         <div className="relative flex flex-col items-center pointer-events-auto w-full max-w-[800px] px-4">
-          {/* Fog/Blur background - multiple layers for better effect */}
-          <div className={`absolute ${isFullScreen ? 'w-[750px] h-[280px]' : 'w-[450px] h-[180px]'} bg-background blur-3xl rounded-full -z-10`} />
-          <div className={`absolute ${isFullScreen ? 'w-[650px] h-[240px]' : 'w-[380px] h-[160px]'} bg-background/95 blur-2xl rounded-full -z-10`} />
-          <div className={`absolute ${isFullScreen ? 'w-[550px] h-[200px]' : 'w-[320px] h-[140px]'} bg-background blur-xl rounded-full -z-10`} />
+          {/* Fog/Blur background - enhanced layers like reference */}
+          <div className={`absolute ${isFullScreen ? 'w-[700px] h-[320px]' : 'w-[500px] h-[220px]'} bg-background/90 blur-[60px] rounded-[40%] -z-10`} />
+          <div className={`absolute ${isFullScreen ? 'w-[600px] h-[280px]' : 'w-[420px] h-[180px]'} bg-background blur-[40px] rounded-[40%] -z-10`} />
+          <div className={`absolute ${isFullScreen ? 'w-[500px] h-[240px]' : 'w-[350px] h-[150px]'} bg-background blur-[25px] rounded-[40%] -z-10`} />
           
           {/* Logo for full screen */}
           {isFullScreen && (
@@ -112,6 +112,15 @@ export function HeroBanner({ isFullScreen = false }: HeroBannerProps) {
               {/* Glassy gray border - always visible */}
               <div 
                 className="absolute -inset-2 rounded-[50px] bg-muted/40 backdrop-blur-sm border border-border/50"
+              />
+              {/* Rainbow gradient border - animated on focus */}
+              <div 
+                className={`absolute -inset-[3px] rounded-[48px] transition-opacity duration-300 ${isFocused ? 'opacity-100' : 'opacity-0'}`}
+                style={{
+                  background: 'linear-gradient(90deg, #f5cba7, #f7dc6f, #a3e4d7, #85c1e9, #d2b4de, #f5cba7)',
+                  backgroundSize: '200% 100%',
+                  animation: isFocused ? 'gradient 3s linear infinite' : 'none'
+                }}
               />
               {/* Rainbow gradient glow effect */}
               <div 
