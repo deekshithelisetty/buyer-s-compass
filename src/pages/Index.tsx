@@ -1,6 +1,8 @@
 import { useSearchParams } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { HeroBanner } from "@/components/home/HeroBanner";
+import { PromoBanner } from "@/components/home/PromoBanner";
+import { BrowseCategories } from "@/components/home/BrowseCategories";
 import { HeroCarousel } from "@/components/home/HeroCarousel";
 import { FeaturedProductsGrid } from "@/components/home/FeaturedProductsGrid";
 import { CategoryTabs } from "@/components/home/CategoryTabs";
@@ -15,6 +17,8 @@ const Index = () => {
       {!categoryFilter && !searchQuery && (
         <>
           <HeroBanner />
+          <PromoBanner />
+          <BrowseCategories />
           <HeroCarousel />
         </>
       )}
