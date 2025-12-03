@@ -1,13 +1,84 @@
 import { useState } from "react";
-import { products, categories } from "@/data/products";
-import { ProductCard } from "@/components/product/ProductCard";
+import { products, categories, stores } from "@/data/products";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, Sparkles, X, Mic, Search, ShoppingCart, User, Globe } from "lucide-react";
+import { ChevronDown, ChevronRight, Sparkles, X, Mic, Search, ShoppingCart, User, Globe, Heart, Star } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { Product } from "@/types/product";
 
 interface SearchResultsProps {
   searchQuery?: string;
   categoryFilter?: string;
+}
+
+// Product Card Component matching the reference design
+function ProductCardNew({ product, index }: { product: Product; index: number }) {
+  const [isLiked, setIsLiked] = useState(false);
+  const navigate = useNavigate();
+
+  return (
+    <div 
+      className="group cursor-pointer animate-slide-up"
+      style={{ animationDelay: `${(index % 10) * 50 + 200}ms` }}
+      onClick={() => navigate(`/product/${product.id}`)}
+    >
+      {/* Image Container */}
+      <div className="relative bg-muted/30 rounded-2xl p-3 mb-2 aspect-square overflow-hidden">
+        <img
+          src={product.image}
+          alt={product.name}
+          className="w-full h-full object-cover rounded-xl group-hover:scale-105 transition-transform duration-300"
+        />
+        {/* Heart Icon */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsLiked(!isLiked);
+          }}
+          className="absolute top-3 right-3 p-1.5 rounded-full bg-background/80 backdrop-blur-sm hover:bg-background transition-colors"
+        >
+          <Heart 
+            className={`w-4 h-4 ${isLiked ? 'fill-red-500 text-red-500' : 'text-muted-foreground'}`} 
+          />
+        </button>
+      </div>
+
+      {/* Product Info */}
+      <div className="px-1">
+        <h3 className="text-sm font-medium text-foreground line-clamp-2 mb-1 group-hover:text-primary transition-colors">
+          {product.name}
+        </h3>
+        
+        {/* Rating */}
+        <div className="flex items-center gap-1 mb-1">
+          <div className="flex items-center">
+            {[...Array(5)].map((_, i) => (
+              <Star
+                key={i}
+                className={`w-3 h-3 ${
+                  i < Math.floor(product.rating)
+                    ? 'fill-yellow-400 text-yellow-400'
+                    : 'text-muted-foreground/30'
+                }`}
+              />
+            ))}
+          </div>
+          <span className="text-xs text-muted-foreground">({product.reviews.toLocaleString()})</span>
+        </div>
+
+        {/* Price */}
+        <div className="flex items-baseline gap-1.5">
+          <span className="text-sm font-semibold text-foreground">
+            {product.price.toFixed(2)} <span className="text-xs text-muted-foreground">AED</span>
+          </span>
+          {product.originalPrice && (
+            <span className="text-xs text-muted-foreground line-through">
+              {product.originalPrice.toFixed(2)}
+            </span>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export function SearchResults({ searchQuery, categoryFilter }: SearchResultsProps) {
@@ -17,7 +88,7 @@ export function SearchResults({ searchQuery, categoryFilter }: SearchResultsProp
   const navigate = useNavigate();
 
   const filteredProducts = products.filter((product) => {
-    const matchesCategory = !selectedCategory || product.category === selectedCategory;
+    const matchesCategory = !categoryFilter || product.category === categoryFilter;
     const matchesSearch = !searchQuery || 
       product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       product.category.toLowerCase().includes(searchQuery.toLowerCase());
@@ -34,6 +105,9 @@ export function SearchResults({ searchQuery, categoryFilter }: SearchResultsProp
   const filterOptions = [
     { label: "Category", hasDropdown: true },
     { label: "Rating", hasDropdown: true },
+    { label: "Gender", hasDropdown: true },
+    { label: "Size", hasDropdown: true },
+    { label: "Color", hasDropdown: true },
     { label: "Price", hasDropdown: true },
     { label: "Sort by", hasDropdown: true },
   ];
@@ -93,20 +167,15 @@ export function SearchResults({ searchQuery, categoryFilter }: SearchResultsProp
 
             {/* Right section */}
             <div className="flex items-center gap-4 flex-shrink-0">
-              {/* Currency/Region */}
               <button className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors">
                 <Globe className="w-4 h-4" />
                 <span>AE</span>
                 <ChevronDown className="w-3 h-3" />
               </button>
-              
-              {/* Cart */}
               <button className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors">
                 <ShoppingCart className="w-4 h-4" />
                 <span className="hidden sm:inline">Cart</span>
               </button>
-              
-              {/* Sign In */}
               <button className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors">
                 <User className="w-4 h-4" />
                 <span className="hidden sm:inline">Sign In</span>
@@ -124,7 +193,7 @@ export function SearchResults({ searchQuery, categoryFilter }: SearchResultsProp
                 key={filter.label}
                 variant="outline"
                 size="sm"
-                className="rounded-full bg-card hover:bg-muted gap-1"
+                className="rounded-full bg-card hover:bg-muted gap-1 text-xs"
               >
                 {filter.label}
                 {filter.hasDropdown && <ChevronDown className="w-3 h-3" />}
@@ -133,53 +202,78 @@ export function SearchResults({ searchQuery, categoryFilter }: SearchResultsProp
           </div>
 
           <div className="flex gap-6">
-            {/* Products Grid */}
+            {/* Main Content */}
             <div className="flex-1">
-              {/* Results Header */}
-              <div className="flex items-center justify-between mb-4 animate-slide-up delay-200">
-                <div>
-                  <h2 className="text-xl font-semibold text-foreground">
-                    {searchQuery ? `Results for "${searchQuery}"` : categoryFilter ? `${categories.find(c => c.id === categoryFilter)?.name || categoryFilter}` : "All Products"}
-                  </h2>
-                  <p className="text-sm text-muted-foreground">
-                    {filteredProducts.length} products found
-                  </p>
+              {/* Store Section */}
+              <div className="mb-8 animate-slide-up delay-150">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-lg font-semibold text-foreground">Store</h2>
+                  <button className="text-sm text-primary hover:underline flex items-center gap-1">
+                    View All <ChevronRight className="w-4 h-4" />
+                  </button>
                 </div>
-                <Button variant="ghost" size="sm" className="text-primary">
-                  View All →
-                </Button>
+                <div className="flex gap-4 overflow-x-auto pb-2">
+                  {stores.map((store) => (
+                    <div 
+                      key={store.id}
+                      className="flex-shrink-0 flex items-center gap-3 px-4 py-3 bg-card rounded-xl border border-border/30 hover:border-primary/30 transition-colors cursor-pointer min-w-[180px]"
+                    >
+                      <div className="w-10 h-10 rounded-full bg-muted overflow-hidden">
+                        <img src={store.logo} alt={store.name} className="w-full h-full object-cover" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-foreground">{store.name}</p>
+                        <div className="flex items-center gap-1">
+                          <div className="flex">
+                            {[...Array(5)].map((_, i) => (
+                              <Star key={i} className="w-2.5 h-2.5 fill-yellow-400 text-yellow-400" />
+                            ))}
+                          </div>
+                          <span className="text-xs text-muted-foreground">({(store.reviews / 1000).toFixed(1)}k)</span>
+                        </div>
+                        <p className="text-xs text-primary">Visit shop</p>
+                      </div>
+                    </div>
+                  ))}
+                  {/* Navigation arrow */}
+                  <button className="flex-shrink-0 w-10 h-10 rounded-full bg-card border border-border/30 flex items-center justify-center self-center hover:bg-muted transition-colors">
+                    <ChevronRight className="w-5 h-5 text-muted-foreground" />
+                  </button>
+                </div>
               </div>
 
-              {/* Products */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                {filteredProducts.map((product, index) => (
-                  <div 
-                    key={product.id} 
-                    className="animate-slide-up"
-                    style={{ animationDelay: `${(index % 10) * 50 + 200}ms` }}
-                  >
-                    <ProductCard product={product} />
+              {/* Results Section */}
+              <div className="animate-slide-up delay-200">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-lg font-semibold text-foreground">Result</h2>
+                  <button className="text-sm text-primary hover:underline flex items-center gap-1">
+                    View All <ChevronRight className="w-4 h-4" />
+                  </button>
+                </div>
+
+                {/* Products Grid */}
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                  {filteredProducts.map((product, index) => (
+                    <ProductCardNew key={product.id} product={product} index={index} />
+                  ))}
+                </div>
+
+                {filteredProducts.length === 0 && (
+                  <div className="text-center py-16">
+                    <p className="text-muted-foreground text-lg">No products found</p>
+                    <p className="text-sm text-muted-foreground mt-2">Try adjusting your search or filters</p>
                   </div>
-                ))}
+                )}
               </div>
-
-              {filteredProducts.length === 0 && (
-                <div className="text-center py-16">
-                  <p className="text-muted-foreground text-lg">No products found</p>
-                  <p className="text-sm text-muted-foreground mt-2">Try adjusting your search or filters</p>
-                </div>
-              )}
             </div>
 
             {/* AI Chat Panel */}
             <div className="hidden lg:block w-80 flex-shrink-0 animate-slide-in-right delay-300">
               <div className="sticky top-24 bg-gradient-to-br from-card to-muted/50 rounded-2xl border border-border/50 p-5 shadow-lg relative">
-                {/* Close button */}
                 <button className="absolute top-3 right-3 text-muted-foreground hover:text-foreground">
                   <X className="w-4 h-4" />
                 </button>
                 
-                {/* Header */}
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
                     <Sparkles className="w-5 h-5 text-primary" />
@@ -190,14 +284,12 @@ export function SearchResults({ searchQuery, categoryFilter }: SearchResultsProp
                   </div>
                 </div>
 
-                {/* Suggestion chips */}
                 <div className="space-y-2 mb-4">
                   <button className="w-full text-left px-3 py-2 rounded-lg bg-background/50 border border-border/30 text-sm text-muted-foreground hover:bg-background transition-colors">
-                    {searchQuery || "Colorful products"}
+                    {searchQuery || categoryFilter || "Colorful products"}
                   </button>
                 </div>
 
-                {/* Chat preview */}
                 <div className="bg-background/50 rounded-xl p-3 mb-4">
                   <div className="flex items-start gap-2">
                     <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
@@ -212,7 +304,6 @@ export function SearchResults({ searchQuery, categoryFilter }: SearchResultsProp
                   </div>
                 </div>
 
-                {/* Input */}
                 <div className="relative">
                   <input
                     type="text"
