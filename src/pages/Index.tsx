@@ -1,8 +1,8 @@
 import { useSearchParams } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
-import { HeroSection } from "@/components/home/HeroSection";
-import { CategorySection } from "@/components/home/CategorySection";
-import { FeaturedProducts } from "@/components/home/FeaturedProducts";
+import { HeroCarousel } from "@/components/home/HeroCarousel";
+import { FeaturedProductsGrid } from "@/components/home/FeaturedProductsGrid";
+import { CategoryTabs } from "@/components/home/CategoryTabs";
 
 const Index = () => {
   const [searchParams] = useSearchParams();
@@ -11,9 +11,9 @@ const Index = () => {
 
   return (
     <Layout>
-      {!categoryFilter && !searchQuery && <HeroSection />}
-      <CategorySection />
-      <FeaturedProducts categoryFilter={categoryFilter} searchQuery={searchQuery} />
+      {!categoryFilter && !searchQuery && <HeroCarousel />}
+      <FeaturedProductsGrid categoryFilter={categoryFilter} searchQuery={searchQuery} />
+      <CategoryTabs />
     </Layout>
   );
 };
