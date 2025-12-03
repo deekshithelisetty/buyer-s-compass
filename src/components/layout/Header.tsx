@@ -38,9 +38,11 @@ export function Header() {
         <div className="flex items-center justify-between h-14 gap-6">
           {/* Logo */}
           <Link to="/" className="flex items-center shrink-0">
-            <span className="text-xl font-bold text-foreground tracking-tight">
-              Shop<span className="text-primary">Hub</span>
-            </span>
+            <img 
+              src="/images/infinityhub-logo.png" 
+              alt="InfinityHub" 
+              className="h-10 w-auto"
+            />
           </Link>
 
           {/* Search Bar - Center */}

@@ -97,9 +97,11 @@ export function HeroBanner({ isFullScreen = false }: HeroBannerProps) {
           {/* Logo for full screen */}
           {isFullScreen && (
             <div className="text-center mb-4">
-              <h1 className="text-3xl md:text-4xl font-display font-bold text-foreground">
-                Shop<span className="text-primary">Hub</span>
-              </h1>
+              <img 
+                src="/images/infinityhub-logo.png" 
+                alt="InfinityHub - Endless Choices" 
+                className="h-16 md:h-20 w-auto mx-auto"
+              />
             </div>
           )}
 
