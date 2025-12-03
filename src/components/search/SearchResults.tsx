@@ -4,63 +4,46 @@ import { Button } from "@/components/ui/button";
 import { ChevronDown, ChevronRight, Sparkles, X, Mic, Search, ShoppingCart, User, Globe, Heart, Star } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Product } from "@/types/product";
-
 interface SearchResultsProps {
   searchQuery?: string;
   categoryFilter?: string;
 }
 
 // Product Card Component matching the reference design
-function ProductCardNew({ product, index }: { product: Product; index: number }) {
+function ProductCardNew({
+  product,
+  index
+}: {
+  product: Product;
+  index: number;
+}) {
   const [isLiked, setIsLiked] = useState(false);
   const navigate = useNavigate();
-
-  return (
-    <div 
-      className="group cursor-pointer animate-slide-up"
-      style={{ animationDelay: `${(index % 10) * 50 + 200}ms` }}
-      onClick={() => navigate(`/product/${product.id}`)}
-    >
+  return <div className="group cursor-pointer animate-slide-up" style={{
+    animationDelay: `${index % 10 * 50 + 200}ms`
+  }} onClick={() => navigate(`/product/${product.id}`)}>
       {/* Image Container */}
       <div className="relative bg-muted/30 rounded-2xl p-3 mb-2 aspect-square overflow-hidden">
-        <img
-          src={product.image}
-          alt={product.name}
-          className="w-full h-full object-cover rounded-xl group-hover:scale-105 transition-transform duration-300"
-        />
+        <img src={product.image} alt={product.name} className="w-full h-full object-cover rounded-xl group-hover:scale-105 transition-transform duration-300" />
         {/* Heart Icon */}
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            setIsLiked(!isLiked);
-          }}
-          className="absolute top-3 right-3 p-1.5 rounded-full bg-background/80 backdrop-blur-sm hover:bg-background transition-colors"
-        >
-          <Heart 
-            className={`w-4 h-4 ${isLiked ? 'fill-red-500 text-red-500' : 'text-muted-foreground'}`} 
-          />
+        <button onClick={e => {
+        e.stopPropagation();
+        setIsLiked(!isLiked);
+      }} className="absolute top-3 right-3 p-1.5 rounded-full bg-background/80 backdrop-blur-sm hover:bg-background transition-colors">
+          <Heart className={`w-4 h-4 ${isLiked ? 'fill-red-500 text-red-500' : 'text-muted-foreground'}`} />
         </button>
       </div>
 
       {/* Product Info */}
       <div className="px-1">
-        <h3 className="text-sm font-medium text-foreground line-clamp-2 mb-1 group-hover:text-primary transition-colors font-display">
+        <h3 className="text-sm font-medium text-foreground line-clamp-2 mb-1 group-hover:text-primary transition-colors font-sans text-center">
           {product.name}
         </h3>
         
         {/* Rating */}
         <div className="flex items-center gap-1 mb-1">
           <div className="flex items-center">
-            {[...Array(5)].map((_, i) => (
-              <Star
-                key={i}
-                className={`w-3 h-3 ${
-                  i < Math.floor(product.rating)
-                    ? 'fill-yellow-400 text-yellow-400'
-                    : 'text-muted-foreground/30'
-                }`}
-              />
-            ))}
+            {[...Array(5)].map((_, i) => <Star key={i} className={`w-3 h-3 ${i < Math.floor(product.rating) ? 'fill-yellow-400 text-yellow-400' : 'text-muted-foreground/30'}`} />)}
           </div>
           <span className="text-xs text-muted-foreground">({product.reviews.toLocaleString()})</span>
         </div>
@@ -70,61 +53,62 @@ function ProductCardNew({ product, index }: { product: Product; index: number })
           <span className="text-sm font-semibold text-foreground">
             {product.price.toFixed(2)} <span className="text-xs text-muted-foreground">AED</span>
           </span>
-          {product.originalPrice && (
-            <span className="text-xs text-muted-foreground line-through">
+          {product.originalPrice && <span className="text-xs text-muted-foreground line-through">
               {product.originalPrice.toFixed(2)}
-            </span>
-          )}
+            </span>}
         </div>
       </div>
-    </div>
-  );
+    </div>;
 }
-
-export function SearchResults({ searchQuery, categoryFilter }: SearchResultsProps) {
+export function SearchResults({
+  searchQuery,
+  categoryFilter
+}: SearchResultsProps) {
   const [selectedCategory, setSelectedCategory] = useState(categoryFilter || "");
   const [localSearchQuery, setLocalSearchQuery] = useState(searchQuery || "");
   const [isFocused, setIsFocused] = useState(false);
   const navigate = useNavigate();
-
-  const filteredProducts = products.filter((product) => {
+  const filteredProducts = products.filter(product => {
     const matchesCategory = !categoryFilter || product.category === categoryFilter;
-    const matchesSearch = !searchQuery || 
-      product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      product.category.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSearch = !searchQuery || product.name.toLowerCase().includes(searchQuery.toLowerCase()) || product.category.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
-
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (localSearchQuery.trim()) {
       navigate(`/?search=${encodeURIComponent(localSearchQuery.trim())}`);
     }
   };
-
-  const filterOptions = [
-    { label: "Category", hasDropdown: true },
-    { label: "Rating", hasDropdown: true },
-    { label: "Gender", hasDropdown: true },
-    { label: "Size", hasDropdown: true },
-    { label: "Color", hasDropdown: true },
-    { label: "Price", hasDropdown: true },
-    { label: "Sort by", hasDropdown: true },
-  ];
-
-  return (
-    <div className="min-h-screen bg-muted/30 p-2 animate-zoom-in">
+  const filterOptions = [{
+    label: "Category",
+    hasDropdown: true
+  }, {
+    label: "Rating",
+    hasDropdown: true
+  }, {
+    label: "Gender",
+    hasDropdown: true
+  }, {
+    label: "Size",
+    hasDropdown: true
+  }, {
+    label: "Color",
+    hasDropdown: true
+  }, {
+    label: "Price",
+    hasDropdown: true
+  }, {
+    label: "Sort by",
+    hasDropdown: true
+  }];
+  return <div className="min-h-screen bg-muted/30 p-2 animate-zoom-in">
       <div className="bg-background rounded-3xl min-h-[calc(100vh-1rem)] overflow-hidden shadow-xl">
         {/* Header */}
         <header className="sticky top-0 z-50 bg-card/95 backdrop-blur-md border-b border-border/30 rounded-t-3xl">
           <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between gap-6">
             {/* Logo */}
             <button onClick={() => navigate("/")} className="flex-shrink-0">
-              <img 
-                src="/images/infinityhub-logo.png" 
-                alt="InfinityHub" 
-                className="h-9 w-auto"
-              />
+              <img src="/images/infinityhub-logo.png" alt="InfinityHub" className="h-9 w-auto" />
             </button>
 
             {/* Search Bar - Centered */}
@@ -133,34 +117,18 @@ export function SearchResults({ searchQuery, categoryFilter }: SearchResultsProp
                 {/* Glassy border - always visible */}
                 <div className="absolute -inset-1.5 rounded-full bg-muted/30 backdrop-blur-sm border border-border/40" />
                 {/* Aurora glow on focus */}
-                <div 
-                  className={`absolute -inset-[7px] rounded-full blur-md transition-opacity duration-500 ${isFocused ? 'opacity-50' : 'opacity-0'}`}
-                  style={{ background: 'conic-gradient(from 0deg, #0081CF, #FFD700, #FF6FD8, #9B59B6, #00ffbf, #0081CF)' }}
-                />
-                <div 
-                  className={`absolute -inset-[2px] rounded-full transition-opacity duration-500 ${isFocused ? 'opacity-100' : 'opacity-0'}`}
-                  style={{ background: 'conic-gradient(from 0deg, #0081CF, #FFD700, #FF6FD8, #9B59B6, #00ffbf, #0081CF)' }}
-                />
+                <div className={`absolute -inset-[7px] rounded-full blur-md transition-opacity duration-500 ${isFocused ? 'opacity-50' : 'opacity-0'}`} style={{
+                background: 'conic-gradient(from 0deg, #0081CF, #FFD700, #FF6FD8, #9B59B6, #00ffbf, #0081CF)'
+              }} />
+                <div className={`absolute -inset-[2px] rounded-full transition-opacity duration-500 ${isFocused ? 'opacity-100' : 'opacity-0'}`} style={{
+                background: 'conic-gradient(from 0deg, #0081CF, #FFD700, #FF6FD8, #9B59B6, #00ffbf, #0081CF)'
+              }} />
                 <div className="relative flex items-center bg-muted/50 rounded-full border border-border/20">
                   <Search className="w-4 h-4 ml-4 text-muted-foreground" />
-                  <input
-                    type="text"
-                    value={localSearchQuery}
-                    onChange={(e) => setLocalSearchQuery(e.target.value)}
-                    onFocus={() => setIsFocused(true)}
-                    onBlur={() => setIsFocused(false)}
-                    placeholder={searchQuery || "Search products..."}
-                    className="flex-1 px-3 py-2.5 bg-transparent text-foreground placeholder:text-muted-foreground focus:outline-none text-sm"
-                  />
-                  {localSearchQuery && (
-                    <button 
-                      type="button" 
-                      onClick={() => setLocalSearchQuery("")}
-                      className="p-1.5 mr-2 text-muted-foreground hover:text-foreground rounded-full hover:bg-muted/50"
-                    >
+                  <input type="text" value={localSearchQuery} onChange={e => setLocalSearchQuery(e.target.value)} onFocus={() => setIsFocused(true)} onBlur={() => setIsFocused(false)} placeholder={searchQuery || "Search products..."} className="flex-1 px-3 py-2.5 bg-transparent text-foreground placeholder:text-muted-foreground focus:outline-none text-sm" />
+                  {localSearchQuery && <button type="button" onClick={() => setLocalSearchQuery("")} className="p-1.5 mr-2 text-muted-foreground hover:text-foreground rounded-full hover:bg-muted/50">
                       <X className="w-4 h-4" />
-                    </button>
-                  )}
+                    </button>}
                 </div>
               </div>
             </form>
@@ -188,17 +156,10 @@ export function SearchResults({ searchQuery, categoryFilter }: SearchResultsProp
         <div className="max-w-7xl mx-auto px-6 py-6">
           {/* Filter Bar */}
           <div className="flex items-center gap-2 mb-6 flex-wrap animate-slide-up delay-100">
-            {filterOptions.map((filter) => (
-              <Button
-                key={filter.label}
-                variant="outline"
-                size="sm"
-                className="rounded-full bg-card hover:bg-muted gap-1 text-xs"
-              >
+            {filterOptions.map(filter => <Button key={filter.label} variant="outline" size="sm" className="rounded-full bg-card hover:bg-muted gap-1 text-xs">
                 {filter.label}
                 {filter.hasDropdown && <ChevronDown className="w-3 h-3" />}
-              </Button>
-            ))}
+              </Button>)}
           </div>
 
           <div className="flex gap-6">
@@ -213,11 +174,7 @@ export function SearchResults({ searchQuery, categoryFilter }: SearchResultsProp
                   </button>
                 </div>
                 <div className="flex gap-4 overflow-x-auto pb-2">
-                  {stores.map((store) => (
-                    <div 
-                      key={store.id}
-                      className="flex-shrink-0 flex items-center gap-3 px-4 py-3 bg-card rounded-xl border border-border/30 hover:border-primary/30 transition-colors cursor-pointer min-w-[180px]"
-                    >
+                  {stores.map(store => <div key={store.id} className="flex-shrink-0 flex items-center gap-3 px-4 py-3 bg-card rounded-xl border border-border/30 hover:border-primary/30 transition-colors cursor-pointer min-w-[180px]">
                       <div className="w-10 h-10 rounded-full bg-muted overflow-hidden">
                         <img src={store.logo} alt={store.name} className="w-full h-full object-cover" />
                       </div>
@@ -225,16 +182,13 @@ export function SearchResults({ searchQuery, categoryFilter }: SearchResultsProp
                         <p className="text-sm font-medium text-foreground">{store.name}</p>
                         <div className="flex items-center gap-1">
                           <div className="flex">
-                            {[...Array(5)].map((_, i) => (
-                              <Star key={i} className="w-2.5 h-2.5 fill-yellow-400 text-yellow-400" />
-                            ))}
+                            {[...Array(5)].map((_, i) => <Star key={i} className="w-2.5 h-2.5 fill-yellow-400 text-yellow-400" />)}
                           </div>
                           <span className="text-xs text-muted-foreground">({(store.reviews / 1000).toFixed(1)}k)</span>
                         </div>
                         <p className="text-xs text-primary">Visit shop</p>
                       </div>
-                    </div>
-                  ))}
+                    </div>)}
                   {/* Navigation arrow */}
                   <button className="flex-shrink-0 w-10 h-10 rounded-full bg-card border border-border/30 flex items-center justify-center self-center hover:bg-muted transition-colors">
                     <ChevronRight className="w-5 h-5 text-muted-foreground" />
@@ -253,17 +207,13 @@ export function SearchResults({ searchQuery, categoryFilter }: SearchResultsProp
 
                 {/* Products Grid */}
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                  {filteredProducts.map((product, index) => (
-                    <ProductCardNew key={product.id} product={product} index={index} />
-                  ))}
+                  {filteredProducts.map((product, index) => <ProductCardNew key={product.id} product={product} index={index} />)}
                 </div>
 
-                {filteredProducts.length === 0 && (
-                  <div className="text-center py-16">
+                {filteredProducts.length === 0 && <div className="text-center py-16">
                     <p className="text-muted-foreground text-lg">No products found</p>
                     <p className="text-sm text-muted-foreground mt-2">Try adjusting your search or filters</p>
-                  </div>
-                )}
+                  </div>}
               </div>
             </div>
 
@@ -305,11 +255,7 @@ export function SearchResults({ searchQuery, categoryFilter }: SearchResultsProp
                 </div>
 
                 <div className="relative">
-                  <input
-                    type="text"
-                    placeholder="Ask anything..."
-                    className="w-full px-4 py-2.5 pr-10 rounded-full bg-background border border-border/50 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20"
-                  />
+                  <input type="text" placeholder="Ask anything..." className="w-full px-4 py-2.5 pr-10 rounded-full bg-background border border-border/50 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20" />
                   <button className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-primary/10 text-primary">
                     <Mic className="w-4 h-4" />
                   </button>
@@ -319,6 +265,5 @@ export function SearchResults({ searchQuery, categoryFilter }: SearchResultsProp
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 }
