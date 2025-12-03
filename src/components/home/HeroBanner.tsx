@@ -51,10 +51,10 @@ export function HeroBanner({
       marginTop: '-70px'
     }}>
         <div className="relative flex flex-col items-center justify-center pointer-events-auto w-full max-w-[800px] px-4">
-          {/* Fog/Blur background - enhanced layers */}
-          <div className={`absolute ${isFullScreen ? 'w-[650px] h-[280px]' : 'w-[480px] h-[200px]'} bg-background/95 blur-[80px] rounded-[50%] -z-10`} />
-          <div className={`absolute ${isFullScreen ? 'w-[550px] h-[240px]' : 'w-[400px] h-[170px]'} bg-background blur-[50px] rounded-[50%] -z-10`} />
-          <div className={`absolute ${isFullScreen ? 'w-[450px] h-[200px]' : 'w-[320px] h-[140px]'} bg-background blur-[30px] rounded-[50%] -z-10`} />
+          {/* Fog/Blur background - strong visible effect like reference */}
+          <div className={`absolute ${isFullScreen ? 'w-[700px] h-[350px]' : 'w-[500px] h-[250px]'} bg-background blur-[100px] rounded-[50%] -z-10 opacity-95`} />
+          <div className={`absolute ${isFullScreen ? 'w-[600px] h-[300px]' : 'w-[420px] h-[200px]'} bg-background blur-[70px] rounded-[50%] -z-10`} />
+          <div className={`absolute ${isFullScreen ? 'w-[500px] h-[250px]' : 'w-[350px] h-[160px]'} bg-background blur-[40px] rounded-[50%] -z-10`} />
           
           {/* Logo for full screen */}
           {isFullScreen && <div className="text-center -mb-2 relative">
