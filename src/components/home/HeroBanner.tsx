@@ -47,7 +47,9 @@ export function HeroBanner({
       </div>
 
       {/* Center Content - Floating overlay */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none" style={{ marginTop: '-70px' }}>
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none" style={{
+      marginTop: '-70px'
+    }}>
         <div className="relative flex flex-col items-center justify-center pointer-events-auto w-full max-w-[800px] px-4">
           {/* Fog/Blur background - enhanced layers */}
           <div className={`absolute ${isFullScreen ? 'w-[650px] h-[280px]' : 'w-[480px] h-[200px]'} bg-background/95 blur-[80px] rounded-[50%] -z-10`} />
@@ -56,7 +58,7 @@ export function HeroBanner({
           
           {/* Logo for full screen */}
           {isFullScreen && <div className="text-center mb-2">
-              <img src="/images/infinityhub-logo.png" alt="InfinityHub - Endless Choices" className="h-36 md:h-14 w-auto mx-auto shadow-none" />
+              <img src="/images/infinityhub-logo.png" alt="InfinityHub - Endless Choices" className="h-36 md:h-36 w-auto mx-auto shadow-none" />
             </div>}
 
           {/* Search Bar with rainbow gradient glow */}
