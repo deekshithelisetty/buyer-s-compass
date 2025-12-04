@@ -338,14 +338,46 @@ export function SearchResults({
             className="fixed bottom-6 right-6 z-50 group transition-transform hover:scale-110 animate-fade-in"
           >
             {/* Glow effect */}
-            <div className="absolute inset-0 rounded-full blur-xl opacity-50 animate-[pulse_2s_ease-in-out_infinite]" style={{
+            <div className="absolute inset-2 rounded-full blur-xl opacity-60 animate-[pulse_2s_ease-in-out_infinite]" style={{
               background: 'linear-gradient(135deg, #FF6B6B, #9B59B6, #00D4AA)'
             }} />
-            <img 
-              src="/images/ai-chatbot-icon.png" 
-              alt="AI Chat" 
-              className="w-16 h-16 relative z-10 drop-shadow-lg"
-            />
+            
+            {/* Custom AI Chatbot Icon */}
+            <svg className="w-16 h-16 relative z-10 drop-shadow-lg" viewBox="0 0 64 64" fill="none">
+              <defs>
+                <linearGradient id="chatGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#FF6B6B" />
+                  <stop offset="50%" stopColor="#FF8E53" />
+                  <stop offset="100%" stopColor="#00D4AA" />
+                </linearGradient>
+                <linearGradient id="headphoneGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#00D4AA" />
+                  <stop offset="100%" stopColor="#0081CF" />
+                </linearGradient>
+              </defs>
+              
+              {/* Left headphone */}
+              <ellipse cx="12" cy="32" rx="5" ry="8" fill="url(#headphoneGradient)" />
+              <path d="M12 24 Q8 32 12 40" stroke="url(#headphoneGradient)" strokeWidth="3" fill="none" strokeLinecap="round" />
+              
+              {/* Right headphone */}
+              <ellipse cx="52" cy="32" rx="5" ry="8" fill="url(#headphoneGradient)" />
+              <path d="M52 24 Q56 32 52 40" stroke="url(#headphoneGradient)" strokeWidth="3" fill="none" strokeLinecap="round" />
+              
+              {/* Main chat bubble */}
+              <path d="M16 16 Q16 8 32 8 Q48 8 48 16 L48 36 Q48 44 32 44 L26 44 L22 52 L22 44 Q16 44 16 36 Z" fill="url(#chatGradient)" />
+              
+              {/* Eyes */}
+              <circle cx="26" cy="24" r="3" fill="#1a1a2e" />
+              <circle cx="38" cy="24" r="3" fill="#1a1a2e" />
+              <circle cx="27" cy="23" r="1" fill="#FF6B6B" />
+              <circle cx="39" cy="23" r="1" fill="#FF6B6B" />
+              
+              {/* Small chat bubble */}
+              <ellipse cx="42" cy="38" rx="6" ry="5" fill="white" opacity="0.9" />
+              <circle cx="40" cy="38" r="1.5" fill="#1a1a2e" />
+              <circle cx="44" cy="38" r="1.5" fill="#1a1a2e" />
+            </svg>
           </button>
         )}
       </div>
