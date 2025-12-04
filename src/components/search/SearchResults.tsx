@@ -94,12 +94,19 @@ export function SearchResults({
   const [selectedCategory, setSelectedCategory] = useState(categoryFilter || "");
   const [localSearchQuery, setLocalSearchQuery] = useState(searchQuery || "");
   const [isFocused, setIsFocused] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(10);
   const navigate = useNavigate();
+  
+  const ITEMS_PER_LOAD = 10;
+  
   const filteredProducts = products.filter(product => {
     const matchesCategory = !categoryFilter || product.category === categoryFilter;
     const matchesSearch = !searchQuery || product.name.toLowerCase().includes(searchQuery.toLowerCase()) || product.category.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
+  
+  const visibleProducts = filteredProducts.slice(0, visibleCount);
+  const hasMore = visibleCount < filteredProducts.length;
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (localSearchQuery.trim()) {
@@ -207,8 +214,20 @@ export function SearchResults({
                 {/* Products Grid - Scrollable */}
                 <div className="flex-1 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-muted-foreground/20 scrollbar-track-transparent">
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                    {filteredProducts.map((product, index) => <ProductCardNew key={product.id} product={product} index={index} />)}
+                    {visibleProducts.map((product, index) => <ProductCardNew key={product.id} product={product} index={index} />)}
                   </div>
+
+                  {hasMore && (
+                    <div className="flex justify-center mt-6 mb-4">
+                      <Button 
+                        onClick={() => setVisibleCount(prev => prev + ITEMS_PER_LOAD)}
+                        variant="outline"
+                        className="rounded-full px-8 gap-2"
+                      >
+                        Load More ({filteredProducts.length - visibleCount} remaining)
+                      </Button>
+                    </div>
+                  )}
 
                   {filteredProducts.length === 0 && <div className="text-center py-16">
                       <p className="text-muted-foreground text-lg">No products found</p>
