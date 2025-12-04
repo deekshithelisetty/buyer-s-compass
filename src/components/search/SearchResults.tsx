@@ -375,16 +375,15 @@ export function SearchResults({
               <circle cx="20" cy="10" r="3" fill="#ffffff" opacity="0.5" />
               <circle cx="52" cy="10" r="3" fill="#ffffff" opacity="0.5" />
               
-              {/* Eyes - big and cute with blink animation */}
-              <g className="animate-[blink_4s_ease-in-out_infinite]">
-                <ellipse cx="26" cy="32" rx="6" ry="7" fill="#2D2D2D" />
-                <ellipse cx="46" cy="32" rx="6" ry="7" fill="#2D2D2D" />
-                {/* Eye sparkles */}
-                <circle cx="28" cy="29" r="2.5" fill="#ffffff" />
-                <circle cx="48" cy="29" r="2.5" fill="#ffffff" />
-                <circle cx="24" cy="33" r="1.5" fill="#ffffff" opacity="0.7" />
-                <circle cx="44" cy="33" r="1.5" fill="#ffffff" opacity="0.7" />
-              </g>
+              {/* Eyes - big and cute */}
+              <ellipse cx="26" cy="32" rx="6" ry="7" fill="#2D2D2D" />
+              <ellipse cx="46" cy="32" rx="6" ry="7" fill="#2D2D2D" />
+              
+              {/* Eye sparkles */}
+              <circle cx="28" cy="29" r="2.5" fill="#ffffff" />
+              <circle cx="48" cy="29" r="2.5" fill="#ffffff" />
+              <circle cx="24" cy="33" r="1.5" fill="#ffffff" opacity="0.7" />
+              <circle cx="44" cy="33" r="1.5" fill="#ffffff" opacity="0.7" />
               
               {/* Blush cheeks */}
               <ellipse cx="16" cy="40" rx="5" ry="3" fill="url(#blush)" />
