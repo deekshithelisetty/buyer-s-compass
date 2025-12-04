@@ -36,7 +36,7 @@ function ProductCardNew({
 
       {/* Product Info */}
       <div className="px-1">
-        <h3 className="text-sm font-medium text-foreground line-clamp-2 mb-1 group-hover:text-primary transition-colors font-sans text-center">
+        <h3 className="text-foreground line-clamp-2 mb-1 group-hover:text-primary transition-colors font-sans text-center font-normal text-xs">
           {product.name}
         </h3>
         
