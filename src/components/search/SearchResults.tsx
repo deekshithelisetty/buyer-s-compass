@@ -67,6 +67,7 @@ export function SearchResults({
   const [selectedCategory, setSelectedCategory] = useState(categoryFilter || "");
   const [localSearchQuery, setLocalSearchQuery] = useState(searchQuery || "");
   const [isFocused, setIsFocused] = useState(false);
+  const [isChatOpen, setIsChatOpen] = useState(true);
   const navigate = useNavigate();
   const filteredProducts = products.filter(product => {
     const matchesCategory = !categoryFilter || product.category === categoryFilter;
@@ -190,50 +191,64 @@ export function SearchResults({
             </div>
 
             {/* AI Chat Panel */}
-            <div className="hidden lg:block w-[420px] flex-shrink-0 animate-slide-in-right delay-300">
-              <div className="sticky top-2 bg-background rounded-3xl pt-2 pl-2 pr-2 pb-6 shadow-sm relative">
-                <button className="absolute top-3 right-3 text-muted-foreground hover:text-foreground">
-                  <X className="w-4 h-4" />
-                </button>
-                
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
-                    <Sparkles className="w-5 h-5 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-foreground">AI-Powered</h3>
-                    <p className="text-xs text-muted-foreground">Shopping Experience</p>
-                  </div>
-                </div>
-
-                <div className="space-y-2 mb-4">
-                  <button className="w-full text-left px-3 py-2 rounded-lg bg-muted/50 border border-border/30 text-sm text-muted-foreground hover:bg-muted transition-colors">
-                    {searchQuery || categoryFilter || "Colorful products"}
+            {isChatOpen ? (
+              <div className="hidden lg:block w-[420px] flex-shrink-0 animate-slide-in-right">
+                <div className="fixed top-[calc(theme(spacing.2)+theme(spacing.16))] right-[calc(theme(spacing.7)+theme(spacing.2))] w-[420px] h-[calc(100vh-theme(spacing.2)-theme(spacing.16)-theme(spacing.2)-theme(spacing.6))] bg-background rounded-3xl pt-2 pl-2 pr-2 pb-6 shadow-sm flex flex-col">
+                  <button 
+                    onClick={() => setIsChatOpen(false)}
+                    className="absolute top-3 right-3 text-muted-foreground hover:text-foreground z-10"
+                  >
+                    <X className="w-4 h-4" />
                   </button>
-                </div>
-
-                <div className="bg-muted/30 rounded-xl p-3 mb-4">
-                  <div className="flex items-start gap-2">
-                    <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                      <Sparkles className="w-3 h-3 text-primary" />
+                  
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
+                      <Sparkles className="w-5 h-5 text-primary" />
                     </div>
                     <div>
-                      <p className="text-xs text-muted-foreground">Absolutely!</p>
-                      <p className="text-xs text-muted-foreground mt-1">
-                        We have a variety of {categoryFilter || "products"} for you...
-                      </p>
+                      <h3 className="font-semibold text-foreground">AI-Powered</h3>
+                      <p className="text-xs text-muted-foreground">Shopping Experience</p>
                     </div>
                   </div>
-                </div>
 
-                <div className="relative">
-                  <input type="text" placeholder="Ask anything..." className="w-full px-4 py-2.5 pr-10 rounded-full bg-muted/50 border border-border/50 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20" />
-                  <button className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-primary/10 text-primary">
-                    <Mic className="w-4 h-4" />
-                  </button>
+                  <div className="space-y-2 mb-4">
+                    <button className="w-full text-left px-3 py-2 rounded-lg bg-muted/50 border border-border/30 text-sm text-muted-foreground hover:bg-muted transition-colors">
+                      {searchQuery || categoryFilter || "Colorful products"}
+                    </button>
+                  </div>
+
+                  <div className="flex-1 overflow-y-auto">
+                    <div className="bg-muted/30 rounded-xl p-3 mb-4">
+                      <div className="flex items-start gap-2">
+                        <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                          <Sparkles className="w-3 h-3 text-primary" />
+                        </div>
+                        <div>
+                          <p className="text-xs text-muted-foreground">Absolutely!</p>
+                          <p className="text-xs text-muted-foreground mt-1">
+                            We have a variety of {categoryFilter || "products"} for you...
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="relative mt-auto">
+                    <input type="text" placeholder="Ask anything..." className="w-full px-4 py-2.5 pr-10 rounded-full bg-muted/50 border border-border/50 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20" />
+                    <button className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-primary/10 text-primary">
+                      <Mic className="w-4 h-4" />
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
+            ) : (
+              <button
+                onClick={() => setIsChatOpen(true)}
+                className="hidden lg:flex fixed bottom-6 right-10 w-12 h-12 rounded-full bg-primary text-primary-foreground items-center justify-center shadow-lg hover:bg-primary/90 transition-colors z-50"
+              >
+                <Sparkles className="w-5 h-5" />
+              </button>
+            )}
           </div>
         </div>
       </div>
