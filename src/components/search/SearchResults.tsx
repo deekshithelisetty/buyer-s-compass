@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { products, categories, stores } from "@/data/products";
+import { products, categories } from "@/data/products";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, ChevronRight, Sparkles, X, Mic, Search, ShoppingCart, User, Globe, Heart, Star } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -168,37 +168,6 @@ export function SearchResults({
           <div className="flex gap-6">
             {/* Main Content */}
             <div className="flex-1">
-              {/* Store Section */}
-              <div className="mb-8 animate-slide-up delay-150">
-                <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-lg font-semibold text-foreground font-sans">Store</h2>
-                  <button className="text-sm text-primary hover:underline flex items-center gap-1">
-                    View All <ChevronRight className="w-4 h-4" />
-                  </button>
-                </div>
-                <div className="flex gap-4 overflow-x-auto pb-2">
-                  {stores.map(store => <div key={store.id} className="flex-shrink-0 flex items-center gap-3 px-4 py-3 bg-card rounded-xl border border-border/30 hover:border-primary/30 transition-colors cursor-pointer min-w-[180px]">
-                      <div className="w-10 h-10 rounded-full bg-muted overflow-hidden">
-                        <img src={store.logo} alt={store.name} className="w-full h-full object-cover" />
-                      </div>
-                      <div>
-                        <p className="text-sm font-medium text-foreground">{store.name}</p>
-                        <div className="flex items-center gap-1">
-                          <div className="flex">
-                            {[...Array(5)].map((_, i) => <Star key={i} className="w-2.5 h-2.5 fill-yellow-400 text-yellow-400" />)}
-                          </div>
-                          <span className="text-xs text-muted-foreground">({(store.reviews / 1000).toFixed(1)}k)</span>
-                        </div>
-                        <p className="text-xs text-primary">Visit shop</p>
-                      </div>
-                    </div>)}
-                  {/* Navigation arrow */}
-                  <button className="flex-shrink-0 w-10 h-10 rounded-full bg-card border border-border/30 flex items-center justify-center self-center hover:bg-muted transition-colors">
-                    <ChevronRight className="w-5 h-5 text-muted-foreground" />
-                  </button>
-                </div>
-              </div>
-
               {/* Results Section */}
               <div className="animate-slide-up delay-200">
                 <div className="flex items-center justify-between mb-4">
