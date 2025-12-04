@@ -335,26 +335,17 @@ export function SearchResults({
         {!isChatOpen && (
           <button
             onClick={() => setIsChatOpen(true)}
-            className="fixed bottom-6 right-6 z-50 group"
+            className="fixed bottom-6 right-6 z-50 group transition-transform hover:scale-110 animate-fade-in"
           >
-            {/* Outer glow ring */}
-            <div className="absolute inset-[-4px] rounded-full opacity-70 animate-[pulse_2s_ease-in-out_infinite]" style={{
-              background: 'conic-gradient(from 180deg, #0081CF, #9B59B6, #0081CF)',
-              filter: 'blur(8px)'
+            {/* Glow effect */}
+            <div className="absolute inset-0 rounded-full blur-xl opacity-50 animate-[pulse_2s_ease-in-out_infinite]" style={{
+              background: 'linear-gradient(135deg, #FF6B6B, #9B59B6, #00D4AA)'
             }} />
-            {/* Gradient border ring */}
-            <div className="absolute inset-[-2px] rounded-full" style={{
-              background: 'conic-gradient(from 180deg, #0081CF, #00D4AA, #9B59B6, #FF6FD8, #0081CF)'
-            }} />
-            {/* Inner background */}
-            <div className="relative w-14 h-14 rounded-full flex items-center justify-center" style={{
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #0081CF 100%)'
-            }}>
-              {/* Chat bubble icon */}
-              <svg className="w-7 h-7 text-white relative z-10" viewBox="0 0 24 24" fill="none">
-                <path d="M8 12H8.01M12 12H12.01M16 12H16.01M21 12C21 16.418 16.97 20 12 20C10.5 20 9.08 19.69 7.8 19.13L3 20L4.3 16.1C3.47 14.87 3 13.47 3 12C3 7.582 7.03 4 12 4C16.97 4 21 7.582 21 12Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </div>
+            <img 
+              src="/images/ai-chatbot-icon.png" 
+              alt="AI Chat" 
+              className="w-16 h-16 relative z-10 drop-shadow-lg"
+            />
           </button>
         )}
       </div>
