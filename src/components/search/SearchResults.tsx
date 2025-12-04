@@ -245,7 +245,7 @@ export function SearchResults({
                       </defs>
                     </svg>
                   </div>
-                  <h3 className="text-sm font-medium text-foreground">AI-Powered</h3>
+                  <h3 className="font-medium text-foreground text-base font-sans">AI-Powered</h3>
                   <p className="text-xs text-muted-foreground">Shopping Experience</p>
                 </div>
 
