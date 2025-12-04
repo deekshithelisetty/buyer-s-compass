@@ -156,7 +156,7 @@ export function SearchResults({
         </header>
 
         {/* Content */}
-        <div className="max-w-[1600px] mx-auto pl-2 pr-6 pt-2 pb-6">
+        <div className="max-w-[1800px] mx-auto pl-2 pr-6 pt-2 pb-6">
           <div className="flex gap-6">
             {/* Main Content */}
             <div className="flex-1">
