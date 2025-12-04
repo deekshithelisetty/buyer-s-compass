@@ -188,31 +188,33 @@ export function SearchResults({
             {/* Main Content */}
             <div className="flex-1">
               {/* Results Section with Filters */}
-              <div className="bg-background rounded-3xl p-6 shadow-sm animate-slide-up delay-200">
+              <div className="bg-background rounded-3xl p-6 shadow-sm animate-slide-up delay-200 h-[calc(100vh-7rem)] flex flex-col">
                 {/* Filter Bar */}
-                <div className="flex items-center justify-center gap-2 mb-6 flex-wrap">
+                <div className="flex items-center justify-center gap-2 mb-6 flex-wrap flex-shrink-0">
                   {filterOptions.map(filter => <Button key={filter.label} variant="outline" size="sm" className="rounded-full bg-muted/50 hover:bg-muted gap-1 text-xs border-border/50">
                       {filter.label}
                       {filter.hasDropdown && <ChevronDown className="w-3 h-3" />}
                     </Button>)}
                 </div>
 
-                <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center justify-between mb-4 flex-shrink-0">
                   <h2 className="font-semibold text-foreground font-sans capitalize text-base">{categoryFilter || searchQuery || "All Products"}</h2>
                   <button className="text-sm text-primary hover:underline flex items-center gap-1">
                     View All <ChevronRight className="w-4 h-4" />
                   </button>
                 </div>
 
-                {/* Products Grid */}
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                  {filteredProducts.map((product, index) => <ProductCardNew key={product.id} product={product} index={index} />)}
-                </div>
+                {/* Products Grid - Scrollable */}
+                <div className="flex-1 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-muted-foreground/20 scrollbar-track-transparent">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                    {filteredProducts.map((product, index) => <ProductCardNew key={product.id} product={product} index={index} />)}
+                  </div>
 
-                {filteredProducts.length === 0 && <div className="text-center py-16">
-                    <p className="text-muted-foreground text-lg">No products found</p>
-                    <p className="text-sm text-muted-foreground mt-2">Try adjusting your search or filters</p>
-                  </div>}
+                  {filteredProducts.length === 0 && <div className="text-center py-16">
+                      <p className="text-muted-foreground text-lg">No products found</p>
+                      <p className="text-sm text-muted-foreground mt-2">Try adjusting your search or filters</p>
+                    </div>}
+                </div>
               </div>
             </div>
 
