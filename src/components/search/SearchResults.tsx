@@ -335,7 +335,7 @@ export function SearchResults({
         {!isChatOpen && (
           <button
             onClick={() => setIsChatOpen(true)}
-            className="fixed bottom-6 right-6 z-50 group transition-transform hover:scale-110 animate-fade-in"
+            className="fixed bottom-6 right-6 z-50 group transition-transform hover:scale-110 animate-[bounce_1s_ease-in-out]"
           >
             {/* Soft glow effect */}
             <div className="absolute inset-0 rounded-full blur-xl opacity-60 animate-[pulse_2s_ease-in-out_infinite]" style={{
