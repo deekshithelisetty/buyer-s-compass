@@ -101,7 +101,7 @@ export function SearchResults({
     label: "Sort by",
     hasDropdown: true
   }];
-  return <div className="min-h-screen bg-muted/30 p-2 animate-zoom-in">
+  return <div className="min-h-screen bg-muted/30 px-7 py-2 animate-zoom-in">
       <div className="bg-background rounded-3xl min-h-[calc(100vh-1rem)] overflow-hidden shadow-xl">
         {/* Header */}
         <header className="sticky top-0 z-50 bg-card/95 backdrop-blur-md border-b border-border/30 rounded-t-3xl">
