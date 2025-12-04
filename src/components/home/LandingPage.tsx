@@ -1,14 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, ChevronRight, Heart, Star } from "lucide-react";
-import { products, categories } from "@/data/products";
+import { ArrowRight, Heart, Star } from "lucide-react";
+import { products } from "@/data/products";
 import { Button } from "@/components/ui/button";
-
-// Hero images for the promotional section
-const heroImages = {
-  main: "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=600",
-  side: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400",
-};
+import { SearchHeader } from "@/components/layout/SearchHeader";
+import { FloatingChatButton } from "@/components/chat/FloatingChatButton";
 
 // Category cards data
 const categoryCards = [
@@ -59,9 +55,12 @@ export function LandingPage() {
 
   return (
     <div className="min-h-screen bg-muted/30 px-4 md:px-7 py-2">
-      <div className="bg-background rounded-3xl min-h-[calc(100vh-1rem)] overflow-hidden shadow-xl">
-        {/* Navigation */}
-        <nav className="flex items-center justify-center gap-6 py-4 px-6 border-b border-border/30">
+      <div className="bg-muted rounded-3xl min-h-[calc(100vh-1rem)] overflow-hidden shadow-xl">
+        {/* Header */}
+        <SearchHeader />
+
+        {/* Sub Navigation */}
+        <nav className="flex items-center justify-center gap-6 py-3 px-6 bg-background">
           {["New Arrival", "Most Pick", "Sale", "Women", "Men", "Sneakers", "Store Location", "Contact Us"].map((item, index) => (
             <button
               key={item}
@@ -255,6 +254,9 @@ export function LandingPage() {
           </div>
         </div>
       </div>
+
+      {/* Floating Chat Button */}
+      <FloatingChatButton onClick={() => navigate("/?category=electronics")} />
     </div>
   );
 }
