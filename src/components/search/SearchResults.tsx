@@ -108,7 +108,7 @@ export function SearchResults({
           <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between gap-6">
             {/* Logo */}
             <button onClick={() => navigate("/")} className="flex-shrink-0">
-              <img src="/images/infinityhub-logo.png" alt="InfinityHub" className="h-14 w-auto" />
+              <img src="/images/infinityhub-logo.png" alt="InfinityHub" className="h-24 w-auto" />
             </button>
 
             {/* Search Bar - Centered */}
@@ -118,24 +118,20 @@ export function SearchResults({
                 <div className="absolute -inset-2 rounded-[50px] bg-muted/40 backdrop-blur-sm border border-border/50" />
                 {/* Aurora gradient glow - only on focus */}
                 <div className={`absolute -inset-[8px] rounded-[52px] blur-md transition-opacity duration-500 ${isFocused ? 'opacity-60' : 'opacity-0'}`} style={{
-                  background: 'conic-gradient(from 0deg, #0081CF, #FFD700, #FF6FD8, #9B59B6, #00ffbf, #0081CF)'
-                }} />
+                background: 'conic-gradient(from 0deg, #0081CF, #FFD700, #FF6FD8, #9B59B6, #00ffbf, #0081CF)'
+              }} />
                 {/* Aurora gradient border - only on focus */}
                 <div className={`absolute -inset-[3px] rounded-[47px] transition-opacity duration-500 ${isFocused ? 'opacity-100' : 'opacity-0'}`} style={{
-                  background: 'conic-gradient(from 0deg, #0081CF, #FFD700, #FF6FD8, #9B59B6, #00ffbf, #0081CF)'
-                }} />
+                background: 'conic-gradient(from 0deg, #0081CF, #FFD700, #FF6FD8, #9B59B6, #00ffbf, #0081CF)'
+              }} />
                 {/* Search input container */}
                 <div className="relative flex items-center bg-muted rounded-[45px] shadow-lg border border-border/30">
                   <input type="text" value={localSearchQuery} onChange={e => setLocalSearchQuery(e.target.value)} onFocus={() => setIsFocused(true)} onBlur={() => setIsFocused(false)} placeholder={searchQuery || "Ask anything..."} className="flex-1 px-6 py-3 bg-transparent rounded-[45px] text-foreground placeholder:text-muted-foreground focus:outline-none text-sm" />
-                  {localSearchQuery ? (
-                    <button type="button" onClick={() => setLocalSearchQuery("")} className="p-2.5 mr-2 rounded-full bg-[#0081CF] text-white transition-all hover:bg-[#006bb3] shadow-[0_0_15px_rgba(0,129,207,0.5)]">
+                  {localSearchQuery ? <button type="button" onClick={() => setLocalSearchQuery("")} className="p-2.5 mr-2 rounded-full bg-[#0081CF] text-white transition-all hover:bg-[#006bb3] shadow-[0_0_15px_rgba(0,129,207,0.5)]">
                       <X className="w-4 h-4" />
-                    </button>
-                  ) : (
-                    <button type="button" className="p-2.5 mr-2 rounded-full bg-white transition-all">
+                    </button> : <button type="button" className="p-2.5 mr-2 rounded-full bg-white transition-all">
                       <Mic className="w-4 h-4 text-gray-500 opacity-70" />
-                    </button>
-                  )}
+                    </button>}
                 </div>
               </div>
             </form>
