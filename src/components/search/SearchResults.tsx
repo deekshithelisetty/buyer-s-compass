@@ -338,104 +338,106 @@ export function SearchResults({
             className="fixed bottom-6 right-6 z-50 group transition-transform hover:scale-110 animate-fade-in"
           >
             {/* Glow effect */}
-            <div className="absolute inset-0 rounded-full blur-2xl opacity-70 animate-[pulse_2s_ease-in-out_infinite]" style={{
-              background: 'linear-gradient(135deg, #0081CF, #9B59B6, #00D4AA, #FF6B6B)'
+            <div className="absolute inset-0 rounded-full blur-2xl opacity-80 animate-[pulse_3s_ease-in-out_infinite]" style={{
+              background: 'conic-gradient(from 0deg, #0081CF, #9B59B6, #00ffbf, #FF6B6B, #0081CF)'
             }} />
             
-            {/* Custom 3D AI Chatbot Icon */}
-            <svg className="w-20 h-20 relative z-10" viewBox="0 0 80 80" fill="none" style={{ filter: 'drop-shadow(0 8px 16px rgba(0,0,0,0.3))' }}>
+            {/* AI Brain Neural Network Icon */}
+            <svg className="w-20 h-20 relative z-10" viewBox="0 0 80 80" fill="none" style={{ filter: 'drop-shadow(0 6px 12px rgba(0,129,207,0.4))' }}>
               <defs>
-                {/* Main body gradient */}
-                <linearGradient id="robotBody" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#667eea" />
-                  <stop offset="50%" stopColor="#764ba2" />
-                  <stop offset="100%" stopColor="#0081CF" />
-                </linearGradient>
-                {/* Metallic highlight */}
-                <linearGradient id="metalHighlight" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#ffffff" stopOpacity="0.6" />
-                  <stop offset="50%" stopColor="#ffffff" stopOpacity="0.1" />
-                  <stop offset="100%" stopColor="#000000" stopOpacity="0.2" />
-                </linearGradient>
-                {/* Screen glow */}
-                <linearGradient id="screenGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+                {/* Neural glow gradient */}
+                <linearGradient id="neuralGlow" x1="0%" y1="0%" x2="100%" y2="100%">
                   <stop offset="0%" stopColor="#00ffbf" />
-                  <stop offset="100%" stopColor="#0081CF" />
-                </linearGradient>
-                {/* Antenna glow */}
-                <radialGradient id="antennaGlow" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="#FF6B6B" />
+                  <stop offset="50%" stopColor="#0081CF" />
                   <stop offset="100%" stopColor="#9B59B6" />
-                </radialGradient>
-                {/* Shadow gradient */}
-                <linearGradient id="shadowGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#1a1a2e" />
-                  <stop offset="100%" stopColor="#0d0d1a" />
                 </linearGradient>
-                {/* Eye glow filter */}
-                <filter id="eyeGlow" x="-50%" y="-50%" width="200%" height="200%">
-                  <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                {/* Core brain gradient */}
+                <radialGradient id="brainCore" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="#764ba2" />
+                  <stop offset="60%" stopColor="#667eea" />
+                  <stop offset="100%" stopColor="#0081CF" />
+                </radialGradient>
+                {/* Node pulse gradient */}
+                <radialGradient id="nodePulse" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="#00ffbf" />
+                  <stop offset="100%" stopColor="#0081CF" stopOpacity="0" />
+                </radialGradient>
+                {/* Connection line gradient */}
+                <linearGradient id="connectionLine" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#00ffbf" stopOpacity="0.2" />
+                  <stop offset="50%" stopColor="#0081CF" stopOpacity="0.8" />
+                  <stop offset="100%" stopColor="#9B59B6" stopOpacity="0.2" />
+                </linearGradient>
+                {/* Glow filter */}
+                <filter id="nodeGlow" x="-100%" y="-100%" width="300%" height="300%">
+                  <feGaussianBlur stdDeviation="2" result="blur"/>
                   <feMerge>
-                    <feMergeNode in="coloredBlur"/>
+                    <feMergeNode in="blur"/>
                     <feMergeNode in="SourceGraphic"/>
                   </feMerge>
                 </filter>
               </defs>
               
-              {/* Outer glow ring */}
-              <circle cx="40" cy="40" r="38" fill="none" stroke="url(#screenGlow)" strokeWidth="1.5" opacity="0.5" />
+              {/* Outer orbital ring */}
+              <circle cx="40" cy="40" r="36" fill="none" stroke="url(#neuralGlow)" strokeWidth="1" opacity="0.4" strokeDasharray="4 4" />
+              <circle cx="40" cy="40" r="32" fill="none" stroke="url(#neuralGlow)" strokeWidth="0.5" opacity="0.3" />
               
-              {/* Main robot head - 3D effect with multiple layers */}
-              <ellipse cx="40" cy="42" rx="26" ry="24" fill="url(#shadowGrad)" /> {/* Shadow layer */}
-              <ellipse cx="40" cy="40" rx="26" ry="24" fill="url(#robotBody)" />
-              <ellipse cx="40" cy="40" rx="26" ry="24" fill="url(#metalHighlight)" />
-              
-              {/* Ear panels - left */}
-              <rect x="8" y="32" width="8" height="16" rx="3" fill="url(#robotBody)" />
-              <rect x="8" y="32" width="8" height="16" rx="3" fill="url(#metalHighlight)" />
-              <rect x="10" y="36" width="4" height="8" rx="2" fill="url(#screenGlow)" opacity="0.8" />
-              
-              {/* Ear panels - right */}
-              <rect x="64" y="32" width="8" height="16" rx="3" fill="url(#robotBody)" />
-              <rect x="64" y="32" width="8" height="16" rx="3" fill="url(#metalHighlight)" />
-              <rect x="66" y="36" width="4" height="8" rx="2" fill="url(#screenGlow)" opacity="0.8" />
-              
-              {/* Antenna base */}
-              <rect x="36" y="12" width="8" height="6" rx="2" fill="url(#robotBody)" />
-              <rect x="36" y="12" width="8" height="6" rx="2" fill="url(#metalHighlight)" />
-              
-              {/* Antenna ball with glow */}
-              <circle cx="40" cy="8" r="5" fill="url(#antennaGlow)" />
-              <circle cx="40" cy="8" r="3" fill="#ffffff" opacity="0.5" />
-              <circle cx="38" cy="6" r="1.5" fill="#ffffff" opacity="0.8" />
-              
-              {/* Face visor/screen area */}
-              <rect x="22" y="30" width="36" height="18" rx="6" fill="#0d0d1a" opacity="0.9" />
-              <rect x="23" y="31" width="34" height="16" rx="5" fill="none" stroke="url(#screenGlow)" strokeWidth="1" opacity="0.6" />
-              
-              {/* Eyes with glow */}
-              <g filter="url(#eyeGlow)">
-                <circle cx="32" cy="39" r="5" fill="url(#screenGlow)" />
-                <circle cx="48" cy="39" r="5" fill="url(#screenGlow)" />
+              {/* Neural connections - outer layer */}
+              <g opacity="0.6" strokeWidth="1.5" stroke="url(#connectionLine)" fill="none">
+                <path d="M40 8 Q55 20 58 40" />
+                <path d="M40 8 Q25 20 22 40" />
+                <path d="M58 40 Q55 60 40 72" />
+                <path d="M22 40 Q25 60 40 72" />
+                <path d="M12 28 Q28 35 40 40" />
+                <path d="M68 28 Q52 35 40 40" />
+                <path d="M12 52 Q28 45 40 40" />
+                <path d="M68 52 Q52 45 40 40" />
               </g>
-              {/* Eye pupils */}
-              <circle cx="33" cy="38" r="2" fill="#ffffff" opacity="0.9" />
-              <circle cx="49" cy="38" r="2" fill="#ffffff" opacity="0.9" />
               
-              {/* Mouth - LED strip style */}
-              <rect x="34" y="52" width="12" height="3" rx="1.5" fill="url(#screenGlow)" opacity="0.9" />
-              <rect x="35" y="52.5" width="2" height="2" rx="0.5" fill="#ffffff" opacity="0.6" />
-              <rect x="39" y="52.5" width="2" height="2" rx="0.5" fill="#ffffff" opacity="0.6" />
-              <rect x="43" y="52.5" width="2" height="2" rx="0.5" fill="#ffffff" opacity="0.6" />
+              {/* Inner neural connections */}
+              <g opacity="0.8" strokeWidth="1" stroke="#0081CF" fill="none">
+                <path d="M30 25 L40 40 L50 25" />
+                <path d="M25 45 L40 40 L55 45" />
+                <path d="M32 55 L40 40 L48 55" />
+              </g>
               
-              {/* Circuit pattern details */}
-              <path d="M20 45 L18 45 L18 50" stroke="url(#screenGlow)" strokeWidth="1" fill="none" opacity="0.4" />
-              <path d="M60 45 L62 45 L62 50" stroke="url(#screenGlow)" strokeWidth="1" fill="none" opacity="0.4" />
-              <circle cx="18" cy="50" r="1.5" fill="url(#screenGlow)" opacity="0.4" />
-              <circle cx="62" cy="50" r="1.5" fill="url(#screenGlow)" opacity="0.4" />
+              {/* Central brain core */}
+              <circle cx="40" cy="40" r="14" fill="url(#brainCore)" />
+              <circle cx="40" cy="40" r="14" fill="none" stroke="#00ffbf" strokeWidth="1" opacity="0.5" />
               
-              {/* Highlight shine */}
-              <ellipse cx="30" cy="28" rx="10" ry="4" fill="#ffffff" opacity="0.15" />
+              {/* Brain pattern inside */}
+              <path d="M32 38 Q36 34 40 38 Q44 42 48 38" stroke="#00ffbf" strokeWidth="1.5" fill="none" opacity="0.8" />
+              <path d="M34 44 Q38 40 42 44 Q46 48 48 44" stroke="#9B59B6" strokeWidth="1" fill="none" opacity="0.6" />
+              
+              {/* Glowing neural nodes - outer */}
+              <g filter="url(#nodeGlow)">
+                <circle cx="40" cy="8" r="4" fill="#00ffbf" />
+                <circle cx="40" cy="72" r="4" fill="#9B59B6" />
+                <circle cx="12" cy="28" r="3" fill="#0081CF" />
+                <circle cx="68" cy="28" r="3" fill="#0081CF" />
+                <circle cx="12" cy="52" r="3" fill="#FF6B6B" />
+                <circle cx="68" cy="52" r="3" fill="#FF6B6B" />
+                <circle cx="22" cy="40" r="3.5" fill="#00ffbf" />
+                <circle cx="58" cy="40" r="3.5" fill="#00ffbf" />
+              </g>
+              
+              {/* Inner nodes */}
+              <g filter="url(#nodeGlow)">
+                <circle cx="30" cy="25" r="2.5" fill="#9B59B6" />
+                <circle cx="50" cy="25" r="2.5" fill="#9B59B6" />
+                <circle cx="25" cy="45" r="2.5" fill="#0081CF" />
+                <circle cx="55" cy="45" r="2.5" fill="#0081CF" />
+                <circle cx="32" cy="55" r="2.5" fill="#00ffbf" />
+                <circle cx="48" cy="55" r="2.5" fill="#00ffbf" />
+              </g>
+              
+              {/* Central core highlight */}
+              <circle cx="40" cy="40" r="6" fill="url(#nodePulse)" />
+              <circle cx="40" cy="40" r="3" fill="#ffffff" opacity="0.9" />
+              
+              {/* Spark effects */}
+              <circle cx="40" cy="8" r="2" fill="#ffffff" opacity="0.8" />
+              <circle cx="40" cy="72" r="2" fill="#ffffff" opacity="0.6" />
             </svg>
           </button>
         )}
