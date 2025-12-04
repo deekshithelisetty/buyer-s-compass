@@ -169,7 +169,7 @@ export function SearchResults({
             {/* Main Content */}
             <div className="flex-1">
               {/* Results Section */}
-              <div className="animate-slide-up delay-200">
+              <div className="bg-background rounded-3xl p-6 shadow-sm animate-slide-up delay-200">
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-lg font-semibold text-foreground font-sans">Result</h2>
                   <button className="text-sm text-primary hover:underline flex items-center gap-1">
@@ -191,7 +191,7 @@ export function SearchResults({
 
             {/* AI Chat Panel */}
             <div className="hidden lg:block w-80 flex-shrink-0 animate-slide-in-right delay-300">
-              <div className="sticky top-24 bg-gradient-to-br from-card to-muted/50 rounded-2xl border border-border/50 p-5 shadow-lg relative">
+              <div className="sticky top-24 bg-background rounded-3xl p-5 shadow-sm relative">
                 <button className="absolute top-3 right-3 text-muted-foreground hover:text-foreground">
                   <X className="w-4 h-4" />
                 </button>
@@ -207,12 +207,12 @@ export function SearchResults({
                 </div>
 
                 <div className="space-y-2 mb-4">
-                  <button className="w-full text-left px-3 py-2 rounded-lg bg-background/50 border border-border/30 text-sm text-muted-foreground hover:bg-background transition-colors">
+                  <button className="w-full text-left px-3 py-2 rounded-lg bg-muted/50 border border-border/30 text-sm text-muted-foreground hover:bg-muted transition-colors">
                     {searchQuery || categoryFilter || "Colorful products"}
                   </button>
                 </div>
 
-                <div className="bg-background/50 rounded-xl p-3 mb-4">
+                <div className="bg-muted/30 rounded-xl p-3 mb-4">
                   <div className="flex items-start gap-2">
                     <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                       <Sparkles className="w-3 h-3 text-primary" />
@@ -227,7 +227,7 @@ export function SearchResults({
                 </div>
 
                 <div className="relative">
-                  <input type="text" placeholder="Ask anything..." className="w-full px-4 py-2.5 pr-10 rounded-full bg-background border border-border/50 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20" />
+                  <input type="text" placeholder="Ask anything..." className="w-full px-4 py-2.5 pr-10 rounded-full bg-muted/50 border border-border/50 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20" />
                   <button className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-primary/10 text-primary">
                     <Mic className="w-4 h-4" />
                   </button>
