@@ -343,7 +343,7 @@ export function SearchResults({
             }} />
             
             {/* Cute Kawaii Chatbot Icon */}
-            <svg className="w-18 h-18 relative z-10" viewBox="0 0 72 72" fill="none" style={{ filter: 'drop-shadow(0 4px 8px rgba(255,182,193,0.4))' }}>
+            <svg className="w-[72px] h-[72px] relative z-10" viewBox="0 0 72 72" fill="none" style={{ filter: 'drop-shadow(0 4px 8px rgba(255,182,193,0.4))' }}>
               <defs>
                 {/* Soft pastel gradient */}
                 <linearGradient id="kawaiiBody" x1="0%" y1="0%" x2="100%" y2="100%">
