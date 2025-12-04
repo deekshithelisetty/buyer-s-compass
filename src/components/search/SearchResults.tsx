@@ -338,45 +338,104 @@ export function SearchResults({
             className="fixed bottom-6 right-6 z-50 group transition-transform hover:scale-110 animate-fade-in"
           >
             {/* Glow effect */}
-            <div className="absolute inset-2 rounded-full blur-xl opacity-60 animate-[pulse_2s_ease-in-out_infinite]" style={{
-              background: 'linear-gradient(135deg, #FF6B6B, #9B59B6, #00D4AA)'
+            <div className="absolute inset-0 rounded-full blur-2xl opacity-70 animate-[pulse_2s_ease-in-out_infinite]" style={{
+              background: 'linear-gradient(135deg, #0081CF, #9B59B6, #00D4AA, #FF6B6B)'
             }} />
             
-            {/* Custom AI Chatbot Icon */}
-            <svg className="w-16 h-16 relative z-10 drop-shadow-lg" viewBox="0 0 64 64" fill="none">
+            {/* Custom 3D AI Chatbot Icon */}
+            <svg className="w-20 h-20 relative z-10" viewBox="0 0 80 80" fill="none" style={{ filter: 'drop-shadow(0 8px 16px rgba(0,0,0,0.3))' }}>
               <defs>
-                <linearGradient id="chatGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#FF6B6B" />
-                  <stop offset="50%" stopColor="#FF8E53" />
-                  <stop offset="100%" stopColor="#00D4AA" />
-                </linearGradient>
-                <linearGradient id="headphoneGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#00D4AA" />
+                {/* Main body gradient */}
+                <linearGradient id="robotBody" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#667eea" />
+                  <stop offset="50%" stopColor="#764ba2" />
                   <stop offset="100%" stopColor="#0081CF" />
                 </linearGradient>
+                {/* Metallic highlight */}
+                <linearGradient id="metalHighlight" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="#ffffff" stopOpacity="0.6" />
+                  <stop offset="50%" stopColor="#ffffff" stopOpacity="0.1" />
+                  <stop offset="100%" stopColor="#000000" stopOpacity="0.2" />
+                </linearGradient>
+                {/* Screen glow */}
+                <linearGradient id="screenGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#00ffbf" />
+                  <stop offset="100%" stopColor="#0081CF" />
+                </linearGradient>
+                {/* Antenna glow */}
+                <radialGradient id="antennaGlow" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="#FF6B6B" />
+                  <stop offset="100%" stopColor="#9B59B6" />
+                </radialGradient>
+                {/* Shadow gradient */}
+                <linearGradient id="shadowGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="#1a1a2e" />
+                  <stop offset="100%" stopColor="#0d0d1a" />
+                </linearGradient>
+                {/* Eye glow filter */}
+                <filter id="eyeGlow" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                  <feMerge>
+                    <feMergeNode in="coloredBlur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                  </feMerge>
+                </filter>
               </defs>
               
-              {/* Left headphone */}
-              <ellipse cx="12" cy="32" rx="5" ry="8" fill="url(#headphoneGradient)" />
-              <path d="M12 24 Q8 32 12 40" stroke="url(#headphoneGradient)" strokeWidth="3" fill="none" strokeLinecap="round" />
+              {/* Outer glow ring */}
+              <circle cx="40" cy="40" r="38" fill="none" stroke="url(#screenGlow)" strokeWidth="1.5" opacity="0.5" />
               
-              {/* Right headphone */}
-              <ellipse cx="52" cy="32" rx="5" ry="8" fill="url(#headphoneGradient)" />
-              <path d="M52 24 Q56 32 52 40" stroke="url(#headphoneGradient)" strokeWidth="3" fill="none" strokeLinecap="round" />
+              {/* Main robot head - 3D effect with multiple layers */}
+              <ellipse cx="40" cy="42" rx="26" ry="24" fill="url(#shadowGrad)" /> {/* Shadow layer */}
+              <ellipse cx="40" cy="40" rx="26" ry="24" fill="url(#robotBody)" />
+              <ellipse cx="40" cy="40" rx="26" ry="24" fill="url(#metalHighlight)" />
               
-              {/* Main chat bubble */}
-              <path d="M16 16 Q16 8 32 8 Q48 8 48 16 L48 36 Q48 44 32 44 L26 44 L22 52 L22 44 Q16 44 16 36 Z" fill="url(#chatGradient)" />
+              {/* Ear panels - left */}
+              <rect x="8" y="32" width="8" height="16" rx="3" fill="url(#robotBody)" />
+              <rect x="8" y="32" width="8" height="16" rx="3" fill="url(#metalHighlight)" />
+              <rect x="10" y="36" width="4" height="8" rx="2" fill="url(#screenGlow)" opacity="0.8" />
               
-              {/* Eyes */}
-              <circle cx="26" cy="24" r="3" fill="#1a1a2e" />
-              <circle cx="38" cy="24" r="3" fill="#1a1a2e" />
-              <circle cx="27" cy="23" r="1" fill="#FF6B6B" />
-              <circle cx="39" cy="23" r="1" fill="#FF6B6B" />
+              {/* Ear panels - right */}
+              <rect x="64" y="32" width="8" height="16" rx="3" fill="url(#robotBody)" />
+              <rect x="64" y="32" width="8" height="16" rx="3" fill="url(#metalHighlight)" />
+              <rect x="66" y="36" width="4" height="8" rx="2" fill="url(#screenGlow)" opacity="0.8" />
               
-              {/* Small chat bubble */}
-              <ellipse cx="42" cy="38" rx="6" ry="5" fill="white" opacity="0.9" />
-              <circle cx="40" cy="38" r="1.5" fill="#1a1a2e" />
-              <circle cx="44" cy="38" r="1.5" fill="#1a1a2e" />
+              {/* Antenna base */}
+              <rect x="36" y="12" width="8" height="6" rx="2" fill="url(#robotBody)" />
+              <rect x="36" y="12" width="8" height="6" rx="2" fill="url(#metalHighlight)" />
+              
+              {/* Antenna ball with glow */}
+              <circle cx="40" cy="8" r="5" fill="url(#antennaGlow)" />
+              <circle cx="40" cy="8" r="3" fill="#ffffff" opacity="0.5" />
+              <circle cx="38" cy="6" r="1.5" fill="#ffffff" opacity="0.8" />
+              
+              {/* Face visor/screen area */}
+              <rect x="22" y="30" width="36" height="18" rx="6" fill="#0d0d1a" opacity="0.9" />
+              <rect x="23" y="31" width="34" height="16" rx="5" fill="none" stroke="url(#screenGlow)" strokeWidth="1" opacity="0.6" />
+              
+              {/* Eyes with glow */}
+              <g filter="url(#eyeGlow)">
+                <circle cx="32" cy="39" r="5" fill="url(#screenGlow)" />
+                <circle cx="48" cy="39" r="5" fill="url(#screenGlow)" />
+              </g>
+              {/* Eye pupils */}
+              <circle cx="33" cy="38" r="2" fill="#ffffff" opacity="0.9" />
+              <circle cx="49" cy="38" r="2" fill="#ffffff" opacity="0.9" />
+              
+              {/* Mouth - LED strip style */}
+              <rect x="34" y="52" width="12" height="3" rx="1.5" fill="url(#screenGlow)" opacity="0.9" />
+              <rect x="35" y="52.5" width="2" height="2" rx="0.5" fill="#ffffff" opacity="0.6" />
+              <rect x="39" y="52.5" width="2" height="2" rx="0.5" fill="#ffffff" opacity="0.6" />
+              <rect x="43" y="52.5" width="2" height="2" rx="0.5" fill="#ffffff" opacity="0.6" />
+              
+              {/* Circuit pattern details */}
+              <path d="M20 45 L18 45 L18 50" stroke="url(#screenGlow)" strokeWidth="1" fill="none" opacity="0.4" />
+              <path d="M60 45 L62 45 L62 50" stroke="url(#screenGlow)" strokeWidth="1" fill="none" opacity="0.4" />
+              <circle cx="18" cy="50" r="1.5" fill="url(#screenGlow)" opacity="0.4" />
+              <circle cx="62" cy="50" r="1.5" fill="url(#screenGlow)" opacity="0.4" />
+              
+              {/* Highlight shine */}
+              <ellipse cx="30" cy="28" rx="10" ry="4" fill="#ffffff" opacity="0.15" />
             </svg>
           </button>
         )}
