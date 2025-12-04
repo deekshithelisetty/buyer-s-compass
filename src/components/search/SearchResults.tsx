@@ -36,7 +36,7 @@ function ProductCardNew({
 
       {/* Product Info */}
       <div className="px-1">
-        <h3 className="text-foreground line-clamp-2 mb-1 group-hover:text-primary transition-colors font-sans text-center font-normal text-xs">
+        <h3 className="text-foreground line-clamp-2 mb-1 group-hover:text-primary transition-colors font-sans font-normal text-xs text-left">
           {product.name}
         </h3>
         
@@ -171,7 +171,7 @@ export function SearchResults({
                 </div>
 
                 <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-lg font-semibold text-foreground font-sans capitalize">{categoryFilter || searchQuery || "All Products"}</h2>
+                  <h2 className="font-semibold text-foreground font-sans capitalize text-base">{categoryFilter || searchQuery || "All Products"}</h2>
                   <button className="text-sm text-primary hover:underline flex items-center gap-1">
                     View All <ChevronRight className="w-4 h-4" />
                   </button>
