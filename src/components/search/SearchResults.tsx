@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { products, categories } from "@/data/products";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, ChevronRight, X, Mic, Search, ShoppingCart, User, Globe, Heart, Star } from "lucide-react";
@@ -95,6 +95,8 @@ export function SearchResults({
   const [localSearchQuery, setLocalSearchQuery] = useState(searchQuery || "");
   const [isFocused, setIsFocused] = useState(false);
   const [visibleCount, setVisibleCount] = useState(10);
+  const [isLoading, setIsLoading] = useState(false);
+  const loadMoreRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   
   const ITEMS_PER_LOAD = 10;
@@ -107,6 +109,33 @@ export function SearchResults({
   
   const visibleProducts = filteredProducts.slice(0, visibleCount);
   const hasMore = visibleCount < filteredProducts.length;
+
+  const loadMore = useCallback(() => {
+    if (isLoading || !hasMore) return;
+    setIsLoading(true);
+    // Simulate loading delay for smooth UX
+    setTimeout(() => {
+      setVisibleCount(prev => prev + ITEMS_PER_LOAD);
+      setIsLoading(false);
+    }, 300);
+  }, [isLoading, hasMore]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasMore && !isLoading) {
+          loadMore();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (loadMoreRef.current) {
+      observer.observe(loadMoreRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [hasMore, isLoading, loadMore]);
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (localSearchQuery.trim()) {
@@ -217,15 +246,21 @@ export function SearchResults({
                     {visibleProducts.map((product, index) => <ProductCardNew key={product.id} product={product} index={index} />)}
                   </div>
 
+                  {/* Infinite scroll trigger */}
                   {hasMore && (
-                    <div className="flex justify-center mt-6 mb-4">
-                      <Button 
-                        onClick={() => setVisibleCount(prev => prev + ITEMS_PER_LOAD)}
-                        variant="outline"
-                        className="rounded-full px-8 gap-2"
-                      >
-                        Load More ({filteredProducts.length - visibleCount} remaining)
-                      </Button>
+                    <div ref={loadMoreRef} className="flex justify-center py-6">
+                      {isLoading && (
+                        <div className="flex items-center gap-2 text-muted-foreground">
+                          <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                          <span className="text-sm">Loading more...</span>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {!hasMore && filteredProducts.length > 0 && (
+                    <div className="text-center py-4 text-sm text-muted-foreground">
+                      All {filteredProducts.length} products loaded
                     </div>
                   )}
 
