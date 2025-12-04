@@ -157,19 +157,19 @@ export function SearchResults({
 
         {/* Content */}
         <div className="max-w-7xl mx-auto px-6 py-6">
-          {/* Filter Bar */}
-          <div className="flex items-center gap-2 mb-6 flex-wrap animate-slide-up delay-100">
-            {filterOptions.map(filter => <Button key={filter.label} variant="outline" size="sm" className="rounded-full bg-card hover:bg-muted gap-1 text-xs">
-                {filter.label}
-                {filter.hasDropdown && <ChevronDown className="w-3 h-3" />}
-              </Button>)}
-          </div>
-
           <div className="flex gap-6">
             {/* Main Content */}
             <div className="flex-1">
-              {/* Results Section */}
+              {/* Results Section with Filters */}
               <div className="bg-background rounded-3xl p-6 shadow-sm animate-slide-up delay-200">
+                {/* Filter Bar */}
+                <div className="flex items-center gap-2 mb-6 flex-wrap">
+                  {filterOptions.map(filter => <Button key={filter.label} variant="outline" size="sm" className="rounded-full bg-muted/50 hover:bg-muted gap-1 text-xs border-border/50">
+                      {filter.label}
+                      {filter.hasDropdown && <ChevronDown className="w-3 h-3" />}
+                    </Button>)}
+                </div>
+
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-lg font-semibold text-foreground font-sans">Result</h2>
                   <button className="text-sm text-primary hover:underline flex items-center gap-1">
