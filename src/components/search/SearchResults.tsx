@@ -157,7 +157,7 @@ export function SearchResults({
 
         {/* Content */}
         <div className="max-w-[1800px] mx-auto pl-2 pr-2 pt-2 pb-6">
-          <div className="flex gap-6">
+          <div className="flex gap-2">
             {/* Main Content */}
             <div className="flex-1">
               {/* Results Section with Filters */}
@@ -190,7 +190,7 @@ export function SearchResults({
             </div>
 
             {/* AI Chat Panel */}
-            <div className="hidden lg:block w-96 flex-shrink-0 animate-slide-in-right delay-300 ml-4">
+            <div className="hidden lg:block w-[420px] flex-shrink-0 animate-slide-in-right delay-300">
               <div className="sticky top-2 bg-background rounded-3xl pt-2 pl-2 pr-2 pb-6 shadow-sm relative">
                 <button className="absolute top-3 right-3 text-muted-foreground hover:text-foreground">
                   <X className="w-4 h-4" />
