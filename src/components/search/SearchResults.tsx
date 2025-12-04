@@ -199,7 +199,7 @@ export function SearchResults({
               {/* Results Section */}
               <div className="animate-slide-up delay-200">
                 <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-lg font-semibold text-foreground">Result</h2>
+                  <h2 className="text-lg font-semibold text-foreground font-sans">Result</h2>
                   <button className="text-sm text-primary hover:underline flex items-center gap-1">
                     View All <ChevronRight className="w-4 h-4" />
                   </button>
