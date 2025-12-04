@@ -226,12 +226,12 @@ export function SearchResults({
                 {/* Header */}
                 <div className="p-6 pb-4 flex flex-col items-center text-center">
                   {/* AI Icon with sparkles and glow */}
-                  <div className="relative mb-1">
+                  <div className="relative mb-1 py-4 px-6">
                     {/* Glow effect behind Ai text */}
-                    <div className="absolute inset-0 blur-2xl opacity-70 scale-150 animate-[pulse_3s_ease-in-out_infinite]" style={{
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 blur-2xl opacity-60 animate-[pulse_3s_ease-in-out_infinite]" style={{
                       background: 'conic-gradient(from 0deg, #0081CF, #00ffbf, #FFD700, #FF6FD8, #9B59B6, #0081CF)'
                     }} />
-                    <span className="relative text-4xl font-bold font-serif text-center bg-clip-text text-transparent" style={{
+                    <span className="relative z-10 text-4xl font-bold font-serif text-center bg-clip-text text-transparent" style={{
                       backgroundImage: 'conic-gradient(from 180deg, #0081CF, #00ffbf, #FFD700, #FF6FD8, #9B59B6, #0081CF)'
                     }}>Ai</span>
                     {/* Sparkles */}
