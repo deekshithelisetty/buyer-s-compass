@@ -228,7 +228,7 @@ export function SearchResults({
                   {/* AI Icon with sparkles and glow */}
                   <div className="relative mb-1">
                     {/* Glow effect behind Ai text */}
-                    <div className="absolute inset-0 blur-2xl opacity-70 scale-150" style={{
+                    <div className="absolute inset-0 blur-2xl opacity-70 scale-150 animate-[pulse_3s_ease-in-out_infinite]" style={{
                       background: 'conic-gradient(from 0deg, #0081CF, #00ffbf, #FFD700, #FF6FD8, #9B59B6, #0081CF)'
                     }} />
                     <span className="relative text-4xl font-bold font-serif text-center bg-clip-text text-transparent" style={{
