@@ -114,21 +114,28 @@ export function SearchResults({
             {/* Search Bar - Centered */}
             <form onSubmit={handleSearch} className="flex-1 max-w-lg">
               <div className="relative">
-                {/* Glassy border - always visible */}
-                <div className="absolute -inset-1.5 rounded-full bg-muted/30 backdrop-blur-sm border border-border/40" />
-                {/* Aurora glow on focus */}
-                <div className={`absolute -inset-[7px] rounded-full blur-md transition-opacity duration-500 ${isFocused ? 'opacity-50' : 'opacity-0'}`} style={{
-                background: 'conic-gradient(from 0deg, #0081CF, #FFD700, #FF6FD8, #9B59B6, #00ffbf, #0081CF)'
-              }} />
-                <div className={`absolute -inset-[2px] rounded-full transition-opacity duration-500 ${isFocused ? 'opacity-100' : 'opacity-0'}`} style={{
-                background: 'conic-gradient(from 0deg, #0081CF, #FFD700, #FF6FD8, #9B59B6, #00ffbf, #0081CF)'
-              }} />
-                <div className="relative flex items-center bg-muted/50 rounded-full border border-border/20">
-                  <Search className="w-4 h-4 ml-4 text-muted-foreground" />
-                  <input type="text" value={localSearchQuery} onChange={e => setLocalSearchQuery(e.target.value)} onFocus={() => setIsFocused(true)} onBlur={() => setIsFocused(false)} placeholder={searchQuery || "Search products..."} className="flex-1 px-3 py-2.5 bg-transparent text-foreground placeholder:text-muted-foreground focus:outline-none text-sm" />
-                  {localSearchQuery && <button type="button" onClick={() => setLocalSearchQuery("")} className="p-1.5 mr-2 text-muted-foreground hover:text-foreground rounded-full hover:bg-muted/50">
+                {/* Glassy gray border - always visible */}
+                <div className="absolute -inset-2 rounded-[50px] bg-muted/40 backdrop-blur-sm border border-border/50" />
+                {/* Aurora gradient glow - only on focus */}
+                <div className={`absolute -inset-[8px] rounded-[52px] blur-md transition-opacity duration-500 ${isFocused ? 'opacity-60' : 'opacity-0'}`} style={{
+                  background: 'conic-gradient(from 0deg, #0081CF, #FFD700, #FF6FD8, #9B59B6, #00ffbf, #0081CF)'
+                }} />
+                {/* Aurora gradient border - only on focus */}
+                <div className={`absolute -inset-[3px] rounded-[47px] transition-opacity duration-500 ${isFocused ? 'opacity-100' : 'opacity-0'}`} style={{
+                  background: 'conic-gradient(from 0deg, #0081CF, #FFD700, #FF6FD8, #9B59B6, #00ffbf, #0081CF)'
+                }} />
+                {/* Search input container */}
+                <div className="relative flex items-center bg-muted rounded-[45px] shadow-lg border border-border/30">
+                  <input type="text" value={localSearchQuery} onChange={e => setLocalSearchQuery(e.target.value)} onFocus={() => setIsFocused(true)} onBlur={() => setIsFocused(false)} placeholder={searchQuery || "Ask anything..."} className="flex-1 px-6 py-3 bg-transparent rounded-[45px] text-foreground placeholder:text-muted-foreground focus:outline-none text-sm" />
+                  {localSearchQuery ? (
+                    <button type="button" onClick={() => setLocalSearchQuery("")} className="p-2.5 mr-2 rounded-full bg-[#0081CF] text-white transition-all hover:bg-[#006bb3] shadow-[0_0_15px_rgba(0,129,207,0.5)]">
                       <X className="w-4 h-4" />
-                    </button>}
+                    </button>
+                  ) : (
+                    <button type="button" className="p-2.5 mr-2 rounded-full bg-white transition-all">
+                      <Mic className="w-4 h-4 text-gray-500 opacity-70" />
+                    </button>
+                  )}
                 </div>
               </div>
             </form>
