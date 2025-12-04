@@ -241,7 +241,7 @@ export function SearchResults({
                 </div>
 
                 {/* Products Grid - Scrollable */}
-                <div className="flex-1 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-muted-foreground/20 scrollbar-track-transparent">
+                <div className="flex-1 overflow-y-auto pr-1 scrollbar-sleek">
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
                     {visibleProducts.map((product, index) => <ProductCardNew key={product.id} product={product} index={index} />)}
                   </div>
