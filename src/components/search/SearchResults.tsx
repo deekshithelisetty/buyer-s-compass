@@ -94,9 +94,9 @@ export function SearchResults({
   const [selectedCategory, setSelectedCategory] = useState(categoryFilter || "");
   const [localSearchQuery, setLocalSearchQuery] = useState(searchQuery || "");
   const [isFocused, setIsFocused] = useState(false);
-  const [visibleCount, setVisibleCount] = useState(10);
-  const [isLoading, setIsLoading] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(true);
+  const [visibleCount, setVisibleCount] = useState(isChatOpen ? 10 : 15);
+  const [isLoading, setIsLoading] = useState(false);
   const loadMoreRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   
@@ -120,6 +120,12 @@ export function SearchResults({
       setIsLoading(false);
     }, 300);
   }, [isLoading, hasMore]);
+
+  // Update visible count when chat panel opens/closes
+  useEffect(() => {
+    const baseCount = isChatOpen ? 10 : 15;
+    setVisibleCount(prev => Math.max(prev, baseCount));
+  }, [isChatOpen]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
