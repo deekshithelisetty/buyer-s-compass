@@ -156,7 +156,7 @@ export function SearchResults({
         </header>
 
         {/* Content */}
-        <div className="max-w-[1600px] mx-auto pl-5 pr-6 py-6">
+        <div className="max-w-[1600px] mx-auto pl-5 pr-6 pt-2 pb-6">
           <div className="flex gap-6">
             {/* Main Content */}
             <div className="flex-1">
@@ -171,7 +171,7 @@ export function SearchResults({
                 </div>
 
                 <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-lg font-semibold text-foreground font-sans">Result</h2>
+                  <h2 className="text-lg font-semibold text-foreground font-sans capitalize">{categoryFilter || searchQuery || "All Products"}</h2>
                   <button className="text-sm text-primary hover:underline flex items-center gap-1">
                     View All <ChevronRight className="w-4 h-4" />
                   </button>
