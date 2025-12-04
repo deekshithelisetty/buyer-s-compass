@@ -225,9 +225,15 @@ export function SearchResults({
                 
                 {/* Header */}
                 <div className="p-6 pb-4 flex flex-col items-center text-center">
-                  {/* AI Icon with sparkles */}
-                  <div className="relative mb-2">
-                    <span className="text-foreground tracking-tight text-4xl font-bold font-serif text-center">Ai</span>
+                  {/* AI Icon with sparkles and glow */}
+                  <div className="relative mb-1">
+                    {/* Glow effect behind Ai text */}
+                    <div className="absolute inset-0 blur-xl opacity-60" style={{
+                      background: 'radial-gradient(circle, rgba(0,129,207,0.4) 0%, rgba(155,89,182,0.3) 50%, transparent 70%)'
+                    }} />
+                    <span className="relative text-4xl font-bold font-serif text-center bg-clip-text text-transparent" style={{
+                      backgroundImage: 'linear-gradient(135deg, #0081CF 0%, #FFD700 50%, #9B59B6 100%)'
+                    }}>Ai</span>
                     {/* Sparkles */}
                     <svg className="absolute -top-1 -right-3 w-5 h-5" viewBox="0 0 24 24" fill="none">
                       <path d="M12 2L13.5 8.5L20 10L13.5 11.5L12 18L10.5 11.5L4 10L10.5 8.5L12 2Z" fill="url(#sparkle-gradient)" />
