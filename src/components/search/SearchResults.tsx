@@ -60,6 +60,54 @@ function ProductCardNew({
       </div>
     </div>;
 }
+
+// Chat Input Component with aurora gradient focus effect
+function ChatInput() {
+  const [isFocused, setIsFocused] = useState(false);
+  const [inputValue, setInputValue] = useState("");
+
+  return (
+    <div className="relative">
+      {/* Glassy gray border - always visible */}
+      <div className="absolute -inset-1.5 rounded-[40px] bg-muted/40 backdrop-blur-sm border border-border/50" />
+      {/* Aurora gradient glow - only on focus */}
+      <div 
+        className={`absolute -inset-[6px] rounded-[42px] blur-md transition-opacity duration-500 ${isFocused ? 'opacity-60' : 'opacity-0'}`}
+        style={{ background: 'conic-gradient(from 0deg, #0081CF, #FFD700, #FF6FD8, #9B59B6, #00ffbf, #0081CF)' }}
+      />
+      {/* Aurora gradient border - only on focus */}
+      <div 
+        className={`absolute -inset-[2px] rounded-[38px] transition-opacity duration-500 ${isFocused ? 'opacity-100' : 'opacity-0'}`}
+        style={{ background: 'conic-gradient(from 0deg, #0081CF, #FFD700, #FF6FD8, #9B59B6, #00ffbf, #0081CF)' }}
+      />
+      {/* Input container */}
+      <div className="relative flex items-center bg-muted rounded-[36px] shadow-lg border border-border/30">
+        <input
+          type="text"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          placeholder="Ask anything..."
+          className="flex-1 px-5 py-3 bg-transparent rounded-[36px] text-foreground placeholder:text-muted-foreground focus:outline-none text-sm"
+        />
+        {inputValue ? (
+          <button 
+            type="button" 
+            onClick={() => setInputValue("")}
+            className="p-2 mr-2 rounded-full bg-[#0081CF] text-white transition-all hover:bg-[#006bb3] shadow-[0_0_15px_rgba(0,129,207,0.5)]"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        ) : (
+          <button type="button" className="p-2 mr-2 rounded-full bg-white transition-all">
+            <Mic className="w-4 h-4 text-gray-500 opacity-70" />
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
 export function SearchResults({
   searchQuery,
   categoryFilter
@@ -191,46 +239,52 @@ export function SearchResults({
 
             {/* AI Chat Panel */}
             <div className="hidden lg:block w-[420px] flex-shrink-0 animate-slide-in-right delay-300">
-              <div className="sticky top-2 bg-background rounded-3xl pt-2 pl-2 pr-2 pb-6 shadow-sm relative h-[calc(100vh-6rem)] flex flex-col">
-                <button className="absolute top-3 right-3 text-muted-foreground hover:text-foreground">
+              <div className="sticky top-2 bg-background rounded-3xl shadow-sm relative h-[calc(100vh-6rem)] flex flex-col">
+                <button className="absolute top-3 right-3 z-10 text-muted-foreground hover:text-foreground">
                   <X className="w-4 h-4" />
                 </button>
                 
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
-                    <Sparkles className="w-5 h-5 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-foreground">AI-Powered</h3>
-                    <p className="text-xs text-muted-foreground">Shopping Experience</p>
-                  </div>
-                </div>
-
-                <div className="space-y-2 mb-4">
-                  <button className="w-full text-left px-3 py-2 rounded-lg bg-muted/50 border border-border/30 text-sm text-muted-foreground hover:bg-muted transition-colors">
-                    {searchQuery || categoryFilter || "Colorful products"}
-                  </button>
-                </div>
-
-                <div className="bg-muted/30 rounded-xl p-3 mb-4">
-                  <div className="flex items-start gap-2">
-                    <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                      <Sparkles className="w-3 h-3 text-primary" />
+                {/* Header */}
+                <div className="p-4 pb-2">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
+                      <Sparkles className="w-5 h-5 text-primary" />
                     </div>
                     <div>
-                      <p className="text-xs text-muted-foreground">Absolutely!</p>
-                      <p className="text-xs text-muted-foreground mt-1">
-                        We have a variety of {categoryFilter || "products"} for you...
-                      </p>
+                      <h3 className="font-semibold text-foreground">AI-Powered</h3>
+                      <p className="text-xs text-muted-foreground">Shopping Experience</p>
                     </div>
                   </div>
                 </div>
 
-                <div className="relative">
-                  <input type="text" placeholder="Ask anything..." className="w-full px-4 py-2.5 pr-10 rounded-full bg-muted/50 border border-border/50 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20" />
-                  <button className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-primary/10 text-primary">
-                    <Mic className="w-4 h-4" />
-                  </button>
+                {/* Chat Content - Scrollable */}
+                <div className="flex-1 overflow-y-auto px-4">
+                  <div className="space-y-3">
+                    <div className="bg-muted/50 rounded-xl p-3">
+                      <p className="text-sm text-foreground">
+                        {searchQuery || categoryFilter || "Colorful products"}
+                      </p>
+                    </div>
+
+                    <div className="bg-muted/30 rounded-xl p-3">
+                      <div className="flex items-start gap-2">
+                        <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                          <Sparkles className="w-3 h-3 text-primary" />
+                        </div>
+                        <div>
+                          <p className="text-sm text-foreground">Absolutely!</p>
+                          <p className="text-sm text-muted-foreground mt-1">
+                            We have a variety of {categoryFilter || "products"} for you. Here are some great options I found based on your preferences.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Chat Input - Fixed at Bottom */}
+                <div className="p-4 pt-3 mt-auto">
+                  <ChatInput />
                 </div>
               </div>
             </div>
