@@ -190,7 +190,7 @@ export function SearchResults({
             </div>
 
             {/* AI Chat Panel */}
-            <div className="hidden lg:block w-96 flex-shrink-0 animate-slide-in-right delay-300 p-2">
+            <div className="hidden lg:block w-80 flex-shrink-0 animate-slide-in-right delay-300">
               <div className="sticky top-24 bg-background rounded-3xl p-5 shadow-sm relative">
                 <button className="absolute top-3 right-3 text-muted-foreground hover:text-foreground">
                   <X className="w-4 h-4" />
