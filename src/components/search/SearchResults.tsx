@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { products, categories } from "@/data/products";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, ChevronRight, X, Mic, Search, ShoppingCart, User, Globe, Heart, Star } from "lucide-react";
+import { ChevronDown, ChevronRight, X, Mic, Search, ShoppingCart, User, Globe, Heart, Star, MessageCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Product } from "@/types/product";
 interface SearchResultsProps {
@@ -96,6 +96,7 @@ export function SearchResults({
   const [isFocused, setIsFocused] = useState(false);
   const [visibleCount, setVisibleCount] = useState(10);
   const [isLoading, setIsLoading] = useState(false);
+  const [isChatOpen, setIsChatOpen] = useState(true);
   const loadMoreRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   
@@ -273,57 +274,80 @@ export function SearchResults({
             </div>
 
             {/* AI Chat Panel */}
-            <div className="hidden lg:block w-[420px] flex-shrink-0 animate-slide-in-right delay-300">
-              <div className="sticky top-2 bg-background rounded-3xl shadow-sm relative h-[calc(100vh-6rem)] flex flex-col">
-                <button className="absolute top-3 right-3 z-10 text-muted-foreground hover:text-foreground">
-                  <X className="w-4 h-4" />
-                </button>
-                
-                {/* Header */}
-                <div className="p-4 pb-3 flex flex-col items-center text-center">
-                  {/* AI Icon with sparkles and glow */}
-                  <div className="relative mb-0 pt-1 pb-2 px-6">
-                    {/* Glow effect behind Ai text */}
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 blur-2xl opacity-60 animate-[pulse_3s_ease-in-out_infinite]" style={{
-                      background: 'conic-gradient(from 0deg, #0081CF, #00ffbf, #FFD700, #FF6FD8, #9B59B6, #0081CF)'
-                    }} />
-                    <span className="relative z-10 text-4xl font-bold font-serif text-center bg-clip-text text-transparent" style={{
-                      backgroundImage: 'linear-gradient(180deg, #00D4AA 0%, #0081CF 50%, #9B59B6 100%)'
-                    }}>Ai</span>
-                    {/* Sparkles */}
-                    <svg className="absolute -top-1 -right-3 w-5 h-5" viewBox="0 0 24 24" fill="none">
-                      <path d="M12 2L13.5 8.5L20 10L13.5 11.5L12 18L10.5 11.5L4 10L10.5 8.5L12 2Z" fill="url(#sparkle-gradient)" />
-                      <path d="M19 14L19.75 16.25L22 17L19.75 17.75L19 20L18.25 17.75L16 17L18.25 16.25L19 14Z" fill="url(#sparkle-gradient-2)" />
-                      <defs>
-                        <linearGradient id="sparkle-gradient" x1="4" y1="2" x2="20" y2="18" gradientUnits="userSpaceOnUse">
-                          <stop stopColor="#0081CF" />
-                          <stop offset="0.5" stopColor="#FFD700" />
-                          <stop offset="1" stopColor="#9B59B6" />
-                        </linearGradient>
-                        <linearGradient id="sparkle-gradient-2" x1="16" y1="14" x2="22" y2="20" gradientUnits="userSpaceOnUse">
-                          <stop stopColor="#00ffbf" />
-                          <stop offset="1" stopColor="#0081CF" />
-                        </linearGradient>
-                      </defs>
-                    </svg>
-                  </div>
-                  <h3 className="font-medium text-foreground text-base font-sans">AI-Powered</h3>
-                  <p className="text-xs text-muted-foreground">Shopping Experience</p>
-                </div>
-
-                {/* Chat Content - Scrollable */}
-                <div className="flex-1 overflow-y-auto px-4">
+            {isChatOpen && (
+              <div className="hidden lg:block w-[420px] flex-shrink-0 animate-slide-in-right">
+                <div className="sticky top-2 bg-background rounded-3xl shadow-sm relative h-[calc(100vh-6rem)] flex flex-col">
+                  <button 
+                    onClick={() => setIsChatOpen(false)}
+                    className="absolute top-3 right-3 z-10 text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
                   
-                </div>
+                  {/* Header */}
+                  <div className="p-4 pb-3 flex flex-col items-center text-center">
+                    {/* AI Icon with sparkles and glow */}
+                    <div className="relative mb-0 pt-1 pb-2 px-6">
+                      {/* Glow effect behind Ai text */}
+                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 blur-2xl opacity-60 animate-[pulse_3s_ease-in-out_infinite]" style={{
+                        background: 'conic-gradient(from 0deg, #0081CF, #00ffbf, #FFD700, #FF6FD8, #9B59B6, #0081CF)'
+                      }} />
+                      <span className="relative z-10 text-4xl font-bold font-serif text-center bg-clip-text text-transparent" style={{
+                        backgroundImage: 'linear-gradient(180deg, #00D4AA 0%, #0081CF 50%, #9B59B6 100%)'
+                      }}>Ai</span>
+                      {/* Sparkles */}
+                      <svg className="absolute -top-1 -right-3 w-5 h-5" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 2L13.5 8.5L20 10L13.5 11.5L12 18L10.5 11.5L4 10L10.5 8.5L12 2Z" fill="url(#sparkle-gradient)" />
+                        <path d="M19 14L19.75 16.25L22 17L19.75 17.75L19 20L18.25 17.75L16 17L18.25 16.25L19 14Z" fill="url(#sparkle-gradient-2)" />
+                        <defs>
+                          <linearGradient id="sparkle-gradient" x1="4" y1="2" x2="20" y2="18" gradientUnits="userSpaceOnUse">
+                            <stop stopColor="#0081CF" />
+                            <stop offset="0.5" stopColor="#FFD700" />
+                            <stop offset="1" stopColor="#9B59B6" />
+                          </linearGradient>
+                          <linearGradient id="sparkle-gradient-2" x1="16" y1="14" x2="22" y2="20" gradientUnits="userSpaceOnUse">
+                            <stop stopColor="#00ffbf" />
+                            <stop offset="1" stopColor="#0081CF" />
+                          </linearGradient>
+                        </defs>
+                      </svg>
+                    </div>
+                    <h3 className="font-medium text-foreground text-base font-sans">AI-Powered</h3>
+                    <p className="text-xs text-muted-foreground">Shopping Experience</p>
+                  </div>
 
-                {/* Chat Input - Fixed at Bottom */}
-                <div className="p-4 pt-3 mt-auto">
-                  <ChatInput />
+                  {/* Chat Content - Scrollable */}
+                  <div className="flex-1 overflow-y-auto px-4">
+                    
+                  </div>
+
+                  {/* Chat Input - Fixed at Bottom */}
+                  <div className="p-4 pt-3 mt-auto">
+                    <ChatInput />
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
+
+        {/* Floating Chat Button */}
+        {!isChatOpen && (
+          <button
+            onClick={() => setIsChatOpen(true)}
+            className="fixed bottom-6 right-6 z-50 p-4 rounded-full bg-background shadow-lg border border-border/50 transition-transform hover:scale-110 animate-fade-in"
+          >
+            {/* Glow effect */}
+            <div className="absolute inset-0 rounded-full blur-xl opacity-60 animate-[pulse_2s_ease-in-out_infinite]" style={{
+              background: 'conic-gradient(from 0deg, #0081CF, #00ffbf, #FFD700, #FF6FD8, #9B59B6, #0081CF)'
+            }} />
+            <div className="absolute inset-0 rounded-full animate-[pulse_2s_ease-in-out_infinite]" style={{
+              background: 'conic-gradient(from 0deg, #0081CF, #00ffbf, #FFD700, #FF6FD8, #9B59B6, #0081CF)',
+              opacity: 0.3
+            }} />
+            <MessageCircle className="w-6 h-6 text-primary relative z-10" />
+          </button>
+        )}
       </div>
     </div>;
 }
