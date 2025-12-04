@@ -224,7 +224,7 @@ export function SearchResults({
             {/* Main Content */}
             <div className="flex-1">
               {/* Results Section with Filters */}
-              <div className="bg-background rounded-3xl p-6 shadow-sm animate-slide-up delay-200 h-[calc(100vh-7rem)] flex flex-col">
+              <div className="bg-background rounded-3xl p-6 shadow-sm animate-slide-up delay-200 h-[calc(100vh-6rem)] flex flex-col">
                 {/* Filter Bar */}
                 <div className="flex items-center justify-center gap-2 mb-6 flex-wrap flex-shrink-0">
                   {filterOptions.map(filter => <Button key={filter.label} variant="outline" size="sm" className="rounded-full bg-muted/50 hover:bg-muted gap-1 text-xs border-border/50">
