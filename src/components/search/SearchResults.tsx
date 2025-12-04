@@ -224,15 +224,15 @@ export function SearchResults({
                 </button>
                 
                 {/* Header */}
-                <div className="p-6 pb-4 flex flex-col items-center text-center">
+                <div className="p-4 pb-3 flex flex-col items-center text-center">
                   {/* AI Icon with sparkles and glow */}
-                  <div className="relative mb-0 pt-2 pb-3 px-6">
+                  <div className="relative mb-0 pt-1 pb-2 px-6">
                     {/* Glow effect behind Ai text */}
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 blur-2xl opacity-60 animate-[pulse_3s_ease-in-out_infinite]" style={{
                       background: 'conic-gradient(from 0deg, #0081CF, #00ffbf, #FFD700, #FF6FD8, #9B59B6, #0081CF)'
                     }} />
                     <span className="relative z-10 text-4xl font-bold font-serif text-center bg-clip-text text-transparent" style={{
-                      backgroundImage: 'linear-gradient(135deg, #0081CF 0%, #00ffbf 25%, #FFD700 50%, #FF6FD8 75%, #9B59B6 100%)'
+                      backgroundImage: 'conic-gradient(from 0deg, #0081CF, #00ffbf, #FFD700, #FF6FD8, #9B59B6, #0081CF)'
                     }}>Ai</span>
                     {/* Sparkles */}
                     <svg className="absolute -top-1 -right-3 w-5 h-5" viewBox="0 0 24 24" fill="none">
