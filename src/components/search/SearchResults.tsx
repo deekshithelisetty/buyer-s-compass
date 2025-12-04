@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { products, categories } from "@/data/products";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, ChevronRight, X, Mic, Search, ShoppingCart, User, Globe, Heart, Star, MessageCircle } from "lucide-react";
+import { ChevronDown, ChevronRight, X, Mic, Search, ShoppingCart, User, Globe, Heart, Star, Bot } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Product } from "@/types/product";
 interface SearchResultsProps {
@@ -345,7 +345,7 @@ export function SearchResults({
               background: 'conic-gradient(from 0deg, #0081CF, #00ffbf, #FFD700, #FF6FD8, #9B59B6, #0081CF)',
               opacity: 0.3
             }} />
-            <MessageCircle className="w-6 h-6 text-primary relative z-10" />
+            <Bot className="w-6 h-6 text-primary relative z-10" />
           </button>
         )}
       </div>
