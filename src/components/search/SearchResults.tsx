@@ -228,11 +228,11 @@ export function SearchResults({
                   {/* AI Icon with sparkles and glow */}
                   <div className="relative mb-1">
                     {/* Glow effect behind Ai text */}
-                    <div className="absolute inset-0 blur-xl opacity-60" style={{
-                      background: 'radial-gradient(circle, rgba(0,129,207,0.4) 0%, rgba(155,89,182,0.3) 50%, transparent 70%)'
+                    <div className="absolute inset-0 blur-2xl opacity-70 scale-150" style={{
+                      background: 'conic-gradient(from 0deg, #0081CF, #00ffbf, #FFD700, #FF6FD8, #9B59B6, #0081CF)'
                     }} />
                     <span className="relative text-4xl font-bold font-serif text-center bg-clip-text text-transparent" style={{
-                      backgroundImage: 'linear-gradient(135deg, #0081CF 0%, #FFD700 50%, #9B59B6 100%)'
+                      backgroundImage: 'conic-gradient(from 180deg, #0081CF, #00ffbf, #FFD700, #FF6FD8, #9B59B6, #0081CF)'
                     }}>Ai</span>
                     {/* Sparkles */}
                     <svg className="absolute -top-1 -right-3 w-5 h-5" viewBox="0 0 24 24" fill="none">
