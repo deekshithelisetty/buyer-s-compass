@@ -224,14 +224,29 @@ export function SearchResults({
                 </button>
                 
                 {/* Header */}
-                <div className="p-4 pb-2">
-                  <div className="flex items-center gap-3 mb-3">
-                    
-                    <div>
-                      
-                      
-                    </div>
+                <div className="p-6 pb-4 flex flex-col items-center text-center">
+                  {/* AI Icon with sparkles */}
+                  <div className="relative mb-2">
+                    <span className="text-3xl font-light text-foreground tracking-tight">Ai</span>
+                    {/* Sparkles */}
+                    <svg className="absolute -top-1 -right-3 w-5 h-5" viewBox="0 0 24 24" fill="none">
+                      <path d="M12 2L13.5 8.5L20 10L13.5 11.5L12 18L10.5 11.5L4 10L10.5 8.5L12 2Z" fill="url(#sparkle-gradient)" />
+                      <path d="M19 14L19.75 16.25L22 17L19.75 17.75L19 20L18.25 17.75L16 17L18.25 16.25L19 14Z" fill="url(#sparkle-gradient-2)" />
+                      <defs>
+                        <linearGradient id="sparkle-gradient" x1="4" y1="2" x2="20" y2="18" gradientUnits="userSpaceOnUse">
+                          <stop stopColor="#0081CF" />
+                          <stop offset="0.5" stopColor="#FFD700" />
+                          <stop offset="1" stopColor="#9B59B6" />
+                        </linearGradient>
+                        <linearGradient id="sparkle-gradient-2" x1="16" y1="14" x2="22" y2="20" gradientUnits="userSpaceOnUse">
+                          <stop stopColor="#00ffbf" />
+                          <stop offset="1" stopColor="#0081CF" />
+                        </linearGradient>
+                      </defs>
+                    </svg>
                   </div>
+                  <h3 className="text-sm font-medium text-foreground">AI-Powered</h3>
+                  <p className="text-xs text-muted-foreground">Shopping Experience</p>
                 </div>
 
                 {/* Chat Content - Scrollable */}
