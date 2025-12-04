@@ -232,7 +232,7 @@ export function SearchResults({
                       background: 'conic-gradient(from 0deg, #0081CF, #00ffbf, #FFD700, #FF6FD8, #9B59B6, #0081CF)'
                     }} />
                     <span className="relative z-10 text-4xl font-bold font-serif text-center bg-clip-text text-transparent" style={{
-                      backgroundImage: 'conic-gradient(from 0deg, #0081CF, #00ffbf, #FFD700, #FF6FD8, #9B59B6, #0081CF)'
+                      backgroundImage: 'linear-gradient(180deg, #00D4AA 0%, #0081CF 50%, #9B59B6 100%)'
                     }}>Ai</span>
                     {/* Sparkles */}
                     <svg className="absolute -top-1 -right-3 w-5 h-5" viewBox="0 0 24 24" fill="none">
