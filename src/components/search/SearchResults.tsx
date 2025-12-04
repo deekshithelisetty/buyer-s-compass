@@ -338,45 +338,38 @@ export function SearchResults({
             className="fixed bottom-6 right-6 z-50 group transition-transform hover:scale-110 animate-fade-in"
           >
             {/* Glow effect */}
-            <div className="absolute inset-2 rounded-full blur-xl opacity-60 animate-[pulse_2s_ease-in-out_infinite]" style={{
-              background: 'linear-gradient(135deg, #FF6B6B, #9B59B6, #00D4AA)'
+            <div className="absolute inset-2 rounded-full blur-xl opacity-50 animate-[pulse_2s_ease-in-out_infinite]" style={{
+              background: 'linear-gradient(135deg, #0081CF, #9B59B6, #00D4AA)'
             }} />
             
-            {/* Custom AI Chatbot Icon */}
-            <svg className="w-16 h-16 relative z-10 drop-shadow-lg" viewBox="0 0 64 64" fill="none">
+            {/* Modern AI Chat Icon */}
+            <svg className="w-14 h-14 relative z-10 drop-shadow-lg" viewBox="0 0 56 56" fill="none">
               <defs>
-                <linearGradient id="chatGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#FF6B6B" />
-                  <stop offset="50%" stopColor="#FF8E53" />
+                <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#0081CF" />
+                  <stop offset="50%" stopColor="#9B59B6" />
                   <stop offset="100%" stopColor="#00D4AA" />
                 </linearGradient>
-                <linearGradient id="headphoneGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#00D4AA" />
-                  <stop offset="100%" stopColor="#0081CF" />
+                <linearGradient id="sparkleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#FFD700" />
+                  <stop offset="100%" stopColor="#FF6FD8" />
                 </linearGradient>
               </defs>
               
-              {/* Left headphone */}
-              <ellipse cx="12" cy="32" rx="5" ry="8" fill="url(#headphoneGradient)" />
-              <path d="M12 24 Q8 32 12 40" stroke="url(#headphoneGradient)" strokeWidth="3" fill="none" strokeLinecap="round" />
+              {/* Circle background */}
+              <circle cx="28" cy="28" r="26" fill="url(#bgGradient)" />
               
-              {/* Right headphone */}
-              <ellipse cx="52" cy="32" rx="5" ry="8" fill="url(#headphoneGradient)" />
-              <path d="M52 24 Q56 32 52 40" stroke="url(#headphoneGradient)" strokeWidth="3" fill="none" strokeLinecap="round" />
+              {/* Chat bubble */}
+              <path d="M18 20 C18 17 20 15 24 15 L32 15 C36 15 38 17 38 20 L38 28 C38 31 36 33 32 33 L26 33 L22 38 L22 33 L24 33 C20 33 18 31 18 28 Z" fill="white" />
               
-              {/* Main chat bubble */}
-              <path d="M16 16 Q16 8 32 8 Q48 8 48 16 L48 36 Q48 44 32 44 L26 44 L22 52 L22 44 Q16 44 16 36 Z" fill="url(#chatGradient)" />
+              {/* AI sparkle dots */}
+              <circle cx="24" cy="24" r="2" fill="url(#bgGradient)" />
+              <circle cx="28" cy="24" r="2" fill="url(#bgGradient)" />
+              <circle cx="32" cy="24" r="2" fill="url(#bgGradient)" />
               
-              {/* Eyes */}
-              <circle cx="26" cy="24" r="3" fill="#1a1a2e" />
-              <circle cx="38" cy="24" r="3" fill="#1a1a2e" />
-              <circle cx="27" cy="23" r="1" fill="#FF6B6B" />
-              <circle cx="39" cy="23" r="1" fill="#FF6B6B" />
-              
-              {/* Small chat bubble */}
-              <ellipse cx="42" cy="38" rx="6" ry="5" fill="white" opacity="0.9" />
-              <circle cx="40" cy="38" r="1.5" fill="#1a1a2e" />
-              <circle cx="44" cy="38" r="1.5" fill="#1a1a2e" />
+              {/* Sparkle accent */}
+              <path d="M42 12 L43 15 L46 16 L43 17 L42 20 L41 17 L38 16 L41 15 Z" fill="url(#sparkleGrad)" />
+              <path d="M14 38 L14.5 40 L16.5 40.5 L14.5 41 L14 43 L13.5 41 L11.5 40.5 L13.5 40 Z" fill="url(#sparkleGrad)" />
             </svg>
           </button>
         )}
