@@ -108,7 +108,7 @@ export function SearchResults({
           <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between gap-6">
             {/* Logo */}
             <button onClick={() => navigate("/")} className="flex-shrink-0">
-              <img src="/images/infinityhub-logo.png" alt="InfinityHub" className="h-9 w-auto" />
+              <img src="/images/infinityhub-logo.png" alt="InfinityHub" className="h-14 w-auto" />
             </button>
 
             {/* Search Bar - Centered */}
