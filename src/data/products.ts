@@ -4,7 +4,7 @@ export const categories: Category[] = [
   { id: "electronics", name: "Electronics", icon: "📱", image: "https://images.unsplash.com/photo-1498049794561-7780e7231661?w=400" },
   { id: "fashion", name: "Fashion", icon: "👕", image: "https://images.unsplash.com/photo-1445205170230-053b83016050?w=400" },
   { id: "home", name: "Home & Garden", icon: "🏠", image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400" },
-  { id: "sports", name: "Sports", icon: "⚽", image: "https://images.unsplash.com/photo-1461896836934-gy-0e915db19c?w=400" },
+  { id: "sports", name: "Sports", icon: "⚽", image: "https://images.unsplash.com/photo-1461896836934-28e4c5c0477d?w=400" },
   { id: "books", name: "Books", icon: "📚", image: "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=400" },
   { id: "beauty", name: "Beauty", icon: "💄", image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400" },
 ];
