@@ -177,7 +177,7 @@ export function SearchResults({
         <header className="sticky top-0 z-50 bg-card/95 backdrop-blur-md border-b border-border/30 rounded-t-3xl">
           <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between gap-6">
             {/* Logo */}
-            <button onClick={() => navigate({ pathname: '/', search: 'landing=true' })} className="flex-shrink-0">
+            <button onClick={() => navigate({ pathname: '/', search: '?landing=true' })} className="flex-shrink-0">
               <img src="/images/infinityhub-logo.png" alt="InfinityHub" className="h-9 w-auto" />
             </button>
 
