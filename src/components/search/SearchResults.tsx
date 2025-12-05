@@ -366,10 +366,32 @@ export function SearchResults({
                   <FilterDropdown label="Color" value={filterColor} options={colorOptions} onChange={setFilterColor} />
                   <FilterDropdown label="Price" value={filterPrice} options={priceOptions} onChange={setFilterPrice} />
                   <FilterDropdown label="Sort by" value={sortBy} options={sortOptions} onChange={setSortBy} />
+                  {(filterCategory || filterRating || filterGender || filterSize || filterColor || filterPrice || sortBy) && (
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="rounded-full text-xs text-destructive hover:text-destructive hover:bg-destructive/10"
+                      onClick={() => {
+                        setFilterCategory("");
+                        setFilterRating("");
+                        setFilterGender("");
+                        setFilterSize("");
+                        setFilterColor("");
+                        setFilterPrice("");
+                        setSortBy("");
+                      }}
+                    >
+                      <X className="w-3 h-3 mr-1" />
+                      Clear All
+                    </Button>
+                  )}
                 </div>
 
                 <div className="flex items-center justify-between mb-4 flex-shrink-0">
-                  <h2 className="font-semibold text-foreground font-sans capitalize text-base">{categoryFilter || searchQuery || "All Products"}</h2>
+                  <h2 className="font-semibold text-foreground font-sans capitalize text-base">
+                    {categoryFilter || searchQuery || "All Products"}
+                    <span className="ml-2 text-sm font-normal text-muted-foreground">({filteredProducts.length} products)</span>
+                  </h2>
                   <button className="text-sm text-primary hover:underline flex items-center gap-1">
                     View All <ChevronRight className="w-4 h-4" />
                   </button>
