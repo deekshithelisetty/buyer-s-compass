@@ -146,7 +146,7 @@ export function SearchResults({
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (localSearchQuery.trim()) {
-      navigate({ pathname: "/", search: `search=${encodeURIComponent(localSearchQuery.trim())}` });
+      navigate(`/?search=${encodeURIComponent(localSearchQuery.trim())}`);
     }
   };
   const filterOptions = [{
