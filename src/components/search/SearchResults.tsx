@@ -98,23 +98,28 @@ function PromoLandingContent({ onCategoryClick }: { onCategoryClick: (category: 
   const filters = ["ALL", "FASHION", "ELECTRONICS", "SPORTS", "HOME"];
   const collectionFilters = ["ALL", "SHORTS", "JACKETS", "SHOES", "T-SHIRT"];
   
-  const categoryItems = [
-    { id: 1, name: "SHOES", image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400", category: "fashion", filter: "FASHION" },
-    { id: 2, name: "BAG", image: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400", category: "fashion", filter: "FASHION" },
-    { id: 3, name: "WATCH", image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400", category: "electronics", filter: "ELECTRONICS" },
-    { id: 4, name: "T-SHIRT", image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400", category: "fashion", filter: "FASHION" },
-    { id: 5, name: "HEADPHONES", image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400", category: "electronics", filter: "ELECTRONICS" },
-    { id: 6, name: "SNEAKERS", image: "https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?w=400", category: "sports", filter: "SPORTS" },
-  ];
+  // Filter products based on active category filter - show 15 cards
+  const getFilteredProducts = (filter: string) => {
+    if (filter === "ALL") return products.slice(0, 15);
+    return products.filter(p => p.category.toLowerCase() === filter.toLowerCase()).slice(0, 15);
+  };
   
-  const filteredCategories = activeFilter === "ALL" 
-    ? categoryItems 
-    : categoryItems.filter(item => item.filter === activeFilter);
+  const filteredCategoryProducts = getFilteredProducts(activeFilter);
   
-  const newCollectionProducts = products.slice(0, 8);
-  const filteredCollection = collectionFilter === "ALL"
-    ? newCollectionProducts
-    : newCollectionProducts.filter(p => p.category.toLowerCase().includes(collectionFilter.toLowerCase()));
+  // Filter collection products - show 15 cards
+  const getCollectionProducts = (filter: string) => {
+    if (filter === "ALL") return products.slice(0, 15);
+    const filterMap: Record<string, string[]> = {
+      "SHORTS": ["fashion", "sports"],
+      "JACKETS": ["fashion"],
+      "SHOES": ["fashion", "sports"],
+      "T-SHIRT": ["fashion"],
+    };
+    const categories = filterMap[filter] || [];
+    return products.filter(p => categories.some(cat => p.category.toLowerCase().includes(cat))).slice(0, 15);
+  };
+  
+  const filteredCollectionProducts = getCollectionProducts(collectionFilter);
 
   return (
     <div className="space-y-8 animate-fade-in">
@@ -222,26 +227,14 @@ function PromoLandingContent({ onCategoryClick }: { onCategoryClick: (category: 
             ))}
           </div>
         </div>
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
-          {filteredCategories.map((item, index) => (
-            <div 
-              key={item.id}
-              onClick={() => onCategoryClick(item.category)}
-              className="group relative rounded-2xl overflow-hidden aspect-square cursor-pointer animate-scale-in"
-              style={{ animationDelay: `${index * 50}ms` }}
-            >
-              <img 
-                src={item.image} 
-                alt={item.name} 
-                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-              <span className="absolute bottom-3 left-3 text-white text-xs font-bold bg-black/30 backdrop-blur-sm px-2 py-1 rounded-full">
-                {item.name}
-              </span>
-            </div>
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4">
+          {filteredCategoryProducts.map((product, index) => (
+            <ProductCardNew key={product.id} product={product} index={index} />
           ))}
         </div>
+        {filteredCategoryProducts.length === 0 && (
+          <p className="text-center text-muted-foreground py-8">No products found in this category</p>
+        )}
       </div>
       
       {/* New Collection */}
@@ -264,11 +257,14 @@ function PromoLandingContent({ onCategoryClick }: { onCategoryClick: (category: 
             ))}
           </div>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-          {(filteredCollection.length > 0 ? filteredCollection : newCollectionProducts).slice(0, 4).map((product, index) => (
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4">
+          {filteredCollectionProducts.map((product, index) => (
             <ProductCardNew key={product.id} product={product} index={index} />
           ))}
         </div>
+        {filteredCollectionProducts.length === 0 && (
+          <p className="text-center text-muted-foreground py-8">No products found</p>
+        )}
       </div>
     </div>
   );
