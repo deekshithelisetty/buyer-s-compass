@@ -157,39 +157,47 @@ function PromoLandingContent({ onCategoryClick }: { onCategoryClick: (category: 
         
         {/* Trendy Sunglasses Card */}
         <div 
-          className="relative rounded-3xl overflow-hidden bg-cyan-100 group cursor-pointer p-4 flex flex-col justify-between"
+          className="relative rounded-2xl overflow-hidden bg-[#c5d5cb] group cursor-pointer"
           onClick={() => onCategoryClick("fashion")}
         >
-          <div>
-            <p className="text-xs text-cyan-700 font-medium">Trendy</p>
-            <h3 className="text-lg font-bold text-cyan-900">Sunglasses</h3>
+          <div className="flex items-center h-full p-4">
+            <div className="flex-shrink-0">
+              <p className="text-foreground/70 text-sm">Trendy</p>
+              <h3 className="text-lg font-bold text-foreground">Sunglass</h3>
+            </div>
+            <div className="flex-1 flex justify-center items-center">
+              <img 
+                src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=300" 
+                alt="Sunglasses" 
+                className="w-28 h-auto object-contain group-hover:scale-110 transition-transform duration-300 drop-shadow-lg"
+              />
+            </div>
           </div>
-          <img 
-            src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=300" 
-            alt="Sunglasses" 
-            className="w-full h-20 object-contain group-hover:scale-110 transition-transform duration-300"
-          />
-          <button className="absolute bottom-3 right-3 w-8 h-8 bg-white/80 rounded-full flex items-center justify-center">
-            <ArrowUpRight className="w-4 h-4 text-cyan-900" />
+          <button className="absolute bottom-3 right-3 w-8 h-8 bg-white/90 rounded-lg flex items-center justify-center shadow-sm hover:bg-white transition-colors">
+            <ArrowUpRight className="w-4 h-4 text-foreground" />
           </button>
         </div>
         
         {/* Popular Shoes Card */}
         <div 
-          className="relative rounded-3xl overflow-hidden bg-rose-100 group cursor-pointer p-4 flex flex-col justify-between"
+          className="relative rounded-2xl overflow-hidden bg-[#e8d5d0] group cursor-pointer"
           onClick={() => onCategoryClick("fashion")}
         >
-          <div>
-            <p className="text-xs text-rose-700 font-medium">Popular</p>
-            <h3 className="text-lg font-bold text-rose-900">Shoes</h3>
+          <div className="flex items-center h-full p-4">
+            <div className="flex-shrink-0">
+              <p className="text-foreground/70 text-sm">Popular</p>
+              <h3 className="text-lg font-bold text-foreground">Shoes</h3>
+            </div>
+            <div className="flex-1 flex justify-center items-center">
+              <img 
+                src="https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?w=300" 
+                alt="Shoes" 
+                className="w-28 h-auto object-contain group-hover:scale-110 transition-transform duration-300 drop-shadow-lg"
+              />
+            </div>
           </div>
-          <img 
-            src="https://images.unsplash.com/photo-1549298916-b41d501d3772?w=300" 
-            alt="Shoes" 
-            className="w-full h-20 object-contain group-hover:scale-110 transition-transform duration-300"
-          />
-          <button className="absolute bottom-3 right-3 w-8 h-8 bg-white/80 rounded-full flex items-center justify-center">
-            <ArrowUpRight className="w-4 h-4 text-rose-900" />
+          <button className="absolute bottom-3 right-3 w-8 h-8 bg-white/90 rounded-lg flex items-center justify-center shadow-sm hover:bg-white transition-colors">
+            <ArrowUpRight className="w-4 h-4 text-foreground" />
           </button>
         </div>
       </div>
