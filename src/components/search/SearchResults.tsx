@@ -211,30 +211,30 @@ function PromoLandingContent({ onCategoryClick }: { onCategoryClick: (category: 
       <div>
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-bold text-foreground">Browse by categories</h2>
-          <div className="flex gap-2">
-            {filters.map(filter => (
-              <button
-                key={filter}
-                onClick={() => setActiveFilter(filter)}
-                className={`px-4 py-1.5 text-xs font-medium rounded-full transition-colors ${
-                  activeFilter === filter 
-                    ? 'bg-foreground text-background' 
-                    : 'bg-muted text-muted-foreground hover:bg-muted/80'
-                }`}
-              >
-                {filter}
-              </button>
-            ))}
-          </div>
         </div>
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4">
-          {filteredCategoryProducts.map((product, index) => (
-            <ProductCardNew key={product.id} product={product} index={index} />
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4">
+          {categories.slice(0, 10).map((category, index) => (
+            <div
+              key={category.id}
+              onClick={() => onCategoryClick(category.id)}
+              className="group cursor-pointer animate-slide-up"
+              style={{ animationDelay: `${index * 50}ms` }}
+            >
+              <div className="relative bg-muted/30 rounded-2xl p-3 aspect-square overflow-hidden">
+                <img 
+                  src={category.image} 
+                  alt={category.name} 
+                  className="w-full h-full object-cover rounded-xl group-hover:scale-105 transition-transform duration-300" 
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent rounded-xl" />
+                <div className="absolute bottom-4 left-4 right-4">
+                  <span className="text-2xl mb-1 block">{category.icon}</span>
+                  <h3 className="text-white font-semibold text-sm">{category.name}</h3>
+                </div>
+              </div>
+            </div>
           ))}
         </div>
-        {filteredCategoryProducts.length === 0 && (
-          <p className="text-center text-muted-foreground py-8">No products found in this category</p>
-        )}
       </div>
       
       {/* New Collection */}
