@@ -300,9 +300,10 @@ export function SearchResults({
   const ITEMS_PER_LOAD = 10;
   
   const filteredProducts = products.filter(product => {
-    const matchesCategory = !categoryFilter || product.category === categoryFilter;
+    // Use dropdown filter if set, otherwise use URL category filter
+    const activeCategory = filterCategory || categoryFilter;
+    const matchesCategory = !activeCategory || product.category === activeCategory;
     const matchesSearch = !searchQuery || product.name.toLowerCase().includes(searchQuery.toLowerCase()) || product.category.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesFilterCategory = !filterCategory || product.category === filterCategory;
     const matchesRating = !filterRating || product.rating >= parseFloat(filterRating);
     const matchesPrice = !filterPrice || 
       (filterPrice === "under50" && product.price < 50) ||
@@ -310,7 +311,7 @@ export function SearchResults({
       (filterPrice === "100to200" && product.price >= 100 && product.price <= 200) ||
       (filterPrice === "200to500" && product.price >= 200 && product.price <= 500) ||
       (filterPrice === "over500" && product.price > 500);
-    return matchesCategory && matchesSearch && matchesFilterCategory && matchesRating && matchesPrice;
+    return matchesCategory && matchesSearch && matchesRating && matchesPrice;
   }).sort((a, b) => {
     if (sortBy === "priceLowHigh") return a.price - b.price;
     if (sortBy === "priceHighLow") return b.price - a.price;
@@ -602,7 +603,7 @@ export function SearchResults({
 
                     <div className="flex items-center justify-between mb-4 flex-shrink-0">
                       <h2 className="font-semibold text-foreground font-sans capitalize text-base">
-                        {categoryFilter || searchQuery || "All Products"}
+                        {filterCategory || categoryFilter || searchQuery || "All Products"}
                         <span className="ml-2 text-sm font-normal text-muted-foreground">({filteredProducts.length} products)</span>
                       </h2>
                       <button className="text-sm text-primary hover:underline flex items-center gap-1">
