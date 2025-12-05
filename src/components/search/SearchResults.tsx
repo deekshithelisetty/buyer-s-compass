@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { products, categories } from "@/data/products";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { ChevronDown, ChevronRight, X, Mic, Search, ShoppingCart, User, Globe, Heart, Star, Bot, MapPin } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Product } from "@/types/product";
@@ -97,6 +99,9 @@ export function SearchResults({
   const [isChatOpen, setIsChatOpen] = useState(true);
   const [visibleCount, setVisibleCount] = useState(isChatOpen ? 10 : 15);
   const [isLoading, setIsLoading] = useState(false);
+  const [pincode, setPincode] = useState("123456");
+  const [pincodeInput, setPincodeInput] = useState("");
+  const [pincodeOpen, setPincodeOpen] = useState(false);
   const loadMoreRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   
@@ -182,14 +187,44 @@ export function SearchResults({
             </button>
 
             {/* Pincode */}
-            <div className="flex items-center gap-2 px-3 py-2 bg-muted/50 rounded-full border border-border/50 hover:bg-muted transition-colors cursor-pointer flex-shrink-0">
-              <MapPin className="w-4 h-4 text-primary" />
-              <div className="text-left">
-                <p className="text-[10px] text-muted-foreground leading-none">Deliver to</p>
-                <p className="text-xs font-medium text-foreground">123456</p>
-              </div>
-              <ChevronDown className="w-3 h-3 text-muted-foreground" />
-            </div>
+            <Popover open={pincodeOpen} onOpenChange={setPincodeOpen}>
+              <PopoverTrigger asChild>
+                <div className="flex items-center gap-2 px-3 py-2 bg-muted/50 rounded-full border border-border/50 hover:bg-muted transition-colors cursor-pointer flex-shrink-0">
+                  <MapPin className="w-4 h-4 text-primary" />
+                  <div className="text-left">
+                    <p className="text-[10px] text-muted-foreground leading-none">Deliver to</p>
+                    <p className="text-xs font-medium text-foreground">{pincode}</p>
+                  </div>
+                  <ChevronDown className="w-3 h-3 text-muted-foreground" />
+                </div>
+              </PopoverTrigger>
+              <PopoverContent className="w-64 p-3 bg-background border border-border shadow-lg z-50" align="start">
+                <div className="space-y-3">
+                  <p className="text-sm font-medium text-foreground">Enter your pincode</p>
+                  <Input
+                    type="text"
+                    placeholder="Enter pincode"
+                    value={pincodeInput}
+                    onChange={(e) => setPincodeInput(e.target.value)}
+                    className="h-9"
+                    maxLength={6}
+                  />
+                  <Button 
+                    size="sm" 
+                    className="w-full"
+                    onClick={() => {
+                      if (pincodeInput.trim()) {
+                        setPincode(pincodeInput.trim());
+                        setPincodeOpen(false);
+                        setPincodeInput("");
+                      }
+                    }}
+                  >
+                    Apply
+                  </Button>
+                </div>
+              </PopoverContent>
+            </Popover>
 
             {/* Search Bar - Centered */}
             <form onSubmit={handleSearch} className="flex-1 max-w-lg">
