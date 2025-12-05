@@ -198,7 +198,7 @@ export function SearchResults({
                   <ChevronDown className="w-3 h-3 text-muted-foreground" />
                 </div>
               </PopoverTrigger>
-              <PopoverContent className="w-64 p-3 bg-background border border-border shadow-lg z-50" align="start">
+              <PopoverContent className="w-48 p-3 bg-background border border-border shadow-lg z-50" align="start">
                 <div className="space-y-3">
                   <p className="text-sm font-medium text-foreground">Enter your pincode</p>
                   <Input
