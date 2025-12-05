@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ArrowRight, Mic } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 // Row 1 - Electronics, watches, headphones, mobiles
 const row1Images = [
   "https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=400", // TV
@@ -43,15 +44,11 @@ export function HeroBanner({
 }: HeroBannerProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [isFocused, setIsFocused] = useState(false);
-  
-  const handleCategoryClick = (category: string) => {
-    window.location.href = `/?category=${category.toLowerCase()}`;
-  };
-  
+  const navigate = useNavigate();
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      window.location.href = `/?search=${encodeURIComponent(searchQuery.trim())}`;
+      navigate(`/?search=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
   const containerHeight = isFullScreen ? "h-full" : "h-[280px] md:h-[320px]";
@@ -126,7 +123,7 @@ export function HeroBanner({
 
           {/* Quick Links */}
           <div className="flex flex-wrap justify-center gap-2 mt-3 relative z-10">
-            {["Electronics", "Fashion", "Home", "Sports"].map(category => <button key={category} onClick={() => handleCategoryClick(category)} className={`px-4 ${isFullScreen ? 'py-2' : 'py-1.5'} bg-card border border-border/50 rounded-full text-sm font-medium text-muted-foreground hover:text-foreground hover:border-primary/50 transition-all duration-300`}>
+            {["Electronics", "Fashion", "Home", "Sports"].map(category => <button key={category} onClick={() => navigate(`/?category=${category.toLowerCase()}`)} className={`px-4 ${isFullScreen ? 'py-2' : 'py-1.5'} bg-card border border-border/50 rounded-full text-sm font-medium text-muted-foreground hover:text-foreground hover:border-primary/50 transition-all duration-300`}>
                 {category}
               </button>)}
           </div>
