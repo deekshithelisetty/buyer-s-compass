@@ -254,11 +254,6 @@ export function SearchResults({
             {/* Right section */}
             <div className="flex items-center gap-4 flex-shrink-0">
               <button className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors">
-                <Globe className="w-4 h-4" />
-                <span>AE</span>
-                <ChevronDown className="w-3 h-3" />
-              </button>
-              <button className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors">
                 <ShoppingCart className="w-4 h-4" />
                 <span className="hidden sm:inline">Cart</span>
               </button>
