@@ -102,6 +102,16 @@ export function SearchResults({
   const [pincode, setPincode] = useState("123456");
   const [pincodeInput, setPincodeInput] = useState("");
   const [pincodeOpen, setPincodeOpen] = useState(false);
+  
+  // Filter states
+  const [filterCategory, setFilterCategory] = useState("");
+  const [filterRating, setFilterRating] = useState("");
+  const [filterGender, setFilterGender] = useState("");
+  const [filterSize, setFilterSize] = useState("");
+  const [filterColor, setFilterColor] = useState("");
+  const [filterPrice, setFilterPrice] = useState("");
+  const [sortBy, setSortBy] = useState("");
+  
   const loadMoreRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   
@@ -110,7 +120,21 @@ export function SearchResults({
   const filteredProducts = products.filter(product => {
     const matchesCategory = !categoryFilter || product.category === categoryFilter;
     const matchesSearch = !searchQuery || product.name.toLowerCase().includes(searchQuery.toLowerCase()) || product.category.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
+    const matchesFilterCategory = !filterCategory || product.category === filterCategory;
+    const matchesRating = !filterRating || product.rating >= parseFloat(filterRating);
+    const matchesPrice = !filterPrice || 
+      (filterPrice === "under50" && product.price < 50) ||
+      (filterPrice === "50to100" && product.price >= 50 && product.price <= 100) ||
+      (filterPrice === "100to200" && product.price >= 100 && product.price <= 200) ||
+      (filterPrice === "200to500" && product.price >= 200 && product.price <= 500) ||
+      (filterPrice === "over500" && product.price > 500);
+    return matchesCategory && matchesSearch && matchesFilterCategory && matchesRating && matchesPrice;
+  }).sort((a, b) => {
+    if (sortBy === "priceLowHigh") return a.price - b.price;
+    if (sortBy === "priceHighLow") return b.price - a.price;
+    if (sortBy === "rating") return b.rating - a.rating;
+    if (sortBy === "reviews") return b.reviews - a.reviews;
+    return 0;
   });
   
   const visibleProducts = filteredProducts.slice(0, visibleCount);
@@ -154,28 +178,89 @@ export function SearchResults({
       navigate(`/?search=${encodeURIComponent(localSearchQuery.trim())}`);
     }
   };
-  const filterOptions = [{
-    label: "Category",
-    hasDropdown: true
-  }, {
-    label: "Rating",
-    hasDropdown: true
-  }, {
-    label: "Gender",
-    hasDropdown: true
-  }, {
-    label: "Size",
-    hasDropdown: true
-  }, {
-    label: "Color",
-    hasDropdown: true
-  }, {
-    label: "Price",
-    hasDropdown: true
-  }, {
-    label: "Sort by",
-    hasDropdown: true
-  }];
+  const categoryOptions = [
+    { value: "", label: "All Categories" },
+    { value: "electronics", label: "Electronics" },
+    { value: "fashion", label: "Fashion" },
+    { value: "home", label: "Home & Garden" },
+    { value: "sports", label: "Sports" },
+    { value: "books", label: "Books" },
+    { value: "beauty", label: "Beauty" },
+  ];
+  
+  const ratingOptions = [
+    { value: "", label: "All Ratings" },
+    { value: "4.5", label: "4.5+ Stars" },
+    { value: "4", label: "4+ Stars" },
+    { value: "3.5", label: "3.5+ Stars" },
+    { value: "3", label: "3+ Stars" },
+  ];
+  
+  const genderOptions = [
+    { value: "", label: "All" },
+    { value: "men", label: "Men" },
+    { value: "women", label: "Women" },
+    { value: "unisex", label: "Unisex" },
+  ];
+  
+  const sizeOptions = [
+    { value: "", label: "All Sizes" },
+    { value: "xs", label: "XS" },
+    { value: "s", label: "S" },
+    { value: "m", label: "M" },
+    { value: "l", label: "L" },
+    { value: "xl", label: "XL" },
+  ];
+  
+  const colorOptions = [
+    { value: "", label: "All Colors" },
+    { value: "black", label: "Black" },
+    { value: "white", label: "White" },
+    { value: "blue", label: "Blue" },
+    { value: "red", label: "Red" },
+    { value: "green", label: "Green" },
+  ];
+  
+  const priceOptions = [
+    { value: "", label: "All Prices" },
+    { value: "under50", label: "Under $50" },
+    { value: "50to100", label: "$50 - $100" },
+    { value: "100to200", label: "$100 - $200" },
+    { value: "200to500", label: "$200 - $500" },
+    { value: "over500", label: "Over $500" },
+  ];
+  
+  const sortOptions = [
+    { value: "", label: "Default" },
+    { value: "priceLowHigh", label: "Price: Low to High" },
+    { value: "priceHighLow", label: "Price: High to Low" },
+    { value: "rating", label: "Highest Rated" },
+    { value: "reviews", label: "Most Reviews" },
+  ];
+
+  const FilterDropdown = ({ label, value, options, onChange }: { label: string; value: string; options: { value: string; label: string }[]; onChange: (val: string) => void }) => (
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button variant="outline" size="sm" className={`rounded-full bg-muted/50 hover:bg-muted gap-1 text-xs border-border/50 ${value ? 'bg-primary/10 border-primary/30 text-primary' : ''}`}>
+          {value ? options.find(o => o.value === value)?.label : label}
+          <ChevronDown className="w-3 h-3" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-40 p-1 bg-background border border-border shadow-lg z-50" align="start">
+        <div className="flex flex-col">
+          {options.map(option => (
+            <button
+              key={option.value}
+              onClick={() => onChange(option.value)}
+              className={`px-3 py-2 text-left text-sm hover:bg-muted rounded transition-colors ${value === option.value ? 'bg-primary/10 text-primary font-medium' : 'text-foreground'}`}
+            >
+              {option.label}
+            </button>
+          ))}
+        </div>
+      </PopoverContent>
+    </Popover>
+  );
   return <div className="min-h-screen bg-muted/30 px-7 py-2 animate-zoom-in">
       <div className="bg-muted rounded-3xl min-h-[calc(100vh-1rem)] overflow-hidden shadow-xl">
         {/* Header */}
@@ -274,10 +359,13 @@ export function SearchResults({
               <div className="bg-background rounded-3xl p-6 shadow-sm animate-slide-up delay-200 h-[calc(100vh-6rem)] flex flex-col">
                 {/* Filter Bar */}
                 <div className="flex items-center justify-center gap-2 mb-6 flex-wrap flex-shrink-0">
-                  {filterOptions.map(filter => <Button key={filter.label} variant="outline" size="sm" className="rounded-full bg-muted/50 hover:bg-muted gap-1 text-xs border-border/50">
-                      {filter.label}
-                      {filter.hasDropdown && <ChevronDown className="w-3 h-3" />}
-                    </Button>)}
+                  <FilterDropdown label="Category" value={filterCategory} options={categoryOptions} onChange={setFilterCategory} />
+                  <FilterDropdown label="Rating" value={filterRating} options={ratingOptions} onChange={setFilterRating} />
+                  <FilterDropdown label="Gender" value={filterGender} options={genderOptions} onChange={setFilterGender} />
+                  <FilterDropdown label="Size" value={filterSize} options={sizeOptions} onChange={setFilterSize} />
+                  <FilterDropdown label="Color" value={filterColor} options={colorOptions} onChange={setFilterColor} />
+                  <FilterDropdown label="Price" value={filterPrice} options={priceOptions} onChange={setFilterPrice} />
+                  <FilterDropdown label="Sort by" value={sortBy} options={sortOptions} onChange={setSortBy} />
                 </div>
 
                 <div className="flex items-center justify-between mb-4 flex-shrink-0">
