@@ -19,15 +19,12 @@ const Index = () => {
     return <LandingPage />;
   }
 
-  // Show full-screen promotional section with header and chat icon
+  // Show full-screen promotional section with chat icon (no header)
   if (!hasSearchOrCategory) {
     return (
       <div className="h-screen bg-muted/30 py-2 px-4 md:px-7">
-        <div className="w-full h-full bg-muted rounded-3xl overflow-hidden shadow-2xl flex flex-col">
-          <SearchHeader />
-          <div className="flex-1 overflow-hidden">
-            <HeroBanner isFullScreen />
-          </div>
+        <div className="w-full h-full bg-muted rounded-3xl overflow-hidden shadow-2xl">
+          <HeroBanner isFullScreen />
         </div>
         <FloatingChatButton onClick={() => navigate("/?category=electronics")} />
       </div>
