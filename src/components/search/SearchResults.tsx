@@ -63,31 +63,178 @@ function ProductCardNew({
     </div>;
 }
 
+// Chat message types
+interface ChatMessage {
+  id: string;
+  type: 'user' | 'ai';
+  content: string;
+  options?: ChatOption[];
+}
+
+interface ChatOption {
+  label: string;
+  value: string;
+  filterType: 'category' | 'price' | 'rating' | 'style';
+}
+
+// AI Question Generator based on user query
+function generateAIQuestions(query: string): { message: string; options: ChatOption[] }[] {
+  const lowerQuery = query.toLowerCase();
+  const questions: { message: string; options: ChatOption[] }[] = [];
+
+  // Detect intent from query
+  if (lowerQuery.includes('phone') || lowerQuery.includes('mobile') || lowerQuery.includes('laptop') || lowerQuery.includes('electronic')) {
+    questions.push({
+      message: "What's your budget range for electronics?",
+      options: [
+        { label: "Under 50 AED", value: "under50", filterType: "price" },
+        { label: "50-100 AED", value: "50to100", filterType: "price" },
+        { label: "100-200 AED", value: "100to200", filterType: "price" },
+        { label: "200+ AED", value: "over500", filterType: "price" },
+      ]
+    });
+    questions.push({
+      message: "Looking for a specific category?",
+      options: [
+        { label: "Electronics", value: "electronics", filterType: "category" },
+        { label: "All Categories", value: "", filterType: "category" },
+      ]
+    });
+  } else if (lowerQuery.includes('shirt') || lowerQuery.includes('dress') || lowerQuery.includes('cloth') || lowerQuery.includes('fashion') || lowerQuery.includes('wear')) {
+    questions.push({
+      message: "What type of clothing are you looking for?",
+      options: [
+        { label: "Fashion", value: "fashion", filterType: "category" },
+        { label: "Sports Wear", value: "sports", filterType: "category" },
+        { label: "All Clothing", value: "", filterType: "category" },
+      ]
+    });
+    questions.push({
+      message: "What's your preferred price range?",
+      options: [
+        { label: "Budget Friendly (Under 50)", value: "under50", filterType: "price" },
+        { label: "Mid Range (50-100)", value: "50to100", filterType: "price" },
+        { label: "Premium (100+)", value: "100to200", filterType: "price" },
+      ]
+    });
+  } else if (lowerQuery.includes('sport') || lowerQuery.includes('fitness') || lowerQuery.includes('gym') || lowerQuery.includes('exercise')) {
+    questions.push({
+      message: "What sports category interests you?",
+      options: [
+        { label: "Sports Equipment", value: "sports", filterType: "category" },
+        { label: "Sports Fashion", value: "fashion", filterType: "category" },
+      ]
+    });
+    questions.push({
+      message: "What rating should products have?",
+      options: [
+        { label: "4.5+ Stars Only", value: "4.5", filterType: "rating" },
+        { label: "4+ Stars", value: "4", filterType: "rating" },
+        { label: "Any Rating", value: "", filterType: "rating" },
+      ]
+    });
+  } else if (lowerQuery.includes('book') || lowerQuery.includes('read')) {
+    questions.push({
+      message: "Looking for books?",
+      options: [
+        { label: "Yes, show me books", value: "books", filterType: "category" },
+        { label: "No, show all products", value: "", filterType: "category" },
+      ]
+    });
+  } else if (lowerQuery.includes('home') || lowerQuery.includes('garden') || lowerQuery.includes('furniture') || lowerQuery.includes('decor')) {
+    questions.push({
+      message: "What home category are you interested in?",
+      options: [
+        { label: "Home & Garden", value: "home", filterType: "category" },
+        { label: "All Products", value: "", filterType: "category" },
+      ]
+    });
+  } else if (lowerQuery.includes('beauty') || lowerQuery.includes('makeup') || lowerQuery.includes('cosmetic') || lowerQuery.includes('skincare')) {
+    questions.push({
+      message: "Looking for beauty products?",
+      options: [
+        { label: "Yes, Beauty Products", value: "beauty", filterType: "category" },
+        { label: "Show All", value: "", filterType: "category" },
+      ]
+    });
+  } else {
+    // Generic questions for any query
+    questions.push({
+      message: "Which category would you like to explore?",
+      options: [
+        { label: "Electronics 📱", value: "electronics", filterType: "category" },
+        { label: "Fashion 👕", value: "fashion", filterType: "category" },
+        { label: "Sports ⚽", value: "sports", filterType: "category" },
+        { label: "Home 🏠", value: "home", filterType: "category" },
+        { label: "Books 📚", value: "books", filterType: "category" },
+        { label: "Beauty 💄", value: "beauty", filterType: "category" },
+      ]
+    });
+    questions.push({
+      message: "What's your budget?",
+      options: [
+        { label: "Under 50 AED", value: "under50", filterType: "price" },
+        { label: "50-100 AED", value: "50to100", filterType: "price" },
+        { label: "100-500 AED", value: "100to200", filterType: "price" },
+        { label: "Any Budget", value: "", filterType: "price" },
+      ]
+    });
+  }
+
+  return questions;
+}
+
 // Chat Input Component with aurora gradient focus effect
-function ChatInput() {
+function ChatInputWithSubmit({ onSubmit }: { onSubmit: (message: string) => void }) {
   const [isFocused, setIsFocused] = useState(false);
   const [inputValue, setInputValue] = useState("");
-  return <div className="relative">
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (inputValue.trim()) {
+      onSubmit(inputValue.trim());
+      setInputValue("");
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="relative">
       {/* Glassy gray border - always visible */}
       <div className="absolute -inset-1.5 rounded-[40px] bg-muted/40 backdrop-blur-sm border border-border/50" />
       {/* Aurora gradient glow - only on focus */}
       <div className={`absolute -inset-[6px] rounded-[42px] blur-md transition-opacity duration-500 ${isFocused ? 'opacity-60' : 'opacity-0'}`} style={{
-      background: 'conic-gradient(from 0deg, #0081CF, #FFD700, #FF6FD8, #9B59B6, #00ffbf, #0081CF)'
-    }} />
+        background: 'conic-gradient(from 0deg, #0081CF, #FFD700, #FF6FD8, #9B59B6, #00ffbf, #0081CF)'
+      }} />
       {/* Aurora gradient border - only on focus */}
       <div className={`absolute -inset-[2px] rounded-[38px] transition-opacity duration-500 ${isFocused ? 'opacity-100' : 'opacity-0'}`} style={{
-      background: 'conic-gradient(from 0deg, #0081CF, #FFD700, #FF6FD8, #9B59B6, #00ffbf, #0081CF)'
-    }} />
+        background: 'conic-gradient(from 0deg, #0081CF, #FFD700, #FF6FD8, #9B59B6, #00ffbf, #0081CF)'
+      }} />
       {/* Input container */}
       <div className="relative flex items-center bg-muted rounded-[36px] shadow-lg border border-border/30">
-        <input type="text" value={inputValue} onChange={e => setInputValue(e.target.value)} onFocus={() => setIsFocused(true)} onBlur={() => setIsFocused(false)} placeholder="Ask anything..." className="flex-1 px-5 py-3 bg-transparent rounded-[36px] text-foreground placeholder:text-muted-foreground focus:outline-none text-sm" />
-        {inputValue ? <button type="button" onClick={() => setInputValue("")} className="p-2 mr-2 rounded-full bg-[#0081CF] text-white transition-all hover:bg-[#006bb3] shadow-[0_0_15px_rgba(0,129,207,0.5)]">
-            <X className="w-4 h-4" />
-          </button> : <button type="button" className="p-2 mr-2 rounded-full bg-white transition-all">
+        <input 
+          type="text" 
+          value={inputValue} 
+          onChange={e => setInputValue(e.target.value)} 
+          onFocus={() => setIsFocused(true)} 
+          onBlur={() => setIsFocused(false)} 
+          placeholder="Ask about products..." 
+          className="flex-1 px-5 py-3 bg-transparent rounded-[36px] text-foreground placeholder:text-muted-foreground focus:outline-none text-sm" 
+        />
+        {inputValue ? (
+          <button 
+            type="submit" 
+            className="p-2 mr-2 rounded-full bg-[#0081CF] text-white transition-all hover:bg-[#006bb3] shadow-[0_0_15px_rgba(0,129,207,0.5)]"
+          >
+            <ArrowUpRight className="w-4 h-4" />
+          </button>
+        ) : (
+          <button type="button" className="p-2 mr-2 rounded-full bg-white transition-all">
             <Mic className="w-4 h-4 text-gray-500 opacity-70" />
-          </button>}
+          </button>
+        )}
       </div>
-    </div>;
+    </form>
+  );
 }
 
 // Promo Landing Content Component
@@ -294,6 +441,12 @@ export function SearchResults({
   const [filterPrice, setFilterPrice] = useState("");
   const [sortBy, setSortBy] = useState("");
   
+  // Chat states
+  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [pendingQuestions, setPendingQuestions] = useState<{ message: string; options: ChatOption[] }[]>([]);
+  const chatEndRef = useRef<HTMLDivElement>(null);
+  
   const loadMoreRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   
@@ -372,6 +525,89 @@ export function SearchResults({
     setShowPromoView(true);
     setLocalSearchQuery("");
   };
+
+  // Chat handlers
+  const handleChatSubmit = (message: string) => {
+    const userMessage: ChatMessage = {
+      id: Date.now().toString(),
+      type: 'user',
+      content: message
+    };
+    setChatMessages(prev => [...prev, userMessage]);
+    setShowPromoView(false);
+    
+    // Generate AI questions based on user query
+    const questions = generateAIQuestions(message);
+    setPendingQuestions(questions);
+    setCurrentQuestionIndex(0);
+    
+    // Add first AI question
+    if (questions.length > 0) {
+      setTimeout(() => {
+        const aiMessage: ChatMessage = {
+          id: (Date.now() + 1).toString(),
+          type: 'ai',
+          content: questions[0].message,
+          options: questions[0].options
+        };
+        setChatMessages(prev => [...prev, aiMessage]);
+      }, 500);
+    }
+  };
+
+  const handleOptionClick = (option: ChatOption) => {
+    // Add user selection as message
+    const selectionMessage: ChatMessage = {
+      id: Date.now().toString(),
+      type: 'user',
+      content: option.label
+    };
+    setChatMessages(prev => [...prev, selectionMessage]);
+
+    // Apply filter based on selection
+    switch (option.filterType) {
+      case 'category':
+        setFilterCategory(option.value);
+        break;
+      case 'price':
+        setFilterPrice(option.value);
+        break;
+      case 'rating':
+        setFilterRating(option.value);
+        break;
+    }
+
+    // Show next question or confirm
+    const nextIndex = currentQuestionIndex + 1;
+    if (nextIndex < pendingQuestions.length) {
+      setCurrentQuestionIndex(nextIndex);
+      setTimeout(() => {
+        const nextQuestion: ChatMessage = {
+          id: (Date.now() + 1).toString(),
+          type: 'ai',
+          content: pendingQuestions[nextIndex].message,
+          options: pendingQuestions[nextIndex].options
+        };
+        setChatMessages(prev => [...prev, nextQuestion]);
+      }, 400);
+    } else {
+      // All questions answered - show confirmation
+      setTimeout(() => {
+        const confirmMessage: ChatMessage = {
+          id: (Date.now() + 1).toString(),
+          type: 'ai',
+          content: `Great! I've filtered the products for you. ${filteredProducts.length > 0 ? `Found ${filteredProducts.length} matching products!` : 'Try adjusting filters for more results.'}`
+        };
+        setChatMessages(prev => [...prev, confirmMessage]);
+      }, 400);
+    }
+  };
+
+  // Scroll chat to bottom on new messages
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [chatMessages]);
+
   const categoryOptions = [
     { value: "", label: "All Categories" },
     { value: "electronics", label: "Electronics" },
@@ -689,13 +925,43 @@ export function SearchResults({
                   </div>
 
                   {/* Chat Content - Scrollable */}
-                  <div className="flex-1 overflow-y-auto px-4">
-                    
+                  <div className="flex-1 overflow-y-auto px-4 space-y-3">
+                    {chatMessages.length === 0 && (
+                      <div className="text-center py-8 text-muted-foreground text-sm">
+                        <p>Ask me anything about products!</p>
+                        <p className="text-xs mt-1">Try: "Show me electronics" or "I need sports gear"</p>
+                      </div>
+                    )}
+                    {chatMessages.map((msg) => (
+                      <div key={msg.id} className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}>
+                        <div className={`max-w-[85%] rounded-2xl px-4 py-2.5 ${
+                          msg.type === 'user' 
+                            ? 'bg-primary text-primary-foreground' 
+                            : 'bg-muted text-foreground'
+                        }`}>
+                          <p className="text-sm">{msg.content}</p>
+                          {msg.options && (
+                            <div className="flex flex-wrap gap-2 mt-3">
+                              {msg.options.map((option, idx) => (
+                                <button
+                                  key={idx}
+                                  onClick={() => handleOptionClick(option)}
+                                  className="px-3 py-1.5 text-xs font-medium rounded-full bg-background text-foreground border border-border hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-200 shadow-sm"
+                                >
+                                  {option.label}
+                                </button>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                    <div ref={chatEndRef} />
                   </div>
 
                   {/* Chat Input - Fixed at Bottom */}
                   <div className="p-4 pt-3 mt-auto">
-                    <ChatInput />
+                    <ChatInputWithSubmit onSubmit={handleChatSubmit} />
                   </div>
                 </div>
               </div>
