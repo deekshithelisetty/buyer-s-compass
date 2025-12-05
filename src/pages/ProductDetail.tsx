@@ -1,5 +1,5 @@
-import { useParams, useNavigate } from "react-router-dom";
-import { Star, ShoppingCart, Heart, Truck, Shield, RotateCcw, Minus, Plus } from "lucide-react";
+import { useParams, useNavigate, Link } from "react-router-dom";
+import { Star, ShoppingCart, Heart, Truck, Shield, RotateCcw, Minus, Plus, ArrowUpRight } from "lucide-react";
 import { useState } from "react";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
@@ -186,6 +186,59 @@ const ProductDetail = () => {
             </div>
           </div>
         </div>
+
+        {/* Similar Products Section */}
+        {(() => {
+          const similarProducts = products.filter(
+            (p) => p.category === product.category && p.id !== product.id
+          ).slice(0, 4);
+          
+          if (similarProducts.length === 0) return null;
+          
+          return (
+            <div className="mt-16">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-display font-bold">Similar Products</h2>
+                <Link 
+                  to={`/?category=${product.category}`}
+                  className="text-sm text-primary hover:underline flex items-center gap-1"
+                >
+                  View All
+                  <ArrowUpRight className="w-4 h-4" />
+                </Link>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {similarProducts.map((item) => (
+                  <Link
+                    key={item.id}
+                    to={`/product/${item.id}`}
+                    className="group relative bg-secondary rounded-2xl overflow-hidden aspect-square transition-transform hover:scale-[1.02]"
+                  >
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 p-4">
+                      <p className="text-white font-medium text-sm line-clamp-1">{item.name}</p>
+                      <p className="text-white/80 text-sm font-bold">${item.price.toFixed(2)}</p>
+                    </div>
+                    <button 
+                      className="absolute bottom-3 right-3 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigate(`/product/${item.id}`);
+                      }}
+                    >
+                      <ArrowUpRight className="w-4 h-4 text-foreground" />
+                    </button>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          );
+        })()}
       </div>
     </Layout>
   );
