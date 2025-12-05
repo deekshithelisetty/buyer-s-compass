@@ -3,7 +3,7 @@ import { products, categories } from "@/data/products";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { ChevronDown, ChevronRight, X, Mic, Search, ShoppingCart, User, Globe, Heart, Star, Bot, MapPin } from "lucide-react";
+import { ChevronDown, ChevronRight, X, Mic, Search, ShoppingCart, User, Globe, Heart, Star, Bot, MapPin, ArrowUpRight, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Product } from "@/types/product";
 interface SearchResultsProps {
@@ -89,6 +89,183 @@ function ChatInput() {
       </div>
     </div>;
 }
+
+// Promo Landing Content Component
+function PromoLandingContent({ onCategoryClick }: { onCategoryClick: (category: string) => void }) {
+  const [activeFilter, setActiveFilter] = useState("ALL");
+  const [collectionFilter, setCollectionFilter] = useState("ALL");
+  
+  const filters = ["ALL", "FASHION", "ELECTRONICS", "SPORTS", "HOME"];
+  const collectionFilters = ["ALL", "SHORTS", "JACKETS", "SHOES", "T-SHIRT"];
+  
+  const categoryItems = [
+    { id: 1, name: "SHOES", image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400", category: "fashion", filter: "FASHION" },
+    { id: 2, name: "BAG", image: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400", category: "fashion", filter: "FASHION" },
+    { id: 3, name: "WATCH", image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400", category: "electronics", filter: "ELECTRONICS" },
+    { id: 4, name: "T-SHIRT", image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400", category: "fashion", filter: "FASHION" },
+    { id: 5, name: "HEADPHONES", image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400", category: "electronics", filter: "ELECTRONICS" },
+    { id: 6, name: "SNEAKERS", image: "https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?w=400", category: "sports", filter: "SPORTS" },
+  ];
+  
+  const filteredCategories = activeFilter === "ALL" 
+    ? categoryItems 
+    : categoryItems.filter(item => item.filter === activeFilter);
+  
+  const newCollectionProducts = products.slice(0, 8);
+  const filteredCollection = collectionFilter === "ALL"
+    ? newCollectionProducts
+    : newCollectionProducts.filter(p => p.category.toLowerCase().includes(collectionFilter.toLowerCase()));
+
+  return (
+    <div className="space-y-8 animate-fade-in">
+      {/* Hero Bento Grid */}
+      <div className="grid grid-cols-4 gap-4 h-[380px]">
+        {/* Main Hero Card */}
+        <div className="col-span-2 row-span-2 relative rounded-3xl overflow-hidden bg-gradient-to-br from-amber-100 to-orange-100 group cursor-pointer">
+          <img 
+            src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=800" 
+            alt="Summer Collection" 
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+          <div className="absolute top-6 left-6">
+            <span className="bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full">50% OFF</span>
+          </div>
+          <div className="absolute bottom-6 left-6 right-6">
+            <h2 className="text-white text-3xl font-bold mb-2">Summer Arrival<br/>of Outfit</h2>
+            <button 
+              onClick={() => onCategoryClick("fashion")}
+              className="flex items-center gap-2 text-white text-sm font-medium hover:gap-3 transition-all"
+            >
+              Explore Product <ArrowUpRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+        
+        {/* Secondary Hero Image */}
+        <div className="col-span-2 relative rounded-3xl overflow-hidden group cursor-pointer" onClick={() => onCategoryClick("fashion")}>
+          <img 
+            src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=800" 
+            alt="Fashion" 
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+          <button className="absolute bottom-4 right-4 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-colors">
+            <ArrowUpRight className="w-5 h-5 text-foreground" />
+          </button>
+        </div>
+        
+        {/* Trendy Sunglasses Card */}
+        <div 
+          className="relative rounded-3xl overflow-hidden bg-cyan-100 group cursor-pointer p-4 flex flex-col justify-between"
+          onClick={() => onCategoryClick("fashion")}
+        >
+          <div>
+            <p className="text-xs text-cyan-700 font-medium">Trendy</p>
+            <h3 className="text-lg font-bold text-cyan-900">Sunglasses</h3>
+          </div>
+          <img 
+            src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=300" 
+            alt="Sunglasses" 
+            className="w-full h-20 object-contain group-hover:scale-110 transition-transform duration-300"
+          />
+          <button className="absolute bottom-3 right-3 w-8 h-8 bg-white/80 rounded-full flex items-center justify-center">
+            <ArrowUpRight className="w-4 h-4 text-cyan-900" />
+          </button>
+        </div>
+        
+        {/* Popular Shoes Card */}
+        <div 
+          className="relative rounded-3xl overflow-hidden bg-rose-100 group cursor-pointer p-4 flex flex-col justify-between"
+          onClick={() => onCategoryClick("fashion")}
+        >
+          <div>
+            <p className="text-xs text-rose-700 font-medium">Popular</p>
+            <h3 className="text-lg font-bold text-rose-900">Shoes</h3>
+          </div>
+          <img 
+            src="https://images.unsplash.com/photo-1549298916-b41d501d3772?w=300" 
+            alt="Shoes" 
+            className="w-full h-20 object-contain group-hover:scale-110 transition-transform duration-300"
+          />
+          <button className="absolute bottom-3 right-3 w-8 h-8 bg-white/80 rounded-full flex items-center justify-center">
+            <ArrowUpRight className="w-4 h-4 text-rose-900" />
+          </button>
+        </div>
+      </div>
+      
+      {/* Browse by Categories */}
+      <div>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-bold text-foreground">Browse by categories</h2>
+          <div className="flex gap-2">
+            {filters.map(filter => (
+              <button
+                key={filter}
+                onClick={() => setActiveFilter(filter)}
+                className={`px-4 py-1.5 text-xs font-medium rounded-full transition-colors ${
+                  activeFilter === filter 
+                    ? 'bg-foreground text-background' 
+                    : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                }`}
+              >
+                {filter}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
+          {filteredCategories.map((item, index) => (
+            <div 
+              key={item.id}
+              onClick={() => onCategoryClick(item.category)}
+              className="group relative rounded-2xl overflow-hidden aspect-square cursor-pointer animate-scale-in"
+              style={{ animationDelay: `${index * 50}ms` }}
+            >
+              <img 
+                src={item.image} 
+                alt={item.name} 
+                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+              <span className="absolute bottom-3 left-3 text-white text-xs font-bold bg-black/30 backdrop-blur-sm px-2 py-1 rounded-full">
+                {item.name}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+      
+      {/* New Collection */}
+      <div>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-bold text-foreground">New Collection</h2>
+          <div className="flex gap-2">
+            {collectionFilters.map(filter => (
+              <button
+                key={filter}
+                onClick={() => setCollectionFilter(filter)}
+                className={`px-4 py-1.5 text-xs font-medium rounded-full transition-colors ${
+                  collectionFilter === filter 
+                    ? 'bg-foreground text-background' 
+                    : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                }`}
+              >
+                {filter}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+          {(filteredCollection.length > 0 ? filteredCollection : newCollectionProducts).slice(0, 4).map((product, index) => (
+            <ProductCardNew key={product.id} product={product} index={index} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function SearchResults({
   searchQuery,
   categoryFilter
@@ -102,6 +279,7 @@ export function SearchResults({
   const [pincode, setPincode] = useState("123456");
   const [pincodeInput, setPincodeInput] = useState("");
   const [pincodeOpen, setPincodeOpen] = useState(false);
+  const [showPromoView, setShowPromoView] = useState(!searchQuery && !categoryFilter);
   
   // Filter states
   const [filterCategory, setFilterCategory] = useState("");
@@ -175,8 +353,19 @@ export function SearchResults({
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (localSearchQuery.trim()) {
+      setShowPromoView(false);
       navigate(`/?search=${encodeURIComponent(localSearchQuery.trim())}`);
     }
+  };
+
+  const handleCategoryClick = (category: string) => {
+    setShowPromoView(false);
+    navigate(`/?category=${category}`);
+  };
+
+  const handleLogoClick = () => {
+    setShowPromoView(true);
+    setLocalSearchQuery("");
   };
   const categoryOptions = [
     { value: "", label: "All Categories" },
@@ -267,7 +456,7 @@ export function SearchResults({
         <header className="sticky top-0 z-50 bg-card/95 backdrop-blur-md border-b border-border/30 rounded-t-3xl">
           <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between gap-6">
             {/* Logo */}
-            <button onClick={() => navigate("/")} className="flex-shrink-0">
+            <button onClick={handleLogoClick} className="flex-shrink-0">
               <img src="/images/infinityhub-logo.png" alt="InfinityHub" className="h-9 w-auto" />
             </button>
 
@@ -355,77 +544,87 @@ export function SearchResults({
           <div className="flex gap-2">
             {/* Main Content */}
             <div className="flex-1">
-              {/* Results Section with Filters */}
-              <div className="bg-background rounded-3xl p-6 shadow-sm animate-slide-up delay-200 h-[calc(100vh-6rem)] flex flex-col">
-                {/* Filter Bar */}
-                <div className="flex items-center justify-center gap-2 mb-6 flex-wrap flex-shrink-0">
-                  <FilterDropdown label="Category" value={filterCategory} options={categoryOptions} onChange={setFilterCategory} />
-                  <FilterDropdown label="Rating" value={filterRating} options={ratingOptions} onChange={setFilterRating} />
-                  <FilterDropdown label="Gender" value={filterGender} options={genderOptions} onChange={setFilterGender} />
-                  <FilterDropdown label="Size" value={filterSize} options={sizeOptions} onChange={setFilterSize} />
-                  <FilterDropdown label="Color" value={filterColor} options={colorOptions} onChange={setFilterColor} />
-                  <FilterDropdown label="Price" value={filterPrice} options={priceOptions} onChange={setFilterPrice} />
-                  <FilterDropdown label="Sort by" value={sortBy} options={sortOptions} onChange={setSortBy} />
-                  {(filterCategory || filterRating || filterGender || filterSize || filterColor || filterPrice || sortBy) && (
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      className="rounded-full text-xs text-destructive hover:text-destructive hover:bg-destructive/10"
-                      onClick={() => {
-                        setFilterCategory("");
-                        setFilterRating("");
-                        setFilterGender("");
-                        setFilterSize("");
-                        setFilterColor("");
-                        setFilterPrice("");
-                        setSortBy("");
-                      }}
-                    >
-                      <X className="w-3 h-3 mr-1" />
-                      Clear All
-                    </Button>
-                  )}
-                </div>
-
-                <div className="flex items-center justify-between mb-4 flex-shrink-0">
-                  <h2 className="font-semibold text-foreground font-sans capitalize text-base">
-                    {categoryFilter || searchQuery || "All Products"}
-                    <span className="ml-2 text-sm font-normal text-muted-foreground">({filteredProducts.length} products)</span>
-                  </h2>
-                  <button className="text-sm text-primary hover:underline flex items-center gap-1">
-                    View All <ChevronRight className="w-4 h-4" />
-                  </button>
-                </div>
-
-                {/* Products Grid - Scrollable */}
-                <div className="flex-1 overflow-y-auto pr-1 scrollbar-sleek">
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                    {visibleProducts.map((product, index) => <ProductCardNew key={product.id} product={product} index={index} />)}
+              {/* Results Section with Filters or Promo View */}
+              <div className="bg-background rounded-3xl p-6 shadow-sm animate-slide-up delay-200 h-[calc(100vh-6rem)] flex flex-col overflow-hidden">
+                {showPromoView ? (
+                  /* Promo Landing View */
+                  <div className="flex-1 overflow-y-auto pr-1 scrollbar-sleek">
+                    <PromoLandingContent onCategoryClick={handleCategoryClick} />
                   </div>
-
-                  {/* Infinite scroll trigger */}
-                  {hasMore && (
-                    <div ref={loadMoreRef} className="flex justify-center py-6">
-                      {isLoading && (
-                        <div className="flex items-center gap-2 text-muted-foreground">
-                          <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-                          <span className="text-sm">Loading more...</span>
-                        </div>
+                ) : (
+                  /* Products View */
+                  <>
+                    {/* Filter Bar */}
+                    <div className="flex items-center justify-center gap-2 mb-6 flex-wrap flex-shrink-0">
+                      <FilterDropdown label="Category" value={filterCategory} options={categoryOptions} onChange={setFilterCategory} />
+                      <FilterDropdown label="Rating" value={filterRating} options={ratingOptions} onChange={setFilterRating} />
+                      <FilterDropdown label="Gender" value={filterGender} options={genderOptions} onChange={setFilterGender} />
+                      <FilterDropdown label="Size" value={filterSize} options={sizeOptions} onChange={setFilterSize} />
+                      <FilterDropdown label="Color" value={filterColor} options={colorOptions} onChange={setFilterColor} />
+                      <FilterDropdown label="Price" value={filterPrice} options={priceOptions} onChange={setFilterPrice} />
+                      <FilterDropdown label="Sort by" value={sortBy} options={sortOptions} onChange={setSortBy} />
+                      {(filterCategory || filterRating || filterGender || filterSize || filterColor || filterPrice || sortBy) && (
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          className="rounded-full text-xs text-destructive hover:text-destructive hover:bg-destructive/10"
+                          onClick={() => {
+                            setFilterCategory("");
+                            setFilterRating("");
+                            setFilterGender("");
+                            setFilterSize("");
+                            setFilterColor("");
+                            setFilterPrice("");
+                            setSortBy("");
+                          }}
+                        >
+                          <X className="w-3 h-3 mr-1" />
+                          Clear All
+                        </Button>
                       )}
                     </div>
-                  )}
 
-                  {!hasMore && filteredProducts.length > 0 && (
-                    <div className="text-center py-4 text-sm text-muted-foreground">
-                      All {filteredProducts.length} products loaded
+                    <div className="flex items-center justify-between mb-4 flex-shrink-0">
+                      <h2 className="font-semibold text-foreground font-sans capitalize text-base">
+                        {categoryFilter || searchQuery || "All Products"}
+                        <span className="ml-2 text-sm font-normal text-muted-foreground">({filteredProducts.length} products)</span>
+                      </h2>
+                      <button className="text-sm text-primary hover:underline flex items-center gap-1">
+                        View All <ChevronRight className="w-4 h-4" />
+                      </button>
                     </div>
-                  )}
 
-                  {filteredProducts.length === 0 && <div className="text-center py-16">
-                      <p className="text-muted-foreground text-lg">No products found</p>
-                      <p className="text-sm text-muted-foreground mt-2">Try adjusting your search or filters</p>
-                    </div>}
-                </div>
+                    {/* Products Grid - Scrollable */}
+                    <div className="flex-1 overflow-y-auto pr-1 scrollbar-sleek">
+                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                        {visibleProducts.map((product, index) => <ProductCardNew key={product.id} product={product} index={index} />)}
+                      </div>
+
+                      {/* Infinite scroll trigger */}
+                      {hasMore && (
+                        <div ref={loadMoreRef} className="flex justify-center py-6">
+                          {isLoading && (
+                            <div className="flex items-center gap-2 text-muted-foreground">
+                              <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                              <span className="text-sm">Loading more...</span>
+                            </div>
+                          )}
+                        </div>
+                      )}
+
+                      {!hasMore && filteredProducts.length > 0 && (
+                        <div className="text-center py-4 text-sm text-muted-foreground">
+                          All {filteredProducts.length} products loaded
+                        </div>
+                      )}
+
+                      {filteredProducts.length === 0 && <div className="text-center py-16">
+                          <p className="text-muted-foreground text-lg">No products found</p>
+                          <p className="text-sm text-muted-foreground mt-2">Try adjusting your search or filters</p>
+                        </div>}
+                    </div>
+                  </>
+                )}
               </div>
             </div>
 
