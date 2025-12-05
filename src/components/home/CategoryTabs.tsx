@@ -32,7 +32,7 @@ export function CategoryTabs() {
           {categories.map((category, index) => (
             <Link
               key={category.id}
-              to={`/?category=${category.id}`}
+              to={{ pathname: "/", search: `category=${category.id}` }}
               className="group flex items-center gap-3 px-5 py-3 bg-card border border-border rounded-xl hover:border-primary hover:bg-primary/5 transition-all duration-300 animate-fade-in-up"
               style={{ animationDelay: `${index * 50}ms` }}
             >
