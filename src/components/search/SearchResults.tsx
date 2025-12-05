@@ -462,55 +462,79 @@ export function SearchResults({
       <div className="bg-muted rounded-3xl min-h-[calc(100vh-1rem)] overflow-hidden shadow-xl">
         {/* Header */}
         <header className="sticky top-0 z-50 bg-card/95 backdrop-blur-md border-b border-border/30 rounded-t-3xl">
-          <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between gap-6">
-            {/* Logo */}
-            <button onClick={handleLogoClick} className="flex-shrink-0">
-              <img src="/images/infinityhub-logo.png" alt="InfinityHub" className="h-9 w-auto" />
-            </button>
+          <div className="max-w-7xl mx-auto px-6 py-3">
+            {/* Top row - Brand name and actions */}
+            <div className="flex items-center justify-between mb-3">
+              {/* Brand Name with Gradient */}
+              <button onClick={handleLogoClick} className="flex-shrink-0">
+                <span 
+                  className="text-2xl font-bold tracking-tight"
+                  style={{
+                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                  }}
+                >
+                  InfinityHub
+                </span>
+              </button>
 
-            {/* Pincode */}
-            <Popover open={pincodeOpen} onOpenChange={setPincodeOpen}>
-              <PopoverTrigger asChild>
-                <div className="flex items-center gap-2 px-4 py-2 min-w-[140px] bg-muted/50 rounded-full border border-border/50 hover:bg-muted transition-colors cursor-pointer flex-shrink-0">
-                  <MapPin className="w-4 h-4 text-primary" />
-                  <div className="text-left">
-                    <p className="text-[10px] text-muted-foreground leading-none">Deliver to</p>
-                    <p className="text-xs font-medium text-foreground">{pincode}</p>
-                  </div>
-                  <ChevronDown className="w-3 h-3 text-muted-foreground" />
-                </div>
-              </PopoverTrigger>
-              <PopoverContent className="w-48 p-3 bg-background border border-border shadow-lg z-50" align="start">
-                <div className="space-y-3">
-                  <p className="text-sm font-medium text-foreground">Enter your pincode</p>
-                  <Input
-                    type="text"
-                    placeholder="Enter pincode"
-                    value={pincodeInput}
-                    onChange={(e) => setPincodeInput(e.target.value)}
-                    className="h-9"
-                    maxLength={6}
-                  />
-                  <Button 
-                    size="sm" 
-                    className="w-full"
-                    onClick={() => {
-                      if (pincodeInput.trim()) {
-                        setPincode(pincodeInput.trim());
-                        setPincodeOpen(false);
-                        setPincodeInput("");
-                      }
-                    }}
-                  >
-                    Apply
-                  </Button>
-                </div>
-              </PopoverContent>
-            </Popover>
+              {/* Right section */}
+              <div className="flex items-center gap-4 flex-shrink-0">
+                {/* Pincode */}
+                <Popover open={pincodeOpen} onOpenChange={setPincodeOpen}>
+                  <PopoverTrigger asChild>
+                    <div className="flex items-center gap-2 px-4 py-2 min-w-[140px] bg-muted/50 rounded-full border border-border/50 hover:bg-muted transition-colors cursor-pointer">
+                      <MapPin className="w-4 h-4 text-primary" />
+                      <div className="text-left">
+                        <p className="text-[10px] text-muted-foreground leading-none">Deliver to</p>
+                        <p className="text-xs font-medium text-foreground">{pincode}</p>
+                      </div>
+                      <ChevronDown className="w-3 h-3 text-muted-foreground" />
+                    </div>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-48 p-3 bg-background border border-border shadow-lg z-50" align="start">
+                    <div className="space-y-3">
+                      <p className="text-sm font-medium text-foreground">Enter your pincode</p>
+                      <Input
+                        type="text"
+                        placeholder="Enter pincode"
+                        value={pincodeInput}
+                        onChange={(e) => setPincodeInput(e.target.value)}
+                        className="h-9"
+                        maxLength={6}
+                      />
+                      <Button 
+                        size="sm" 
+                        className="w-full"
+                        onClick={() => {
+                          if (pincodeInput.trim()) {
+                            setPincode(pincodeInput.trim());
+                            setPincodeOpen(false);
+                            setPincodeInput("");
+                          }
+                        }}
+                      >
+                        Apply
+                      </Button>
+                    </div>
+                  </PopoverContent>
+                </Popover>
+                <button className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  <ShoppingCart className="w-4 h-4" />
+                  <span className="hidden sm:inline">Cart</span>
+                </button>
+                <button className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  <User className="w-4 h-4" />
+                  <span className="hidden sm:inline">Sign In</span>
+                </button>
+              </div>
+            </div>
 
             {/* Search Bar - Centered */}
-            <form onSubmit={handleSearch} className="flex-1 max-w-lg">
-              <div className="relative">
+            <form onSubmit={handleSearch} className="flex justify-center">
+              <div className="relative w-full max-w-2xl">
                 {/* Glassy gray border - always visible */}
                 <div className="absolute -inset-2 rounded-[50px] bg-muted/40 backdrop-blur-sm border border-border/50" />
                 {/* Aurora gradient glow - only on focus */}
@@ -532,18 +556,6 @@ export function SearchResults({
                 </div>
               </div>
             </form>
-
-            {/* Right section */}
-            <div className="flex items-center gap-4 flex-shrink-0">
-              <button className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors">
-                <ShoppingCart className="w-4 h-4" />
-                <span className="hidden sm:inline">Cart</span>
-              </button>
-              <button className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors">
-                <User className="w-4 h-4" />
-                <span className="hidden sm:inline">Sign In</span>
-              </button>
-            </div>
           </div>
         </header>
 
