@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ArrowRight, ChevronRight, Heart, Star } from "lucide-react";
 import { products, categories } from "@/data/products";
 import { Button } from "@/components/ui/button";
@@ -39,7 +39,6 @@ const categoryTabs = ["All", "Woman", "Children"];
 
 export function LandingPage() {
   const navigate = useNavigate();
-  const [, setSearchParams] = useSearchParams();
   const [activeCollectionTab, setActiveCollectionTab] = useState("All");
   const [activeCategoryTab, setActiveCategoryTab] = useState("All");
   const [likedProducts, setLikedProducts] = useState<Set<string>>(new Set());
@@ -47,11 +46,11 @@ export function LandingPage() {
   const featuredProducts = products.slice(0, 4);
 
   const handleCategoryNav = (category: string) => {
-    setSearchParams({ category });
+    window.location.href = `/?category=${category}`;
   };
 
   const handleSearchNav = (search: string) => {
-    setSearchParams({ search });
+    window.location.href = `/?search=${encodeURIComponent(search)}`;
   };
 
   const toggleLike = (productId: string) => {
