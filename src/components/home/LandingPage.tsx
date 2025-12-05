@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { ArrowRight, ChevronRight, Heart, Star } from "lucide-react";
 import { products, categories } from "@/data/products";
 import { Button } from "@/components/ui/button";
@@ -39,11 +39,20 @@ const categoryTabs = ["All", "Woman", "Children"];
 
 export function LandingPage() {
   const navigate = useNavigate();
+  const [, setSearchParams] = useSearchParams();
   const [activeCollectionTab, setActiveCollectionTab] = useState("All");
   const [activeCategoryTab, setActiveCategoryTab] = useState("All");
   const [likedProducts, setLikedProducts] = useState<Set<string>>(new Set());
 
   const featuredProducts = products.slice(0, 4);
+
+  const handleCategoryNav = (category: string) => {
+    setSearchParams({ category });
+  };
+
+  const handleSearchNav = (search: string) => {
+    setSearchParams({ search });
+  };
 
   const toggleLike = (productId: string) => {
     setLikedProducts(prev => {
@@ -66,11 +75,11 @@ export function LandingPage() {
             <button
               key={item}
               onClick={() => {
-                if (item === "New Arrival") navigate({ pathname: '/', search: '?category=electronics' });
-                else if (item === "Women") navigate({ pathname: '/', search: '?category=fashion' });
-                else if (item === "Men") navigate({ pathname: '/', search: '?category=fashion' });
-                else if (item === "Sneakers") navigate({ pathname: '/', search: '?category=fashion' });
-                else navigate({ pathname: '/', search: `?search=${item.toLowerCase()}` });
+                if (item === "New Arrival") handleCategoryNav("electronics");
+                else if (item === "Women") handleCategoryNav("fashion");
+                else if (item === "Men") handleCategoryNav("fashion");
+                else if (item === "Sneakers") handleCategoryNav("fashion");
+                else handleSearchNav(item.toLowerCase());
               }}
               className={`text-sm font-medium transition-colors hover:text-primary ${
                 index === 0 ? "text-primary" : "text-muted-foreground"
@@ -99,7 +108,7 @@ export function LandingPage() {
                     Discover quality fashion that reflects your style and makes everyday enjoyable.
                   </p>
                   <Button 
-                    onClick={() => navigate({ pathname: '/', search: '?category=fashion' })}
+                    onClick={() => handleCategoryNav("fashion")}
                     className="w-fit rounded-full px-6"
                   >
                     Explore Product <ArrowRight className="w-4 h-4 ml-2" />
@@ -136,7 +145,7 @@ export function LandingPage() {
             {categoryCards.map((card) => (
               <button
                 key={card.title}
-                onClick={() => navigate({ pathname: '/', search: `?category=${card.category}` })}
+                onClick={() => handleCategoryNav(card.category)}
                 className="group relative bg-muted/50 rounded-3xl overflow-hidden h-[120px] md:h-[140px] flex items-center justify-between px-6 hover:shadow-lg transition-shadow"
               >
                 <div className="flex items-center gap-4">
@@ -180,7 +189,7 @@ export function LandingPage() {
               {browseCategories.map((cat) => (
                 <button
                   key={cat.name}
-                  onClick={() => navigate({ pathname: '/', search: `?category=${cat.category}` })}
+                  onClick={() => handleCategoryNav(cat.category)}
                   className="flex-shrink-0 group"
                 >
                   <div className="w-[140px] h-[160px] bg-muted/50 rounded-2xl overflow-hidden mb-2 group-hover:shadow-md transition-shadow">

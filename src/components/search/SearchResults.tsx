@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { products, categories } from "@/data/products";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, ChevronRight, X, Mic, Search, ShoppingCart, User, Globe, Heart, Star, Bot } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Product } from "@/types/product";
 interface SearchResultsProps {
   searchQuery?: string;
@@ -99,6 +99,7 @@ export function SearchResults({
   const [isLoading, setIsLoading] = useState(false);
   const loadMoreRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+  const [, setSearchParams] = useSearchParams();
   
   const ITEMS_PER_LOAD = 10;
   
@@ -146,7 +147,7 @@ export function SearchResults({
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (localSearchQuery.trim()) {
-      navigate(`/?search=${encodeURIComponent(localSearchQuery.trim())}`);
+      setSearchParams({ search: localSearchQuery.trim() });
     }
   };
   const filterOptions = [{
@@ -177,7 +178,7 @@ export function SearchResults({
         <header className="sticky top-0 z-50 bg-card/95 backdrop-blur-md border-b border-border/30 rounded-t-3xl">
           <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between gap-6">
             {/* Logo */}
-            <button onClick={() => navigate({ pathname: '/', search: '?landing=true' })} className="flex-shrink-0">
+            <button onClick={() => setSearchParams({ landing: 'true' })} className="flex-shrink-0">
               <img src="/images/infinityhub-logo.png" alt="InfinityHub" className="h-9 w-auto" />
             </button>
 
