@@ -189,7 +189,7 @@ export function SearchResults({
             {/* Pincode */}
             <Popover open={pincodeOpen} onOpenChange={setPincodeOpen}>
               <PopoverTrigger asChild>
-                <div className="flex items-center gap-2 px-3 py-2 bg-muted/50 rounded-full border border-border/50 hover:bg-muted transition-colors cursor-pointer flex-shrink-0">
+                <div className="flex items-center gap-2 px-4 py-2 min-w-[140px] bg-muted/50 rounded-full border border-border/50 hover:bg-muted transition-colors cursor-pointer flex-shrink-0">
                   <MapPin className="w-4 h-4 text-primary" />
                   <div className="text-left">
                     <p className="text-[10px] text-muted-foreground leading-none">Deliver to</p>
