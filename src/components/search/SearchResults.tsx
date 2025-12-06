@@ -3,9 +3,10 @@ import { products, categories } from "@/data/products";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { ChevronDown, ChevronRight, X, Mic, Search, ShoppingCart, User, Globe, Heart, Star, Bot, MapPin, ArrowUpRight, ArrowLeft, RotateCcw, FilterX } from "lucide-react";
+import { ChevronDown, ChevronRight, X, Mic, Search, ShoppingCart, User, Globe, Heart, Star, Bot, MapPin, ArrowUpRight, ArrowLeft, RotateCcw, FilterX, Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Product } from "@/types/product";
+import { useCart } from "@/context/CartContext";
 interface SearchResultsProps {
   searchQuery?: string;
   categoryFilter?: string;
@@ -489,6 +490,7 @@ export function SearchResults({
   
   const loadMoreRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+  const { addToCart } = useCart();
   
   const ITEMS_PER_LOAD = 10;
   
@@ -1024,15 +1026,28 @@ export function SearchResults({
                                 {msg.previewProducts.slice(0, 5).map((product) => (
                                   <div 
                                     key={product.id}
-                                    className="flex-shrink-0 w-24 group cursor-pointer"
-                                    onClick={() => navigate(`/product/${product.id}`)}
+                                    className="flex-shrink-0 w-24 group"
                                   >
-                                    <div className="relative bg-background rounded-xl p-1.5 aspect-square overflow-hidden border border-border/50 hover:border-primary/50 transition-colors">
+                                    <div 
+                                      className="relative bg-background rounded-xl p-1.5 aspect-square overflow-hidden border border-border/50 hover:border-primary/50 transition-colors cursor-pointer"
+                                      onClick={() => navigate(`/product/${product.id}`)}
+                                    >
                                       <img 
                                         src={product.image} 
                                         alt={product.name} 
                                         className="w-full h-full object-cover rounded-lg group-hover:scale-105 transition-transform duration-300"
                                       />
+                                      {/* Add to Cart Button */}
+                                      <button
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          addToCart(product);
+                                        }}
+                                        className="absolute bottom-2 right-2 w-6 h-6 bg-primary text-primary-foreground rounded-full flex items-center justify-center shadow-lg hover:bg-primary/90 transition-all hover:scale-110 opacity-0 group-hover:opacity-100"
+                                        title="Add to Cart"
+                                      >
+                                        <Plus className="w-3.5 h-3.5" />
+                                      </button>
                                     </div>
                                     <p className="text-[10px] text-foreground/80 mt-1 line-clamp-1 px-0.5">{product.name}</p>
                                     <p className="text-[10px] font-semibold text-primary px-0.5">{product.price.toFixed(0)} AED</p>
