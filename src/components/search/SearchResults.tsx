@@ -77,16 +77,41 @@ interface ChatOption {
   filterType: 'category' | 'price' | 'rating' | 'style';
 }
 
-// Category detection from user query
-function detectCategory(query: string): { category: string; categoryName: string } | null {
+// Category detection from user query - now searches product names first
+function detectCategory(query: string): { category: string; categoryName: string; matchingProducts: Product[] } | null {
   const lowerQuery = query.toLowerCase();
   
+  // First, search for products that match the query by name
+  const matchingProducts = products.filter(product => 
+    product.name.toLowerCase().includes(lowerQuery)
+  );
+  
+  // If we found matching products, get the category from the first match
+  if (matchingProducts.length > 0) {
+    const firstProduct = matchingProducts[0];
+    const category = firstProduct.category.toLowerCase();
+    const categoryNames: Record<string, string> = {
+      'electronics': 'Electronics',
+      'fashion': 'Fashion',
+      'sports': 'Sports',
+      'books': 'Books',
+      'home': 'Home & Garden',
+      'beauty': 'Beauty'
+    };
+    return { 
+      category, 
+      categoryName: categoryNames[category] || category,
+      matchingProducts 
+    };
+  }
+  
+  // Fallback to keyword detection if no product name matches
   // Electronics keywords
   if (lowerQuery.includes('phone') || lowerQuery.includes('mobile') || lowerQuery.includes('laptop') || 
       lowerQuery.includes('electronic') || lowerQuery.includes('tablet') || lowerQuery.includes('computer') ||
       lowerQuery.includes('headphone') || lowerQuery.includes('speaker') || lowerQuery.includes('camera') ||
       lowerQuery.includes('tv') || lowerQuery.includes('monitor') || lowerQuery.includes('gadget')) {
-    return { category: 'electronics', categoryName: 'Electronics' };
+    return { category: 'electronics', categoryName: 'Electronics', matchingProducts: [] };
   }
   
   // Fashion keywords
@@ -95,7 +120,7 @@ function detectCategory(query: string): { category: string; categoryName: string
       lowerQuery.includes('jacket') || lowerQuery.includes('pant') || lowerQuery.includes('top') ||
       lowerQuery.includes('skirt') || lowerQuery.includes('suit') || lowerQuery.includes('blazer') ||
       lowerQuery.includes('outfit') || lowerQuery.includes('apparel') || lowerQuery.includes('kurta')) {
-    return { category: 'fashion', categoryName: 'Fashion' };
+    return { category: 'fashion', categoryName: 'Fashion', matchingProducts: [] };
   }
   
   // Sports keywords
@@ -103,13 +128,13 @@ function detectCategory(query: string): { category: string; categoryName: string
       lowerQuery.includes('exercise') || lowerQuery.includes('yoga') || lowerQuery.includes('running') ||
       lowerQuery.includes('football') || lowerQuery.includes('cricket') || lowerQuery.includes('basketball') ||
       lowerQuery.includes('tennis') || lowerQuery.includes('workout') || lowerQuery.includes('athletic')) {
-    return { category: 'sports', categoryName: 'Sports' };
+    return { category: 'sports', categoryName: 'Sports', matchingProducts: [] };
   }
   
   // Books keywords
   if (lowerQuery.includes('book') || lowerQuery.includes('read') || lowerQuery.includes('novel') ||
       lowerQuery.includes('magazine') || lowerQuery.includes('textbook') || lowerQuery.includes('story')) {
-    return { category: 'books', categoryName: 'Books' };
+    return { category: 'books', categoryName: 'Books', matchingProducts: [] };
   }
   
   // Home keywords
@@ -117,14 +142,14 @@ function detectCategory(query: string): { category: string; categoryName: string
       lowerQuery.includes('decor') || lowerQuery.includes('kitchen') || lowerQuery.includes('bed') ||
       lowerQuery.includes('sofa') || lowerQuery.includes('table') || lowerQuery.includes('chair') ||
       lowerQuery.includes('lamp') || lowerQuery.includes('curtain') || lowerQuery.includes('rug')) {
-    return { category: 'home', categoryName: 'Home & Garden' };
+    return { category: 'home', categoryName: 'Home & Garden', matchingProducts: [] };
   }
   
   // Beauty keywords
   if (lowerQuery.includes('beauty') || lowerQuery.includes('makeup') || lowerQuery.includes('cosmetic') || 
       lowerQuery.includes('skincare') || lowerQuery.includes('perfume') || lowerQuery.includes('lipstick') ||
       lowerQuery.includes('cream') || lowerQuery.includes('lotion') || lowerQuery.includes('serum')) {
-    return { category: 'beauty', categoryName: 'Beauty' };
+    return { category: 'beauty', categoryName: 'Beauty', matchingProducts: [] };
   }
   
   return null;
@@ -135,14 +160,23 @@ function generateAIQuestions(query: string): {
   message: string; 
   options: ChatOption[];
   autoCategory?: { category: string; categoryName: string };
+  matchingProducts?: Product[];
 }[] {
   const detectedCategory = detectCategory(query);
-  const questions: { message: string; options: ChatOption[]; autoCategory?: { category: string; categoryName: string } }[] = [];
+  const questions: { message: string; options: ChatOption[]; autoCategory?: { category: string; categoryName: string }; matchingProducts?: Product[] }[] = [];
 
   if (detectedCategory) {
+    const matchCount = detectedCategory.matchingProducts.length;
+    const productNames = detectedCategory.matchingProducts.slice(0, 3).map(p => p.name.split(' ').slice(0, 3).join(' ')).join(', ');
+    
+    // Create message based on whether we found product name matches or just category keywords
+    const introMessage = matchCount > 0 
+      ? `Found ${matchCount} "${query}" product${matchCount > 1 ? 's' : ''} in ${detectedCategory.categoryName}! (${productNames}${matchCount > 3 ? '...' : ''}). What's your budget range?`
+      : `Great! I found ${detectedCategory.categoryName} products for you. What's your budget range?`;
+    
     // Category auto-detected - add intro message and skip to budget/rating questions
     questions.push({
-      message: `Great! I found ${detectedCategory.categoryName} products for you. What's your budget range?`,
+      message: introMessage,
       options: [
         { label: "Under 50 AED", value: "under50", filterType: "price" },
         { label: "50-100 AED", value: "50to100", filterType: "price" },
@@ -150,7 +184,8 @@ function generateAIQuestions(query: string): {
         { label: "200+ AED", value: "over200", filterType: "price" },
         { label: "Any Budget", value: "", filterType: "price" },
       ],
-      autoCategory: detectedCategory
+      autoCategory: detectedCategory,
+      matchingProducts: detectedCategory.matchingProducts
     });
     questions.push({
       message: "What minimum rating should products have?",
