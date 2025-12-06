@@ -3,7 +3,7 @@ import { products, categories } from "@/data/products";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { ChevronDown, ChevronRight, X, Mic, Search, ShoppingCart, User, Globe, Heart, Star, Bot, MapPin, ArrowUpRight, ArrowLeft } from "lucide-react";
+import { ChevronDown, ChevronRight, X, Mic, Search, ShoppingCart, User, Globe, Heart, Star, Bot, MapPin, ArrowUpRight, ArrowLeft, RotateCcw, FilterX } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Product } from "@/types/product";
 interface SearchResultsProps {
@@ -902,7 +902,37 @@ export function SearchResults({
                   </button>
                   
                   {/* Header */}
-                  <div className="p-4 pb-3 flex flex-col items-center text-center">
+                  <div className="p-4 pb-3 flex flex-col items-center text-center relative">
+                    {/* Action buttons - positioned at top */}
+                    <div className="absolute top-3 left-3 flex items-center gap-2">
+                      <button
+                        onClick={() => {
+                          setChatMessages([]);
+                          setPendingQuestions([]);
+                          setCurrentQuestionIndex(0);
+                        }}
+                        className="p-1.5 rounded-full hover:bg-muted transition-colors group"
+                        title="Start Over"
+                      >
+                        <RotateCcw className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+                      </button>
+                      <button
+                        onClick={() => {
+                          setFilterCategory("");
+                          setFilterRating("");
+                          setFilterGender("");
+                          setFilterSize("");
+                          setFilterColor("");
+                          setFilterPrice("");
+                          setSortBy("");
+                        }}
+                        className="p-1.5 rounded-full hover:bg-muted transition-colors group"
+                        title="Clear All Filters"
+                      >
+                        <FilterX className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+                      </button>
+                    </div>
+                    
                     {/* AI Icon with sparkles and glow */}
                     <div className="relative mb-0 pt-1 pb-2 px-6">
                       {/* Glow effect behind Ai text */}
