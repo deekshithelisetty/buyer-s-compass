@@ -486,6 +486,7 @@ export function SearchResults({
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [pendingQuestions, setPendingQuestions] = useState<{ message: string; options: ChatOption[] }[]>([]);
+  const [chatSearchQuery, setChatSearchQuery] = useState("");
   const chatEndRef = useRef<HTMLDivElement>(null);
   
   const loadMoreRef = useRef<HTMLDivElement>(null);
@@ -498,7 +499,9 @@ export function SearchResults({
     // Use dropdown filter if set, otherwise use URL category filter
     const activeCategory = filterCategory || categoryFilter;
     const matchesCategory = !activeCategory || product.category === activeCategory;
-    const matchesSearch = !searchQuery || product.name.toLowerCase().includes(searchQuery.toLowerCase()) || product.category.toLowerCase().includes(searchQuery.toLowerCase());
+    // Match search from URL or from chat panel query
+    const activeSearch = searchQuery || chatSearchQuery;
+    const matchesSearch = !activeSearch || product.name.toLowerCase().includes(activeSearch.toLowerCase()) || product.category.toLowerCase().includes(activeSearch.toLowerCase());
     const matchesRating = !filterRating || product.rating >= parseFloat(filterRating);
     const matchesPrice = !filterPrice || 
       (filterPrice === "under50" && product.price < 50) ||
@@ -577,6 +580,9 @@ export function SearchResults({
     };
     setChatMessages(prev => [...prev, userMessage]);
     setShowPromoView(false);
+    
+    // Set the chat search query to filter products in the container
+    setChatSearchQuery(message);
     
     // Generate AI questions based on user query
     const questions = generateAIQuestions(message);
@@ -949,6 +955,14 @@ export function SearchResults({
                           setChatMessages([]);
                           setPendingQuestions([]);
                           setCurrentQuestionIndex(0);
+                          setChatSearchQuery("");
+                          setFilterCategory("");
+                          setFilterRating("");
+                          setFilterGender("");
+                          setFilterSize("");
+                          setFilterColor("");
+                          setFilterPrice("");
+                          setSortBy("");
                         }}
                         className="p-1.5 rounded-full hover:bg-muted transition-colors group"
                         title="Start Over"
@@ -964,6 +978,7 @@ export function SearchResults({
                           setFilterColor("");
                           setFilterPrice("");
                           setSortBy("");
+                          setChatSearchQuery("");
                         }}
                         className="p-1.5 rounded-full hover:bg-muted transition-colors group"
                         title="Clear All Filters"
