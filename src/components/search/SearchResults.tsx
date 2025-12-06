@@ -77,90 +77,94 @@ interface ChatOption {
   filterType: 'category' | 'price' | 'rating' | 'style';
 }
 
-// AI Question Generator based on user query
-function generateAIQuestions(query: string): { message: string; options: ChatOption[] }[] {
+// Category detection from user query
+function detectCategory(query: string): { category: string; categoryName: string } | null {
   const lowerQuery = query.toLowerCase();
-  const questions: { message: string; options: ChatOption[] }[] = [];
+  
+  // Electronics keywords
+  if (lowerQuery.includes('phone') || lowerQuery.includes('mobile') || lowerQuery.includes('laptop') || 
+      lowerQuery.includes('electronic') || lowerQuery.includes('tablet') || lowerQuery.includes('computer') ||
+      lowerQuery.includes('headphone') || lowerQuery.includes('speaker') || lowerQuery.includes('camera') ||
+      lowerQuery.includes('tv') || lowerQuery.includes('monitor') || lowerQuery.includes('gadget')) {
+    return { category: 'electronics', categoryName: 'Electronics' };
+  }
+  
+  // Fashion keywords
+  if (lowerQuery.includes('shirt') || lowerQuery.includes('dress') || lowerQuery.includes('cloth') || 
+      lowerQuery.includes('fashion') || lowerQuery.includes('wear') || lowerQuery.includes('jeans') ||
+      lowerQuery.includes('jacket') || lowerQuery.includes('pant') || lowerQuery.includes('top') ||
+      lowerQuery.includes('skirt') || lowerQuery.includes('suit') || lowerQuery.includes('blazer') ||
+      lowerQuery.includes('outfit') || lowerQuery.includes('apparel') || lowerQuery.includes('kurta')) {
+    return { category: 'fashion', categoryName: 'Fashion' };
+  }
+  
+  // Sports keywords
+  if (lowerQuery.includes('sport') || lowerQuery.includes('fitness') || lowerQuery.includes('gym') || 
+      lowerQuery.includes('exercise') || lowerQuery.includes('yoga') || lowerQuery.includes('running') ||
+      lowerQuery.includes('football') || lowerQuery.includes('cricket') || lowerQuery.includes('basketball') ||
+      lowerQuery.includes('tennis') || lowerQuery.includes('workout') || lowerQuery.includes('athletic')) {
+    return { category: 'sports', categoryName: 'Sports' };
+  }
+  
+  // Books keywords
+  if (lowerQuery.includes('book') || lowerQuery.includes('read') || lowerQuery.includes('novel') ||
+      lowerQuery.includes('magazine') || lowerQuery.includes('textbook') || lowerQuery.includes('story')) {
+    return { category: 'books', categoryName: 'Books' };
+  }
+  
+  // Home keywords
+  if (lowerQuery.includes('home') || lowerQuery.includes('garden') || lowerQuery.includes('furniture') || 
+      lowerQuery.includes('decor') || lowerQuery.includes('kitchen') || lowerQuery.includes('bed') ||
+      lowerQuery.includes('sofa') || lowerQuery.includes('table') || lowerQuery.includes('chair') ||
+      lowerQuery.includes('lamp') || lowerQuery.includes('curtain') || lowerQuery.includes('rug')) {
+    return { category: 'home', categoryName: 'Home & Garden' };
+  }
+  
+  // Beauty keywords
+  if (lowerQuery.includes('beauty') || lowerQuery.includes('makeup') || lowerQuery.includes('cosmetic') || 
+      lowerQuery.includes('skincare') || lowerQuery.includes('perfume') || lowerQuery.includes('lipstick') ||
+      lowerQuery.includes('cream') || lowerQuery.includes('lotion') || lowerQuery.includes('serum')) {
+    return { category: 'beauty', categoryName: 'Beauty' };
+  }
+  
+  return null;
+}
 
-  // Detect intent from query
-  if (lowerQuery.includes('phone') || lowerQuery.includes('mobile') || lowerQuery.includes('laptop') || lowerQuery.includes('electronic')) {
+// AI Question Generator - auto-detects category and asks follow-up questions
+function generateAIQuestions(query: string): { 
+  message: string; 
+  options: ChatOption[];
+  autoCategory?: { category: string; categoryName: string };
+}[] {
+  const detectedCategory = detectCategory(query);
+  const questions: { message: string; options: ChatOption[]; autoCategory?: { category: string; categoryName: string } }[] = [];
+
+  if (detectedCategory) {
+    // Category auto-detected - add intro message and skip to budget/rating questions
     questions.push({
-      message: "What's your budget range for electronics?",
+      message: `Great! I found ${detectedCategory.categoryName} products for you. What's your budget range?`,
       options: [
         { label: "Under 50 AED", value: "under50", filterType: "price" },
         { label: "50-100 AED", value: "50to100", filterType: "price" },
         { label: "100-200 AED", value: "100to200", filterType: "price" },
-        { label: "200+ AED", value: "over500", filterType: "price" },
-      ]
+        { label: "200+ AED", value: "over200", filterType: "price" },
+        { label: "Any Budget", value: "", filterType: "price" },
+      ],
+      autoCategory: detectedCategory
     });
     questions.push({
-      message: "Looking for a specific category?",
+      message: "What minimum rating should products have?",
       options: [
-        { label: "Electronics", value: "electronics", filterType: "category" },
-        { label: "All Categories", value: "", filterType: "category" },
-      ]
-    });
-  } else if (lowerQuery.includes('shirt') || lowerQuery.includes('dress') || lowerQuery.includes('cloth') || lowerQuery.includes('fashion') || lowerQuery.includes('wear')) {
-    questions.push({
-      message: "What type of clothing are you looking for?",
-      options: [
-        { label: "Fashion", value: "fashion", filterType: "category" },
-        { label: "Sports Wear", value: "sports", filterType: "category" },
-        { label: "All Clothing", value: "", filterType: "category" },
-      ]
-    });
-    questions.push({
-      message: "What's your preferred price range?",
-      options: [
-        { label: "Budget Friendly (Under 50)", value: "under50", filterType: "price" },
-        { label: "Mid Range (50-100)", value: "50to100", filterType: "price" },
-        { label: "Premium (100+)", value: "100to200", filterType: "price" },
-      ]
-    });
-  } else if (lowerQuery.includes('sport') || lowerQuery.includes('fitness') || lowerQuery.includes('gym') || lowerQuery.includes('exercise')) {
-    questions.push({
-      message: "What sports category interests you?",
-      options: [
-        { label: "Sports Equipment", value: "sports", filterType: "category" },
-        { label: "Sports Fashion", value: "fashion", filterType: "category" },
-      ]
-    });
-    questions.push({
-      message: "What rating should products have?",
-      options: [
-        { label: "4.5+ Stars Only", value: "4.5", filterType: "rating" },
-        { label: "4+ Stars", value: "4", filterType: "rating" },
+        { label: "4.5+ Stars ⭐", value: "4.5", filterType: "rating" },
+        { label: "4+ Stars ⭐", value: "4", filterType: "rating" },
+        { label: "3.5+ Stars", value: "3.5", filterType: "rating" },
         { label: "Any Rating", value: "", filterType: "rating" },
       ]
     });
-  } else if (lowerQuery.includes('book') || lowerQuery.includes('read')) {
-    questions.push({
-      message: "Looking for books?",
-      options: [
-        { label: "Yes, show me books", value: "books", filterType: "category" },
-        { label: "No, show all products", value: "", filterType: "category" },
-      ]
-    });
-  } else if (lowerQuery.includes('home') || lowerQuery.includes('garden') || lowerQuery.includes('furniture') || lowerQuery.includes('decor')) {
-    questions.push({
-      message: "What home category are you interested in?",
-      options: [
-        { label: "Home & Garden", value: "home", filterType: "category" },
-        { label: "All Products", value: "", filterType: "category" },
-      ]
-    });
-  } else if (lowerQuery.includes('beauty') || lowerQuery.includes('makeup') || lowerQuery.includes('cosmetic') || lowerQuery.includes('skincare')) {
-    questions.push({
-      message: "Looking for beauty products?",
-      options: [
-        { label: "Yes, Beauty Products", value: "beauty", filterType: "category" },
-        { label: "Show All", value: "", filterType: "category" },
-      ]
-    });
   } else {
-    // Generic questions for any query
+    // No category detected - ask for category first
     questions.push({
-      message: "Which category would you like to explore?",
+      message: "I'd love to help! Which category are you interested in?",
       options: [
         { label: "Electronics 📱", value: "electronics", filterType: "category" },
         { label: "Fashion 👕", value: "fashion", filterType: "category" },
@@ -175,7 +179,7 @@ function generateAIQuestions(query: string): { message: string; options: ChatOpt
       options: [
         { label: "Under 50 AED", value: "under50", filterType: "price" },
         { label: "50-100 AED", value: "50to100", filterType: "price" },
-        { label: "100-500 AED", value: "100to200", filterType: "price" },
+        { label: "100-200 AED", value: "100to200", filterType: "price" },
         { label: "Any Budget", value: "", filterType: "price" },
       ]
     });
@@ -540,6 +544,11 @@ export function SearchResults({
     const questions = generateAIQuestions(message);
     setPendingQuestions(questions);
     setCurrentQuestionIndex(0);
+    
+    // If category was auto-detected, apply it immediately
+    if (questions.length > 0 && questions[0].autoCategory) {
+      setFilterCategory(questions[0].autoCategory.category);
+    }
     
     // Add first AI question
     if (questions.length > 0) {
