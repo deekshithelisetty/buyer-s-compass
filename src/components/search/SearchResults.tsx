@@ -69,6 +69,7 @@ interface ChatMessage {
   type: 'user' | 'ai';
   content: string;
   options?: ChatOption[];
+  previewProducts?: Product[];
 }
 
 interface ChatOption {
@@ -585,14 +586,15 @@ export function SearchResults({
       setFilterCategory(questions[0].autoCategory.category);
     }
     
-    // Add first AI question
+    // Add first AI question with product preview if available
     if (questions.length > 0) {
       setTimeout(() => {
         const aiMessage: ChatMessage = {
           id: (Date.now() + 1).toString(),
           type: 'ai',
           content: questions[0].message,
-          options: questions[0].options
+          options: questions[0].options,
+          previewProducts: questions[0].matchingProducts
         };
         setChatMessages(prev => [...prev, aiMessage]);
       }, 500);
@@ -1014,6 +1016,35 @@ export function SearchResults({
                             : 'bg-muted text-foreground'
                         }`}>
                           <p className="text-sm">{msg.content}</p>
+                          
+                          {/* Product Preview Carousel */}
+                          {msg.previewProducts && msg.previewProducts.length > 0 && (
+                            <div className="mt-3 -mx-2">
+                              <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-sleek">
+                                {msg.previewProducts.slice(0, 5).map((product) => (
+                                  <div 
+                                    key={product.id}
+                                    className="flex-shrink-0 w-24 group cursor-pointer"
+                                    onClick={() => navigate(`/product/${product.id}`)}
+                                  >
+                                    <div className="relative bg-background rounded-xl p-1.5 aspect-square overflow-hidden border border-border/50 hover:border-primary/50 transition-colors">
+                                      <img 
+                                        src={product.image} 
+                                        alt={product.name} 
+                                        className="w-full h-full object-cover rounded-lg group-hover:scale-105 transition-transform duration-300"
+                                      />
+                                    </div>
+                                    <p className="text-[10px] text-foreground/80 mt-1 line-clamp-1 px-0.5">{product.name}</p>
+                                    <p className="text-[10px] font-semibold text-primary px-0.5">{product.price.toFixed(0)} AED</p>
+                                  </div>
+                                ))}
+                              </div>
+                              {msg.previewProducts.length > 5 && (
+                                <p className="text-[10px] text-muted-foreground mt-1">+{msg.previewProducts.length - 5} more products</p>
+                              )}
+                            </div>
+                          )}
+                          
                           {msg.options && (
                             <div className="flex flex-wrap gap-2 mt-3">
                               {msg.options.map((option, idx) => (
