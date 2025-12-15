@@ -1,11 +1,12 @@
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { Star, ShoppingCart, Heart, Truck, Shield, RotateCcw, Minus, Plus, ArrowUpRight } from "lucide-react";
+import { Star, ShoppingCart, Truck, Shield, RotateCcw, Minus, Plus, ArrowUpRight } from "lucide-react";
 import { useState } from "react";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { products } from "@/data/products";
 import { useCart } from "@/context/CartContext";
 import { cn } from "@/lib/utils";
+import { ProductImageGallery } from "@/components/product/ProductImageGallery";
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -48,29 +49,28 @@ const ProductDetail = () => {
 
   const bgColor = categoryBgColors[product.category] || "bg-secondary";
 
+  // Generate gallery images - use product.images if available, otherwise create variations
+  const galleryImages = product.images?.length 
+    ? product.images 
+    : [
+        product.image,
+        product.image.replace("w=600", "w=601"), // Slight variation for demo
+        product.image.replace("w=600", "w=602"),
+        product.image.replace("w=600", "w=603"),
+      ];
+
   return (
     <Layout>
       <div className="container mx-auto px-4 py-8">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16">
-          {/* Product Image */}
+          {/* Product Image Gallery */}
           <div className="animate-fade-in-up">
-            <div className={cn("relative aspect-square rounded-3xl overflow-hidden", bgColor)}>
-              <img
-                src={product.image}
-                alt={product.name}
-                className="w-full h-full object-contain p-8"
-              />
-              {discount > 0 && (
-                <span className="absolute top-5 left-5 bg-destructive text-destructive-foreground text-sm font-bold px-4 py-2 rounded-xl shadow-lg">
-                  -{discount}% OFF
-                </span>
-              )}
-              <button
-                className="absolute top-5 right-5 w-12 h-12 rounded-full bg-card shadow-lg flex items-center justify-center transition-all hover:scale-110"
-              >
-                <Heart className="w-6 h-6 text-muted-foreground hover:text-destructive transition-colors" />
-              </button>
-            </div>
+            <ProductImageGallery
+              images={galleryImages}
+              productName={product.name}
+              discount={discount}
+              bgColor={bgColor}
+            />
           </div>
 
           {/* Product Info */}
