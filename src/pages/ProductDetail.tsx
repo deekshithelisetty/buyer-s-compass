@@ -13,8 +13,57 @@ const ProductDetail = () => {
   const navigate = useNavigate();
   const { addToCart } = useCart();
   const [quantity, setQuantity] = useState(1);
+  const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [selectedColor, setSelectedColor] = useState<string | null>(null);
 
   const product = products.find((p) => p.id === id);
+
+  // Available sizes and colors based on category
+  const sizeOptions: Record<string, string[]> = {
+    fashion: ["XS", "S", "M", "L", "XL", "XXL"],
+    sports: ["S", "M", "L", "XL"],
+    electronics: ["32GB", "64GB", "128GB", "256GB"],
+    home: ["Small", "Medium", "Large"],
+    beauty: ["30ml", "50ml", "100ml"],
+    books: ["Paperback", "Hardcover", "E-book"],
+  };
+
+  const colorOptions: Record<string, { name: string; hex: string }[]> = {
+    electronics: [
+      { name: "Space Gray", hex: "#4A4A4A" },
+      { name: "Silver", hex: "#C0C0C0" },
+      { name: "Gold", hex: "#D4AF37" },
+      { name: "Midnight", hex: "#1C1C1E" },
+    ],
+    fashion: [
+      { name: "Black", hex: "#000000" },
+      { name: "White", hex: "#FFFFFF" },
+      { name: "Navy", hex: "#1E3A5F" },
+      { name: "Red", hex: "#C41E3A" },
+      { name: "Beige", hex: "#D4C4A8" },
+    ],
+    sports: [
+      { name: "Black", hex: "#000000" },
+      { name: "White", hex: "#FFFFFF" },
+      { name: "Blue", hex: "#2563EB" },
+      { name: "Red", hex: "#DC2626" },
+    ],
+    home: [
+      { name: "White", hex: "#FFFFFF" },
+      { name: "Gray", hex: "#6B7280" },
+      { name: "Brown", hex: "#8B4513" },
+      { name: "Green", hex: "#22C55E" },
+    ],
+    beauty: [
+      { name: "Rose", hex: "#FF007F" },
+      { name: "Coral", hex: "#FF7F50" },
+      { name: "Nude", hex: "#E3BC9A" },
+    ],
+    books: [],
+  };
+
+  const sizes = sizeOptions[product?.category || ""] || [];
+  const colors = colorOptions[product?.category || ""] || [];
 
   if (!product) {
     return (
@@ -121,6 +170,85 @@ const ProductDetail = () => {
             <p className="text-muted-foreground leading-relaxed text-base">
               {product.description}
             </p>
+
+            {/* Size Selector */}
+            {sizes.length > 0 && (
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="font-medium text-foreground">Size</span>
+                  {selectedSize && (
+                    <span className="text-sm text-muted-foreground">Selected: {selectedSize}</span>
+                  )}
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {sizes.map((size) => (
+                    <button
+                      key={size}
+                      onClick={() => setSelectedSize(size)}
+                      className={cn(
+                        "min-w-[48px] h-10 px-4 rounded-lg border-2 font-medium text-sm transition-all",
+                        selectedSize === size
+                          ? "border-primary bg-primary text-primary-foreground"
+                          : "border-border bg-card text-foreground hover:border-primary/50"
+                      )}
+                    >
+                      {size}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Color Selector */}
+            {colors.length > 0 && (
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="font-medium text-foreground">Color</span>
+                  {selectedColor && (
+                    <span className="text-sm text-muted-foreground">
+                      {colors.find(c => c.hex === selectedColor)?.name}
+                    </span>
+                  )}
+                </div>
+                <div className="flex flex-wrap gap-3">
+                  {colors.map((color) => (
+                    <button
+                      key={color.hex}
+                      onClick={() => setSelectedColor(color.hex)}
+                      className={cn(
+                        "w-10 h-10 rounded-full relative transition-all",
+                        selectedColor === color.hex
+                          ? "ring-2 ring-primary ring-offset-2 ring-offset-background"
+                          : "hover:scale-110"
+                      )}
+                      style={{ backgroundColor: color.hex }}
+                      title={color.name}
+                    >
+                      {color.hex === "#FFFFFF" && (
+                        <span className="absolute inset-0 rounded-full border border-border" />
+                      )}
+                      {selectedColor === color.hex && (
+                        <span className="absolute inset-0 flex items-center justify-center">
+                          <svg
+                            className={cn(
+                              "w-5 h-5",
+                              color.hex === "#FFFFFF" || color.hex === "#C0C0C0" || color.hex === "#D4AF37" || color.hex === "#D4C4A8" || color.hex === "#E3BC9A"
+                                ? "text-foreground"
+                                : "text-white"
+                            )}
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                          </svg>
+                        </span>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Features */}
             {product.features && (
