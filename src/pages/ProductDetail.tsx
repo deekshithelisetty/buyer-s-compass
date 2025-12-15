@@ -1,12 +1,11 @@
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { Star, ShoppingCart, Truck, Shield, RotateCcw, Minus, Plus, ArrowUpRight } from "lucide-react";
+import { Star, ShoppingCart, Truck, Shield, RotateCcw, Minus, Plus, ArrowUpRight, Heart, Share2, MapPin, Check } from "lucide-react";
 import { useState } from "react";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { products } from "@/data/products";
 import { useCart } from "@/context/CartContext";
 import { cn } from "@/lib/utils";
-import { ProductImageGallery } from "@/components/product/ProductImageGallery";
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -15,6 +14,7 @@ const ProductDetail = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
   const product = products.find((p) => p.id === id);
 
@@ -43,9 +43,6 @@ const ProductDetail = () => {
     }
   };
 
-  // Use neutral background for all products
-  const bgColor = "bg-muted/50";
-
   // Get the selected color's image if available
   const selectedColorData = colors.find(c => c.hex === selectedColor);
   const colorImage = selectedColorData?.image;
@@ -64,36 +61,62 @@ const ProductDetail = () => {
 
   return (
     <Layout>
-      <div className="container mx-auto px-4 py-6">
-        {/* Main Product Section - Fits viewport */}
-        <div className="grid lg:grid-cols-2 gap-6 lg:gap-10">
-          {/* Product Image Gallery */}
-          <div className="animate-fade-in flex items-start">
-            <div className="w-full max-h-[420px]">
-              <ProductImageGallery
-                images={galleryImages}
-                productName={product.name}
-                discount={discount}
-                bgColor={bgColor}
-              />
+      <div className="container mx-auto px-4 py-4">
+        {/* Main Product Section - 3 Column Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6">
+          
+          {/* LEFT: Thumbnails + Main Image */}
+          <div className="lg:col-span-5 flex gap-3">
+            {/* Vertical Thumbnails */}
+            <div className="flex flex-col gap-2 flex-shrink-0">
+              {galleryImages.slice(0, 6).map((image, index) => (
+                <button
+                  key={index}
+                  onMouseEnter={() => setSelectedImageIndex(index)}
+                  onClick={() => setSelectedImageIndex(index)}
+                  className={cn(
+                    "w-12 h-12 rounded-lg overflow-hidden border-2 transition-all",
+                    selectedImageIndex === index
+                      ? "border-primary"
+                      : "border-border hover:border-primary/50"
+                  )}
+                >
+                  <img
+                    src={image}
+                    alt={`${product.name} thumbnail ${index + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+                </button>
+              ))}
+            </div>
+
+            {/* Main Image */}
+            <div className="flex-1 relative">
+              <div className="aspect-square bg-background border border-border rounded-lg overflow-hidden">
+                <img
+                  src={galleryImages[selectedImageIndex]}
+                  alt={product.name}
+                  className="w-full h-full object-contain p-4"
+                />
+              </div>
+              {/* Share button */}
+              <button className="absolute top-3 right-3 w-8 h-8 rounded-full bg-card border border-border flex items-center justify-center hover:bg-muted transition-colors">
+                <Share2 className="w-4 h-4 text-muted-foreground" />
+              </button>
             </div>
           </div>
 
-          {/* Product Info - Scrollable if needed */}
-          <div className="flex flex-col justify-center space-y-4 animate-fade-in lg:max-h-[600px] lg:overflow-y-auto lg:pr-2 scrollbar-thin">
-            {/* Category & Title */}
-            <div>
-              <span className="text-xs text-primary font-semibold uppercase tracking-wider">
-                {product.category}
-              </span>
-              <h1 className="text-2xl lg:text-3xl font-display font-bold mt-1 leading-tight">
-                {product.name}
-              </h1>
-            </div>
+          {/* CENTER: Product Details */}
+          <div className="lg:col-span-4 space-y-4">
+            {/* Title */}
+            <h1 className="text-xl lg:text-2xl font-semibold leading-tight text-foreground">
+              {product.name}
+            </h1>
 
             {/* Rating */}
-            <div className="flex items-center gap-2">
-              <div className="flex items-center gap-0.5">
+            <div className="flex items-center gap-2 text-sm">
+              <span className="text-primary font-medium">{product.rating}</span>
+              <div className="flex items-center">
                 {[...Array(5)].map((_, i) => (
                   <Star
                     key={i}
@@ -101,53 +124,57 @@ const ProductDetail = () => {
                       "w-4 h-4",
                       i < Math.floor(product.rating)
                         ? "text-amber-400 fill-amber-400"
-                        : "text-muted fill-muted"
+                        : "text-muted-foreground"
                     )}
                   />
                 ))}
               </div>
-              <span className="text-sm text-foreground font-semibold">{product.rating}</span>
-              <span className="text-sm text-muted-foreground">
-                ({product.reviews.toLocaleString()} reviews)
+              <span className="text-primary hover:underline cursor-pointer">
+                ({product.reviews.toLocaleString()})
               </span>
             </div>
+
+            {/* Limited Deal Badge */}
+            {discount > 0 && (
+              <span className="inline-block bg-destructive text-destructive-foreground text-xs font-semibold px-2.5 py-1 rounded">
+                Limited time deal
+              </span>
+            )}
 
             {/* Price */}
-            <div className="flex items-baseline gap-3">
-              <span className="text-3xl font-bold text-foreground">
+            <div className="flex items-baseline gap-2">
+              {discount > 0 && (
+                <span className="text-destructive text-xl font-medium">-{discount}%</span>
+              )}
+              <span className="text-3xl font-medium text-foreground">
                 ${product.price.toFixed(2)}
               </span>
-              {product.originalPrice && (
-                <span className="text-lg text-muted-foreground line-through">
-                  ${product.originalPrice.toFixed(2)}
-                </span>
-              )}
             </div>
+            {product.originalPrice && (
+              <p className="text-sm text-muted-foreground">
+                M.R.P.: <span className="line-through">${product.originalPrice.toFixed(2)}</span>
+              </p>
+            )}
 
             {/* Description */}
-            <p className="text-sm text-muted-foreground leading-relaxed">
+            <p className="text-sm text-muted-foreground leading-relaxed border-t border-border pt-4">
               {product.description}
             </p>
 
             {/* Size Selector */}
             {sizes.length > 0 && (
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-foreground">Size</span>
-                  {selectedSize && (
-                    <span className="text-xs text-muted-foreground">{selectedSize}</span>
-                  )}
-                </div>
+              <div className="space-y-2 border-t border-border pt-4">
+                <span className="text-sm font-medium text-foreground">Size: {selectedSize || "Select"}</span>
                 <div className="flex flex-wrap gap-2">
                   {sizes.map((size) => (
                     <button
                       key={size}
                       onClick={() => setSelectedSize(size)}
                       className={cn(
-                        "min-w-[40px] h-9 px-3 rounded-lg border-2 font-medium text-xs transition-all",
+                        "min-w-[48px] h-10 px-4 rounded border text-sm transition-all",
                         selectedSize === size
-                          ? "border-primary bg-primary text-primary-foreground"
-                          : "border-border bg-card text-foreground hover:border-primary/50"
+                          ? "border-primary bg-primary/10 text-primary"
+                          : "border-border text-foreground hover:border-primary"
                       )}
                     >
                       {size}
@@ -159,48 +186,26 @@ const ProductDetail = () => {
 
             {/* Color Selector */}
             {colors.length > 0 && (
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-foreground">Color</span>
-                  {selectedColor && (
-                    <span className="text-xs text-muted-foreground">
-                      {colors.find(c => c.hex === selectedColor)?.name}
-                    </span>
-                  )}
-                </div>
+              <div className="space-y-2 border-t border-border pt-4">
+                <span className="text-sm font-medium text-foreground">
+                  Color: {colors.find(c => c.hex === selectedColor)?.name || "Select"}
+                </span>
                 <div className="flex flex-wrap gap-2">
                   {colors.map((color) => (
                     <button
                       key={color.hex}
                       onClick={() => setSelectedColor(color.hex)}
                       className={cn(
-                        "w-8 h-8 rounded-full relative transition-all",
+                        "w-10 h-10 rounded border-2 relative transition-all",
                         selectedColor === color.hex
-                          ? "ring-2 ring-primary ring-offset-2 ring-offset-background"
-                          : "hover:scale-110"
+                          ? "border-primary"
+                          : "border-border hover:border-primary/50"
                       )}
                       style={{ backgroundColor: color.hex }}
                       title={color.name}
                     >
                       {color.hex === "#FFFFFF" && (
-                        <span className="absolute inset-0 rounded-full border border-border" />
-                      )}
-                      {selectedColor === color.hex && (
-                        <span className="absolute inset-0 flex items-center justify-center">
-                          <svg
-                            className={cn(
-                              "w-4 h-4",
-                              color.hex === "#FFFFFF" || color.hex === "#C0C0C0" || color.hex === "#D4AF37" || color.hex === "#D4C4A8" || color.hex === "#E3BC9A" || color.hex === "#F5F5DC"
-                                ? "text-foreground"
-                                : "text-white"
-                            )}
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                          </svg>
-                        </span>
+                        <span className="absolute inset-0 rounded border border-border" />
                       )}
                     </button>
                   ))}
@@ -208,69 +213,121 @@ const ProductDetail = () => {
               </div>
             )}
 
-            {/* Features - Compact */}
+            {/* Features */}
             {product.features && (
-              <div className="flex flex-wrap gap-2">
-                {product.features.map((feature) => (
-                  <span
-                    key={feature}
-                    className="text-xs bg-muted px-3 py-1.5 rounded-full text-muted-foreground"
-                  >
-                    {feature}
-                  </span>
-                ))}
+              <div className="border-t border-border pt-4">
+                <h3 className="text-sm font-medium text-foreground mb-2">Features</h3>
+                <ul className="space-y-1">
+                  {product.features.map((feature) => (
+                    <li key={feature} className="text-sm text-muted-foreground flex items-center gap-2">
+                      <Check className="w-4 h-4 text-primary flex-shrink-0" />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
               </div>
             )}
 
-            {/* Quantity & Actions */}
-            <div className="flex items-center gap-4 pt-2">
-              <div className="flex items-center border border-border rounded-full bg-card">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-9 w-9 rounded-full"
-                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                >
-                  <Minus className="w-4 h-4" />
-                </Button>
-                <span className="w-8 text-center font-semibold text-sm">{quantity}</span>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-9 w-9 rounded-full"
-                  onClick={() => setQuantity(quantity + 1)}
-                >
-                  <Plus className="w-4 h-4" />
-                </Button>
-              </div>
-              <Button
-                className="flex-1 h-11 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-sm"
-                onClick={handleAddToCart}
-                disabled={!product.inStock}
-              >
-                <ShoppingCart className="w-4 h-4 mr-2" />
-                Add to Cart
-              </Button>
-              <Button 
-                variant="outline" 
-                className="h-11 px-6 rounded-xl font-semibold text-sm border-2"
-              >
-                Buy Now
-              </Button>
-            </div>
-
-            {/* Trust badges - Compact */}
-            <div className="flex items-center justify-between pt-4 border-t border-border">
+            {/* Trust Badges */}
+            <div className="flex items-center gap-6 border-t border-border pt-4">
               {[
-                { icon: Truck, text: "Free Shipping" },
-                { icon: Shield, text: "2 Year Warranty" },
-                { icon: RotateCcw, text: "30-Day Returns" },
+                { icon: Shield, text: "3 Year Warranty" },
+                { icon: RotateCcw, text: "10 days Returnable" },
+                { icon: Truck, text: "Free Delivery" },
               ].map((item) => (
-                <div key={item.text} className="flex items-center gap-2 text-muted-foreground">
-                  <item.icon className="w-4 h-4 text-primary" />
-                  <span className="text-xs">{item.text}</span>
+                <div key={item.text} className="flex flex-col items-center gap-1 text-center">
+                  <item.icon className="w-6 h-6 text-muted-foreground" />
+                  <span className="text-xs text-muted-foreground">{item.text}</span>
                 </div>
               ))}
+            </div>
+          </div>
+
+          {/* RIGHT: Buy Box */}
+          <div className="lg:col-span-3">
+            <div className="border border-border rounded-lg p-4 space-y-4 sticky top-4">
+              {/* Price in buy box */}
+              <div className="text-2xl font-medium text-foreground">
+                ${product.price.toFixed(2)}
+              </div>
+
+              {/* Delivery info */}
+              <div className="text-sm space-y-1">
+                <p className="text-muted-foreground">
+                  FREE delivery <span className="font-medium text-foreground">Tomorrow</span>
+                </p>
+                <p className="flex items-center gap-1 text-primary text-xs">
+                  <MapPin className="w-3 h-3" />
+                  Deliver to your location
+                </p>
+              </div>
+
+              {/* Stock status */}
+              <p className={cn(
+                "text-lg font-medium",
+                product.inStock ? "text-green-600" : "text-destructive"
+              )}>
+                {product.inStock ? "In Stock" : "Out of Stock"}
+              </p>
+
+              {/* Quantity selector */}
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-muted-foreground">Qty:</span>
+                <div className="flex items-center border border-border rounded bg-muted/50">
+                  <button
+                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                    className="w-8 h-8 flex items-center justify-center hover:bg-muted transition-colors"
+                  >
+                    <Minus className="w-3 h-3" />
+                  </button>
+                  <span className="w-8 text-center text-sm font-medium">{quantity}</span>
+                  <button
+                    onClick={() => setQuantity(quantity + 1)}
+                    className="w-8 h-8 flex items-center justify-center hover:bg-muted transition-colors"
+                  >
+                    <Plus className="w-3 h-3" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Action buttons */}
+              <div className="space-y-2">
+                <Button
+                  className="w-full h-10 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium"
+                  onClick={handleAddToCart}
+                  disabled={!product.inStock}
+                >
+                  <ShoppingCart className="w-4 h-4 mr-2" />
+                  Add to Cart
+                </Button>
+                <Button 
+                  className="w-full h-10 rounded-full bg-amber-500 hover:bg-amber-600 text-white font-medium"
+                >
+                  Buy Now
+                </Button>
+              </div>
+
+              {/* Wishlist */}
+              <button className="flex items-center gap-2 text-sm text-primary hover:underline w-full justify-center pt-2 border-t border-border">
+                <Heart className="w-4 h-4" />
+                Add to Wish List
+              </button>
+
+              {/* Seller info */}
+              <div className="text-xs text-muted-foreground space-y-1 pt-2 border-t border-border">
+                <p className="flex justify-between">
+                  <span>Ships from</span>
+                  <span className="text-foreground">InfinityHub</span>
+                </p>
+                <p className="flex justify-between">
+                  <span>Sold by</span>
+                  <span className="text-foreground">InfinityHub</span>
+                </p>
+                <p className="flex justify-between">
+                  <span>Payment</span>
+                  <span className="text-foreground">Secure transaction</span>
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -284,9 +341,9 @@ const ProductDetail = () => {
           if (similarProducts.length === 0) return null;
           
           return (
-            <div className="mt-16">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-display font-bold">Similar Products</h2>
+            <div className="mt-12 border-t border-border pt-8">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-lg font-semibold">Similar Products</h2>
                 <Link 
                   to={`/?category=${product.category}`}
                   className="text-sm text-primary hover:underline flex items-center gap-1"
@@ -300,27 +357,19 @@ const ProductDetail = () => {
                   <Link
                     key={item.id}
                     to={`/product/${item.id}`}
-                    className="group relative bg-secondary rounded-2xl overflow-hidden aspect-square transition-transform hover:scale-[1.02]"
+                    className="group border border-border rounded-lg overflow-hidden hover:shadow-md transition-shadow"
                   >
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                    <div className="absolute bottom-0 left-0 right-0 p-4">
-                      <p className="text-white font-medium text-sm line-clamp-1">{item.name}</p>
-                      <p className="text-white/80 text-sm font-bold">${item.price.toFixed(2)}</p>
+                    <div className="aspect-square bg-muted/30 p-4">
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="w-full h-full object-contain"
+                      />
                     </div>
-                    <button 
-                      className="absolute bottom-3 right-3 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        navigate(`/product/${item.id}`);
-                      }}
-                    >
-                      <ArrowUpRight className="w-4 h-4 text-foreground" />
-                    </button>
+                    <div className="p-3">
+                      <p className="text-sm font-medium line-clamp-2">{item.name}</p>
+                      <p className="text-lg font-bold text-foreground mt-1">${item.price.toFixed(2)}</p>
+                    </div>
                   </Link>
                 ))}
               </div>
