@@ -87,6 +87,7 @@ const Checkout = () => {
     setOrderNumber(generatedOrderNumber);
     setOrderDate(new Date());
     setStep("confirmation");
+    clearCart();
     toast({
       title: "Order Placed Successfully! 🎉",
       description: "Thank you for your purchase. You will receive a confirmation email shortly.",
