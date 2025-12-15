@@ -90,19 +90,21 @@ const ProductDetail = () => {
       <div className="min-h-[calc(100vh-140px)] bg-gradient-to-br from-orange-50 via-pink-50 to-amber-50 dark:from-background dark:via-background dark:to-background">
         <div className="container mx-auto px-4 py-8">
           {/* Main 3-Column Layout */}
-          <div className="flex items-center justify-center gap-0 lg:gap-4 min-h-[70vh]">
+          <div className="flex items-center justify-center gap-0 lg:gap-0 min-h-[70vh] relative">
             
             {/* LEFT: Related Products in Circle */}
-            <div className="hidden lg:block relative w-72 h-[450px]">
-              {/* Large circle outline */}
-              <div className="absolute inset-4 border border-border/40 rounded-full" />
+            <div className="hidden lg:block relative w-72 h-[450px] z-10">
+              {/* Large circle outline with extended curve overlapping center */}
+              <div className="absolute inset-4 border-2 border-border/50 rounded-full" />
+              {/* Extended curve that overlaps center image */}
+              <div className="absolute top-1/2 -translate-y-1/2 -right-16 w-32 h-80 border-r-2 border-border/50 rounded-r-full" />
               
               {/* Floating product items around the circle */}
               {similarProducts.map((item, index) => (
                 <Link
                   key={item.id}
                   to={`/product/${item.id}`}
-                  className="absolute group z-10"
+                  className="absolute group z-20"
                   style={{
                     top: floatingPositions[index]?.top,
                     left: floatingPositions[index]?.left,
@@ -127,7 +129,7 @@ const ProductDetail = () => {
             </div>
 
             {/* CENTER: Main Product Image in Oval */}
-            <div className="relative flex-shrink-0">
+            <div className="relative flex-shrink-0 z-20">
               {/* Main product container - stadium shape with curved sides */}
               <div className="relative w-56 h-80 md:w-64 md:h-96 lg:w-72 lg:h-[420px] rounded-[50%/30%] overflow-hidden bg-muted shadow-2xl">
                 <img
@@ -139,9 +141,11 @@ const ProductDetail = () => {
             </div>
 
             {/* RIGHT: Item List & Order */}
-            <div className="hidden lg:block relative w-72 h-[450px]">
-              {/* Large circle outline */}
-              <div className="absolute inset-4 border border-border/40 rounded-full" />
+            <div className="hidden lg:block relative w-72 h-[450px] z-10">
+              {/* Large circle outline with extended curve overlapping center */}
+              <div className="absolute inset-4 border-2 border-border/50 rounded-full" />
+              {/* Extended curve that overlaps center image */}
+              <div className="absolute top-1/2 -translate-y-1/2 -left-16 w-32 h-80 border-l-2 border-border/50 rounded-l-full" />
               
               {/* Content - item list */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 space-y-4">
