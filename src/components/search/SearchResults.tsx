@@ -846,6 +846,53 @@ export function SearchResults({
           </div>
         </header>
 
+        {/* Categories Navigation - Animated Gradient Style */}
+        <nav className="bg-card/95 backdrop-blur-md border-b border-border/30 overflow-x-auto">
+          <div className="max-w-7xl mx-auto px-6">
+            <ul className="flex items-center justify-center gap-3 py-2 min-w-max">
+              {categories.map((category, index) => {
+                const gradients = [
+                  { from: '#a955ff', to: '#ea51ff' },
+                  { from: '#56CCF2', to: '#2F80ED' },
+                  { from: '#FF9966', to: '#FF5E62' },
+                  { from: '#80FF72', to: '#7EE8FA' },
+                  { from: '#FFD93D', to: '#FF9F43' },
+                  { from: '#ffa9c6', to: '#f434e2' },
+                  { from: '#6366f1', to: '#8b5cf6' },
+                  { from: '#22c55e', to: '#84cc16' },
+                  { from: '#ef4444', to: '#f97316' },
+                  { from: '#ec4899', to: '#a855f7' },
+                  { from: '#f59e0b', to: '#eab308' },
+                  { from: '#14b8a6', to: '#06b6d4' },
+                ];
+                const gradient = gradients[index % gradients.length];
+                
+                return (
+                  <li key={category.id}>
+                    <button
+                      onClick={() => {
+                        navigate(`/?category=${category.id}`);
+                        setShowPromoView(false);
+                      }}
+                      style={{ '--gradient-from': gradient.from, '--gradient-to': gradient.to } as React.CSSProperties}
+                      className="relative w-[40px] h-[40px] bg-card shadow-md rounded-full flex items-center justify-center transition-all duration-500 hover:w-[120px] hover:shadow-none group cursor-pointer border border-border/50"
+                    >
+                      <span className="absolute inset-0 rounded-full bg-[linear-gradient(45deg,var(--gradient-from),var(--gradient-to))] opacity-0 transition-all duration-500 group-hover:opacity-100" />
+                      <span className="absolute top-[6px] inset-x-0 h-full rounded-full bg-[linear-gradient(45deg,var(--gradient-from),var(--gradient-to))] blur-[10px] opacity-0 -z-10 transition-all duration-500 group-hover:opacity-50" />
+                      <span className="relative z-10 transition-all duration-500 group-hover:scale-0 delay-0">
+                        <span className="text-base text-muted-foreground">{category.icon}</span>
+                      </span>
+                      <span className="absolute text-white uppercase tracking-wide text-[10px] font-semibold transition-all duration-500 scale-0 group-hover:scale-100 delay-150 whitespace-nowrap">
+                        {category.name}
+                      </span>
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </nav>
+
         {/* Content */}
         <div className="max-w-[1800px] mx-auto pl-2 pr-2 pt-2 pb-6">
           <div className="flex gap-2">
