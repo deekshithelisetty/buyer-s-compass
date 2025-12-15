@@ -129,13 +129,13 @@ const ProductDetail = () => {
             {/* CENTER: Main Product Image in Oval */}
             <div className="relative flex-shrink-0">
               {/* Decorative outer curve connecting to left circle */}
-              <div className="hidden lg:block absolute -left-12 top-1/2 -translate-y-1/2 w-24 h-64 border-l border-border/30 rounded-l-full" />
+              <div className="hidden lg:block absolute -left-12 top-1/2 -translate-y-1/2 w-24 h-64 border-l-2 border-border/40 rounded-l-full" />
               
               {/* Decorative outer curve connecting to right circle */}
-              <div className="hidden lg:block absolute -right-12 top-1/2 -translate-y-1/2 w-24 h-64 border-r border-border/30 rounded-r-full" />
+              <div className="hidden lg:block absolute -right-12 top-1/2 -translate-y-1/2 w-24 h-64 border-r-2 border-border/40 rounded-r-full" />
               
               {/* Main product container */}
-              <div className="relative w-56 h-72 md:w-64 md:h-80 lg:w-72 lg:h-[380px] rounded-[60px] overflow-hidden bg-gradient-to-b from-[#f8b195] via-[#f5a386] to-[#f5d0c5] dark:from-primary/30 dark:via-primary/20 dark:to-primary/30 shadow-2xl">
+              <div className="relative w-56 h-72 md:w-64 md:h-80 lg:w-72 lg:h-[380px] rounded-[100px] overflow-hidden bg-gradient-to-b from-[#f5a070] via-[#f8a585] to-[#f0b0a8] dark:from-primary/30 dark:via-primary/20 dark:to-primary/30 shadow-2xl">
                 <img
                   src={product.image}
                   alt={product.name}
