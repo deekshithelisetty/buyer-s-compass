@@ -63,10 +63,10 @@ const Checkout = () => {
   // Handle step from URL params
   useEffect(() => {
     const stepParam = searchParams.get("step");
-    if (stepParam === "address" && isAuthenticated && items.length > 0) {
+    if (stepParam === "address" && items.length > 0) {
       setStep("address");
     }
-  }, [searchParams, isAuthenticated, items.length]);
+  }, [searchParams, items.length]);
 
   const shipping = totalPrice > 50 ? 0 : 9.99;
   const tax = totalPrice * 0.08;
@@ -264,6 +264,49 @@ const Checkout = () => {
 
   // Secure Checkout - Address Selection View
   if (step === "address") {
+    // If not authenticated, show sign-in prompt within secure checkout
+    if (!isAuthenticated) {
+      return (
+        <Layout>
+          {/* Secure Checkout Header */}
+          <div className="border-b border-border bg-muted/30">
+            <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+              <Link to="/" className="text-xl font-bold text-foreground">
+                InfinityHub
+              </Link>
+              <h1 className="text-xl font-medium">Secure Checkout</h1>
+              <Lock className="w-5 h-5 text-muted-foreground" />
+            </div>
+          </div>
+
+          <div className="container mx-auto px-4 py-12">
+            <div className="max-w-md mx-auto text-center">
+              <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center">
+                <Lock className="w-10 h-10 text-amber-600" />
+              </div>
+              <h2 className="text-2xl font-bold mb-4">Sign in to continue</h2>
+              <p className="text-muted-foreground mb-8">
+                Please sign in to your account to complete your purchase securely.
+              </p>
+              <Button
+                className="bg-amber-400 hover:bg-amber-500 text-foreground font-medium px-8"
+                size="lg"
+                onClick={() => navigate("/auth")}
+              >
+                Sign In
+              </Button>
+              <p className="text-sm text-muted-foreground mt-4">
+                New customer?{" "}
+                <Link to="/auth" className="text-primary hover:underline">
+                  Create an account
+                </Link>
+              </p>
+            </div>
+          </div>
+        </Layout>
+      );
+    }
+
     return (
       <Layout>
         {/* Secure Checkout Header */}
