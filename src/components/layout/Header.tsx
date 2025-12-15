@@ -356,21 +356,39 @@ export function Header() {
         </form>
       </div>
 
-      {/* Categories Navigation */}
+      {/* Categories Navigation - Gradient Style */}
       <nav className="bg-card border-t border-border/50 overflow-x-auto">
         <div className="container mx-auto px-4">
-          <ul className="flex items-center gap-1 py-1.5 min-w-max">
-            {categories.map((category) => (
-              <li key={category.id}>
-                <Link
-                  to={`/?category=${category.id}`}
-                  className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-md transition-all duration-200"
-                >
-                  <span>{category.icon}</span>
-                  <span>{category.name}</span>
-                </Link>
-              </li>
-            ))}
+          <ul className="flex items-center justify-center gap-8 py-3 min-w-max">
+            {categories.map((category, index) => {
+              const gradients = [
+                { from: '#a955ff', to: '#ea51ff' }, // Electronics - purple
+                { from: '#56CCF2', to: '#2F80ED' }, // Fashion - blue
+                { from: '#FF9966', to: '#FF5E62' }, // Home - orange
+                { from: '#80FF72', to: '#7EE8FA' }, // Sports - green
+                { from: '#FFD93D', to: '#FF9F43' }, // Books - yellow
+                { from: '#ffa9c6', to: '#f434e2' }, // Beauty - pink
+              ];
+              const gradient = gradients[index % gradients.length];
+              
+              return (
+                <li key={category.id}>
+                  <Link
+                    to={`/?category=${category.id}`}
+                    style={{ '--gradient-from': gradient.from, '--gradient-to': gradient.to } as React.CSSProperties}
+                    className="group relative flex items-center gap-2 px-4 py-2 text-sm font-medium text-foreground transition-all duration-300 hover:text-white rounded-full"
+                  >
+                    {/* Gradient background on hover */}
+                    <span className="absolute inset-0 rounded-full bg-[linear-gradient(45deg,var(--gradient-from),var(--gradient-to))] opacity-0 transition-all duration-300 group-hover:opacity-100" />
+                    {/* Blur glow on hover */}
+                    <span className="absolute top-[5px] inset-x-0 h-full rounded-full bg-[linear-gradient(45deg,var(--gradient-from),var(--gradient-to))] blur-[10px] opacity-0 -z-10 transition-all duration-300 group-hover:opacity-40" />
+                    
+                    <span className="relative z-10 text-lg">{category.icon}</span>
+                    <span className="relative z-10">{category.name}</span>
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </div>
       </nav>
