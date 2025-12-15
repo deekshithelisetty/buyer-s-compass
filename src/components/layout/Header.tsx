@@ -368,6 +368,12 @@ export function Header() {
                 { from: '#80FF72', to: '#7EE8FA' }, // Sports - green
                 { from: '#FFD93D', to: '#FF9F43' }, // Books - yellow
                 { from: '#ffa9c6', to: '#f434e2' }, // Beauty - pink
+                { from: '#6366f1', to: '#8b5cf6' }, // Toys - indigo
+                { from: '#22c55e', to: '#84cc16' }, // Grocery - green
+                { from: '#ef4444', to: '#f97316' }, // Automotive - red
+                { from: '#ec4899', to: '#a855f7' }, // Jewelry - magenta
+                { from: '#f59e0b', to: '#eab308' }, // Pets - amber
+                { from: '#14b8a6', to: '#06b6d4' }, // Health - teal
               ];
               const gradient = gradients[index % gradients.length];
               
