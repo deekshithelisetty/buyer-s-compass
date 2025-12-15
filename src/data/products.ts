@@ -7,6 +7,12 @@ export const categories: Category[] = [
   { id: "sports", name: "Sports", icon: "⚽", image: "https://images.unsplash.com/photo-1517649763962-0c623066013b?w=400" },
   { id: "books", name: "Books", icon: "📚", image: "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=400" },
   { id: "beauty", name: "Beauty", icon: "💄", image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400" },
+  { id: "toys", name: "Toys & Games", icon: "🎮", image: "https://images.unsplash.com/photo-1558060370-d644479cb6f7?w=400" },
+  { id: "grocery", name: "Grocery", icon: "🛒", image: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=400" },
+  { id: "automotive", name: "Automotive", icon: "🚗", image: "https://images.unsplash.com/photo-1489824904134-891ab64532f1?w=400" },
+  { id: "jewelry", name: "Jewelry", icon: "💎", image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400" },
+  { id: "pets", name: "Pet Supplies", icon: "🐾", image: "https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=400" },
+  { id: "health", name: "Health", icon: "💊", image: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400" },
 ];
 
 export const stores = [
