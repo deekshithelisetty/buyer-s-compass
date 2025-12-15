@@ -52,7 +52,9 @@ const Checkout = () => {
   const navigate = useNavigate();
   const { items, removeFromCart, updateQuantity, totalPrice, clearCart } = useCart();
   const { isAuthenticated } = useAuth();
-  const [step, setStep] = useState<"cart" | "address" | "payment">("cart");
+  const [step, setStep] = useState<"cart" | "address" | "payment" | "confirmation">("cart");
+  const [orderNumber, setOrderNumber] = useState<string>("");
+  const [orderDate, setOrderDate] = useState<Date | null>(null);
   const [selectedAddress, setSelectedAddress] = useState(savedAddresses[0]?.id || "");
   const [showAllAddresses, setShowAllAddresses] = useState(false);
   const [showNewAddressForm, setShowNewAddressForm] = useState(false);
@@ -71,12 +73,15 @@ const Checkout = () => {
     .slice(0, 8);
 
   const handlePlaceOrder = () => {
+    // Generate order number
+    const generatedOrderNumber = `INF-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
+    setOrderNumber(generatedOrderNumber);
+    setOrderDate(new Date());
+    setStep("confirmation");
     toast({
       title: "Order Placed Successfully! 🎉",
       description: "Thank you for your purchase. You will receive a confirmation email shortly.",
     });
-    clearCart();
-    navigate("/");
   };
 
   const handleProceedToAddress = () => {
@@ -108,6 +113,136 @@ const Checkout = () => {
             <Button className="bg-primary hover:bg-primary/90" size="lg" onClick={() => navigate("/")}>
               Continue Shopping
             </Button>
+          </div>
+        </div>
+      </Layout>
+    );
+  }
+
+  // Order Confirmation View
+  if (step === "confirmation") {
+    const selectedAddr = savedAddresses.find(a => a.id === selectedAddress);
+    const estimatedDelivery = orderDate ? new Date(orderDate.getTime() + 5 * 24 * 60 * 60 * 1000) : new Date();
+    const formatDate = (date: Date) => date.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" });
+
+    return (
+      <Layout>
+        <div className="container mx-auto px-4 py-8">
+          {/* Success Banner */}
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-900 rounded-lg p-6 mb-8">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center flex-shrink-0">
+                  <CheckCircle className="w-7 h-7 text-white" />
+                </div>
+                <div>
+                  <h1 className="text-2xl font-bold text-green-700 dark:text-green-400">Order placed, thank you!</h1>
+                  <p className="text-green-600 dark:text-green-500 mt-1">
+                    Confirmation will be sent to your email.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Order Details Card */}
+            <div className="border border-border rounded-lg overflow-hidden mb-6">
+              <div className="bg-muted/50 px-6 py-4 border-b border-border">
+                <div className="flex flex-wrap items-center justify-between gap-4">
+                  <div>
+                    <p className="text-sm text-muted-foreground">Order Number</p>
+                    <p className="font-bold text-lg">{orderNumber}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Order Date</p>
+                    <p className="font-medium">{orderDate ? formatDate(orderDate) : ""}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Estimated Delivery</p>
+                    <p className="font-medium text-green-600 dark:text-green-400">{formatDate(estimatedDelivery)}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Delivery Address */}
+              {selectedAddr && (
+                <div className="px-6 py-4 border-b border-border">
+                  <h3 className="font-semibold mb-2">Shipping Address</h3>
+                  <div className="flex items-start gap-2 text-sm text-muted-foreground">
+                    <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="font-medium text-foreground">{selectedAddr.name}</p>
+                      <p>{selectedAddr.address}</p>
+                      <p>{selectedAddr.city}, {selectedAddr.state} {selectedAddr.zip}</p>
+                      <p>{selectedAddr.country}</p>
+                      <p>Phone: {selectedAddr.phone}</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Order Items */}
+              <div className="px-6 py-4">
+                <h3 className="font-semibold mb-4">Order Items ({items.length})</h3>
+                <div className="space-y-4">
+                  {items.map((item) => (
+                    <div key={item.id} className="flex gap-4 pb-4 border-b border-border last:border-0 last:pb-0">
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="w-20 h-20 object-contain rounded bg-muted"
+                      />
+                      <div className="flex-1">
+                        <p className="font-medium line-clamp-2">{item.name}</p>
+                        <p className="text-sm text-muted-foreground">Qty: {item.quantity}</p>
+                        <p className="font-bold mt-1">${(item.price * item.quantity).toFixed(2)}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Order Summary */}
+              <div className="bg-muted/30 px-6 py-4 border-t border-border">
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Subtotal</span>
+                    <span>${totalPrice.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Shipping</span>
+                    <span>{shipping === 0 ? "FREE" : `$${shipping.toFixed(2)}`}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Tax</span>
+                    <span>${tax.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between font-bold text-lg pt-2 border-t border-border">
+                    <span>Order Total</span>
+                    <span>${total.toFixed(2)}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Button
+                className="flex-1 bg-amber-400 hover:bg-amber-500 text-foreground font-medium rounded-full h-12"
+                onClick={() => {
+                  clearCart();
+                  navigate("/");
+                }}
+              >
+                Continue Shopping
+              </Button>
+              <Button
+                variant="outline"
+                className="flex-1 rounded-full h-12"
+                onClick={() => window.print()}
+              >
+                Print Order Details
+              </Button>
+            </div>
           </div>
         </div>
       </Layout>
