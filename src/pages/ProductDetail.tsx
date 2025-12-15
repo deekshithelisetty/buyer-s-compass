@@ -1,5 +1,5 @@
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { Star, ShoppingCart, Heart, Plus } from "lucide-react";
+import { Star, ShoppingCart, Heart, RefreshCw, Shirt, PaintBucket, Footprints } from "lucide-react";
 import { useState } from "react";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
@@ -13,14 +13,18 @@ const ProductDetail = () => {
   const navigate = useNavigate();
   const { addToCart } = useCart();
   const { isAuthenticated } = useAuth();
-  const [quantity, setQuantity] = useState(1);
 
   const product = products.find((p) => p.id === id);
 
-  // Get similar products
+  // Get similar products for the floating items
   const similarProducts = products.filter(
     (p) => p.category === product?.category && p.id !== product?.id
   ).slice(0, 6);
+
+  // Get recommended items to show in the right panel (different categories)
+  const recommendedItems = products.filter(
+    (p) => p.id !== product?.id
+  ).slice(0, 3);
 
   if (!product) {
     return (
@@ -33,18 +37,11 @@ const ProductDetail = () => {
     );
   }
 
-  const discount = product.originalPrice
-    ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
-    : 0;
+  const totalPrice = recommendedItems.reduce((sum, item) => sum + item.price, 0);
 
-  const handleAddToCart = () => {
-    for (let i = 0; i < quantity; i++) {
-      addToCart(product);
-    }
-  };
-
-  const handleBuyNow = () => {
-    addToCart(product);
+  const handleOrderNow = () => {
+    // Add all recommended items to cart
+    recommendedItems.forEach(item => addToCart(item));
     if (isAuthenticated) {
       navigate("/checkout?step=address");
     } else {
@@ -52,41 +49,49 @@ const ProductDetail = () => {
     }
   };
 
-  // Positions for floating related products
+  // Positions for floating related products in a circle
   const floatingPositions = [
-    { top: "5%", left: "15%" },
-    { top: "5%", right: "15%" },
-    { top: "35%", left: "5%" },
-    { top: "35%", right: "5%" },
-    { top: "65%", left: "10%" },
-    { top: "65%", right: "10%" },
+    { top: "8%", left: "25%", size: "w-14 h-14" },
+    { top: "8%", left: "65%", size: "w-12 h-12" },
+    { top: "30%", left: "5%", size: "w-12 h-12" },
+    { top: "32%", left: "80%", size: "w-14 h-14" },
+    { top: "70%", left: "10%", size: "w-12 h-12" },
+    { top: "72%", left: "75%", size: "w-14 h-14" },
   ];
+
+  const getItemIcon = (index: number) => {
+    const icons = [Shirt, PaintBucket, Footprints];
+    const Icon = icons[index % icons.length];
+    return <Icon className="w-4 h-4 text-muted-foreground" />;
+  };
 
   return (
     <Layout>
       <div className="min-h-[calc(100vh-140px)] bg-gradient-to-br from-orange-50 via-pink-50 to-amber-50 dark:from-background dark:via-background dark:to-background">
         <div className="container mx-auto px-4 py-8">
           {/* Main 3-Column Layout */}
-          <div className="flex items-center justify-center gap-4 lg:gap-8 min-h-[70vh]">
+          <div className="flex items-center justify-center gap-0 lg:gap-4 min-h-[70vh]">
             
-            {/* LEFT: Related Products - Floating Circle Layout */}
-            <div className="hidden lg:block relative w-64 h-[500px]">
-              {/* Decorative circle outline */}
-              <div className="absolute inset-0 border border-border/30 rounded-full" />
+            {/* LEFT: Related Products in Circle */}
+            <div className="hidden lg:block relative w-72 h-[450px]">
+              {/* Large circle outline */}
+              <div className="absolute inset-4 border border-border/40 rounded-full" />
               
-              {/* Floating product items */}
-              {similarProducts.slice(0, 3).map((item, index) => (
+              {/* Floating product items around the circle */}
+              {similarProducts.map((item, index) => (
                 <Link
                   key={item.id}
                   to={`/product/${item.id}`}
-                  className="absolute group"
+                  className="absolute group z-10"
                   style={{
                     top: floatingPositions[index]?.top,
                     left: floatingPositions[index]?.left,
-                    right: floatingPositions[index]?.right,
                   }}
                 >
-                  <div className="w-16 h-16 rounded-full bg-card border border-border shadow-lg overflow-hidden hover:scale-110 transition-transform duration-300 hover:shadow-xl">
+                  <div className={cn(
+                    "rounded-full bg-card border border-border shadow-lg overflow-hidden hover:scale-110 transition-all duration-300 hover:shadow-xl",
+                    floatingPositions[index]?.size || "w-14 h-14"
+                  )}>
                     <img
                       src={item.image}
                       alt={item.name}
@@ -96,36 +101,23 @@ const ProductDetail = () => {
                 </Link>
               ))}
 
-              {/* More floating items bottom */}
-              {similarProducts.slice(3, 6).map((item, index) => (
-                <Link
-                  key={item.id}
-                  to={`/product/${item.id}`}
-                  className="absolute group"
-                  style={{
-                    top: floatingPositions[index + 3]?.top,
-                    left: floatingPositions[index + 3]?.left,
-                    right: floatingPositions[index + 3]?.right,
-                  }}
-                >
-                  <div className="w-14 h-14 rounded-full bg-card border border-border shadow-lg overflow-hidden hover:scale-110 transition-transform duration-300 hover:shadow-xl">
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                </Link>
-              ))}
+              {/* Regenerate outfit button in center */}
+              <button className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-foreground text-background px-4 py-2.5 rounded-full text-sm font-medium flex items-center gap-2 hover:bg-foreground/90 transition-colors shadow-lg z-20">
+                <RefreshCw className="w-4 h-4" />
+                Regenerate outfit
+              </button>
             </div>
 
             {/* CENTER: Main Product Image in Oval */}
             <div className="relative flex-shrink-0">
-              {/* Decorative outer circle */}
-              <div className="absolute -inset-8 border border-border/20 rounded-full" />
+              {/* Decorative outer curve connecting to left circle */}
+              <div className="hidden lg:block absolute -left-12 top-1/2 -translate-y-1/2 w-24 h-64 border-l border-border/30 rounded-l-full" />
+              
+              {/* Decorative outer curve connecting to right circle */}
+              <div className="hidden lg:block absolute -right-12 top-1/2 -translate-y-1/2 w-24 h-64 border-r border-border/30 rounded-r-full" />
               
               {/* Main product oval container */}
-              <div className="relative w-72 h-96 md:w-80 md:h-[420px] lg:w-96 lg:h-[480px] rounded-[50%] overflow-hidden bg-gradient-to-b from-orange-200 via-pink-200 to-orange-300 dark:from-primary/20 dark:via-primary/10 dark:to-primary/20 shadow-2xl">
+              <div className="relative w-64 h-80 md:w-72 md:h-96 lg:w-80 lg:h-[420px] rounded-[50%] overflow-hidden bg-gradient-to-b from-orange-300 via-pink-300 to-orange-200 dark:from-primary/30 dark:via-primary/20 dark:to-primary/30 shadow-2xl">
                 <img
                   src={product.image}
                   alt={product.name}
@@ -133,110 +125,50 @@ const ProductDetail = () => {
                 />
                 
                 {/* Wishlist button */}
-                <button className="absolute top-4 right-4 w-10 h-10 rounded-full bg-card/80 backdrop-blur-sm border border-border flex items-center justify-center hover:bg-card transition-colors shadow-lg">
-                  <Heart className="w-5 h-5 text-muted-foreground hover:text-destructive transition-colors" />
+                <button className="absolute top-4 right-4 w-9 h-9 rounded-full bg-card/80 backdrop-blur-sm border border-border flex items-center justify-center hover:bg-card transition-colors shadow-lg">
+                  <Heart className="w-4 h-4 text-muted-foreground hover:text-destructive transition-colors" />
                 </button>
-
-                {/* Discount badge */}
-                {discount > 0 && (
-                  <div className="absolute top-4 left-4 bg-destructive text-destructive-foreground text-xs font-bold px-2 py-1 rounded-full">
-                    -{discount}%
-                  </div>
-                )}
               </div>
             </div>
 
-            {/* RIGHT: Product Details & Actions */}
-            <div className="hidden lg:block relative w-64 h-[500px]">
-              {/* Decorative circle outline */}
-              <div className="absolute inset-0 border border-border/30 rounded-full" />
+            {/* RIGHT: Item List & Order */}
+            <div className="hidden lg:block relative w-72 h-[450px]">
+              {/* Large circle outline */}
+              <div className="absolute inset-4 border border-border/40 rounded-full" />
               
-              {/* Content card */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-56 bg-card rounded-2xl shadow-xl p-5 space-y-4">
-                {/* Product title */}
-                <h1 className="text-lg font-bold text-foreground leading-tight line-clamp-2">
-                  {product.name}
-                </h1>
+              {/* Content - item list */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 space-y-4">
+                {/* Item count */}
+                <h2 className="text-3xl font-bold text-foreground">
+                  {recommendedItems.length} item
+                </h2>
 
-                {/* Rating */}
-                <div className="flex items-center gap-1">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className={cn(
-                        "w-4 h-4",
-                        i < Math.floor(product.rating)
-                          ? "text-amber-400 fill-amber-400"
-                          : "text-muted-foreground"
-                      )}
-                    />
+                {/* Item list */}
+                <div className="space-y-3">
+                  {recommendedItems.map((item, index) => (
+                    <div key={item.id} className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        {getItemIcon(index)}
+                        <span className="text-sm text-muted-foreground">{item.name.split(' ')[0]}</span>
+                      </div>
+                      <span className="text-sm font-medium text-foreground">${item.price.toFixed(0)}</span>
+                    </div>
                   ))}
-                  <span className="text-xs text-muted-foreground ml-1">
-                    ({product.reviews})
+                </div>
+
+                {/* Total and Order button */}
+                <div className="flex items-center justify-between pt-4 border-t border-border/50">
+                  <span className="text-2xl font-bold text-foreground">
+                    ${totalPrice.toFixed(0)}
                   </span>
-                </div>
-
-                {/* Price */}
-                <div className="space-y-1">
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-2xl font-bold text-foreground">
-                      ${product.price.toFixed(2)}
-                    </span>
-                  </div>
-                  {product.originalPrice && (
-                    <p className="text-sm text-muted-foreground line-through">
-                      ${product.originalPrice.toFixed(2)}
-                    </p>
-                  )}
-                </div>
-
-                {/* Quantity */}
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-muted-foreground">Qty:</span>
-                  <div className="flex items-center border border-border rounded-full bg-muted/30">
-                    <button
-                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                      className="w-7 h-7 flex items-center justify-center hover:bg-muted rounded-l-full transition-colors text-sm"
-                    >
-                      -
-                    </button>
-                    <span className="w-6 text-center text-sm font-medium">{quantity}</span>
-                    <button
-                      onClick={() => setQuantity(quantity + 1)}
-                      className="w-7 h-7 flex items-center justify-center hover:bg-muted rounded-r-full transition-colors text-sm"
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
-
-                {/* Action buttons */}
-                <div className="space-y-2 pt-2">
-                  <Button
-                    className="w-full h-9 rounded-full text-sm"
-                    onClick={handleAddToCart}
-                    disabled={!product.inStock}
+                  <Button 
+                    className="rounded-full bg-foreground hover:bg-foreground/90 text-background px-5 h-10"
+                    onClick={handleOrderNow}
                   >
                     <ShoppingCart className="w-4 h-4 mr-2" />
-                    Add to Cart
-                  </Button>
-                  <Button 
-                    className="w-full h-9 rounded-full bg-foreground hover:bg-foreground/90 text-background text-sm"
-                    onClick={handleBuyNow}
-                    disabled={!product.inStock}
-                  >
-                    <Plus className="w-4 h-4 mr-2" />
-                    Buy Now
+                    Order now
                   </Button>
                 </div>
-
-                {/* Stock status */}
-                <p className={cn(
-                  "text-xs text-center",
-                  product.inStock ? "text-green-600" : "text-destructive"
-                )}>
-                  {product.inStock ? "✓ In Stock" : "Out of Stock"}
-                </p>
               </div>
             </div>
           </div>
@@ -278,7 +210,7 @@ const ProductDetail = () => {
             <div className="flex gap-3 pt-2">
               <Button
                 className="flex-1 h-11 rounded-full"
-                onClick={handleAddToCart}
+                onClick={() => addToCart(product)}
                 disabled={!product.inStock}
               >
                 <ShoppingCart className="w-4 h-4 mr-2" />
@@ -286,8 +218,7 @@ const ProductDetail = () => {
               </Button>
               <Button 
                 className="flex-1 h-11 rounded-full bg-foreground hover:bg-foreground/90 text-background"
-                onClick={handleBuyNow}
-                disabled={!product.inStock}
+                onClick={handleOrderNow}
               >
                 Buy Now
               </Button>
