@@ -94,10 +94,8 @@ const ProductDetail = () => {
             
             {/* LEFT: Related Products in Circle */}
             <div className="hidden lg:block relative w-72 h-[450px] z-10">
-              {/* Large circle outline with extended curve overlapping center */}
+              {/* Large round circle outline */}
               <div className="absolute inset-4 border-2 border-border/50 rounded-full" />
-              {/* Extended curve that overlaps center image */}
-              <div className="absolute top-1/2 -translate-y-1/2 -right-16 w-32 h-80 border-r-2 border-border/50 rounded-r-full" />
               
               {/* Floating product items around the circle */}
               {similarProducts.map((item, index) => (
@@ -142,10 +140,8 @@ const ProductDetail = () => {
 
             {/* RIGHT: Item List & Order */}
             <div className="hidden lg:block relative w-72 h-[450px] z-10">
-              {/* Large circle outline with extended curve overlapping center */}
+              {/* Large round circle outline */}
               <div className="absolute inset-4 border-2 border-border/50 rounded-full" />
-              {/* Extended curve that overlaps center image */}
-              <div className="absolute top-1/2 -translate-y-1/2 -left-16 w-32 h-80 border-l-2 border-border/50 rounded-l-full" />
               
               {/* Content - item list */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 space-y-4">
