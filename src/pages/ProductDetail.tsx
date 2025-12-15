@@ -5,12 +5,14 @@ import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { products } from "@/data/products";
 import { useCart } from "@/context/CartContext";
+import { useAuth } from "@/context/AuthContext";
 import { cn } from "@/lib/utils";
 
 const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToCart } = useCart();
+  const { isAuthenticated } = useAuth();
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
@@ -302,6 +304,15 @@ const ProductDetail = () => {
                 </Button>
                 <Button 
                   className="w-full h-10 rounded-full bg-amber-500 hover:bg-amber-600 text-white font-medium"
+                  onClick={() => {
+                    addToCart(product);
+                    if (isAuthenticated) {
+                      navigate("/checkout?step=address");
+                    } else {
+                      navigate("/auth?redirect=/checkout?step=address");
+                    }
+                  }}
+                  disabled={!product.inStock}
                 >
                   Buy Now
                 </Button>
