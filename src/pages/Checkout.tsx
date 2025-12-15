@@ -239,17 +239,21 @@ const Checkout = () => {
                 className="flex-1 bg-amber-400 hover:bg-amber-500 text-foreground font-medium rounded-full h-12"
                 onClick={() => {
                   clearCart();
-                  navigate("/");
+                  navigate(`/order-tracking?orderId=${orderNumber}`);
                 }}
               >
-                Continue Shopping
+                <Truck className="w-4 h-4 mr-2" />
+                Track Order
               </Button>
               <Button
                 variant="outline"
                 className="flex-1 rounded-full h-12"
-                onClick={() => window.print()}
+                onClick={() => {
+                  clearCart();
+                  navigate("/");
+                }}
               >
-                Print Order Details
+                Continue Shopping
               </Button>
             </div>
           </div>
