@@ -43,17 +43,8 @@ const ProductDetail = () => {
     }
   };
 
-  // Generate background color based on category
-  const categoryBgColors: Record<string, string> = {
-    electronics: "bg-amber-200",
-    fashion: "bg-rose-200",
-    home: "bg-emerald-200",
-    sports: "bg-blue-200",
-    books: "bg-orange-200",
-    beauty: "bg-purple-200",
-  };
-
-  const bgColor = categoryBgColors[product.category] || "bg-secondary";
+  // Use neutral background for all products
+  const bgColor = "bg-muted/50";
 
   // Get the selected color's image if available
   const selectedColorData = colors.find(c => c.hex === selectedColor);
@@ -75,10 +66,10 @@ const ProductDetail = () => {
     <Layout>
       <div className="container mx-auto px-4 py-6">
         {/* Main Product Section - Fits viewport */}
-        <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 min-h-[calc(100vh-180px)]">
+        <div className="grid lg:grid-cols-2 gap-6 lg:gap-10">
           {/* Product Image Gallery */}
-          <div className="animate-fade-in h-full flex items-center">
-            <div className="w-full h-full max-h-[500px] lg:max-h-[600px]">
+          <div className="animate-fade-in flex items-start">
+            <div className="w-full max-h-[420px]">
               <ProductImageGallery
                 images={galleryImages}
                 productName={product.name}
