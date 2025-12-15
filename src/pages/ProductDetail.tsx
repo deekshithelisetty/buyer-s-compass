@@ -1,5 +1,5 @@
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { Star, ShoppingCart, Heart, RefreshCw, Shirt, PaintBucket, Footprints } from "lucide-react";
+import { Star, ShoppingCart, Heart, Shirt, PaintBucket, Footprints } from "lucide-react";
 import { useState } from "react";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
@@ -101,11 +101,6 @@ const ProductDetail = () => {
                 </Link>
               ))}
 
-              {/* Regenerate outfit button in center */}
-              <button className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-foreground text-background px-4 py-2.5 rounded-full text-sm font-medium flex items-center gap-2 hover:bg-foreground/90 transition-colors shadow-lg z-20">
-                <RefreshCw className="w-4 h-4" />
-                Regenerate outfit
-              </button>
             </div>
 
             {/* CENTER: Main Product Image in Oval */}
