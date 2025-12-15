@@ -35,7 +35,12 @@ const electronicsProducts: Product[] = [
     reviews: 2341, 
     description: "Experience unparalleled audio quality with our premium wireless headphones. Featuring advanced noise cancellation technology and crystal-clear sound reproduction.", 
     features: ["Active Noise Cancellation", "40-hour Battery Life", "Premium Drivers", "Bluetooth 5.2"], 
-    inStock: true 
+    inStock: true,
+    colors: [
+      { name: "Black", hex: "#1C1C1E", image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600" },
+      { name: "White", hex: "#FFFFFF", image: "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=600" },
+      { name: "Silver", hex: "#C0C0C0", image: "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=600" },
+    ]
   },
   { 
     id: "e2", 
@@ -54,7 +59,13 @@ const electronicsProducts: Product[] = [
     reviews: 1856, 
     description: "Stay connected and track your fitness goals with the Smart Watch Pro Series. Advanced health monitoring meets sleek design.", 
     features: ["Heart Rate Monitor", "GPS", "Water Resistant", "Always-On Display"], 
-    inStock: true 
+    inStock: true,
+    sizes: ["40mm", "44mm", "45mm"],
+    colors: [
+      { name: "Midnight", hex: "#1C1C1E", image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600" },
+      { name: "Starlight", hex: "#F5F5DC", image: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=600" },
+      { name: "Silver", hex: "#C0C0C0", image: "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=600" },
+    ]
   },
   { 
     id: "e3", 
@@ -114,14 +125,67 @@ const electronicsProducts: Product[] = [
 
 // Fashion products
 const fashionProducts: Product[] = [
-  { id: "f1", name: "Color-blocked Puffer Jacket Multicolor", price: 300, originalPrice: 450, image: "https://images.unsplash.com/photo-1544923246-77307dd628b9?w=600", category: "fashion", rating: 4.5, reviews: 100, description: "Stylish puffer jacket", features: ["Warm", "Waterproof"], inStock: true },
-  { id: "f2", name: "Unisex Printed Quilted Puffer Jacket", price: 200, originalPrice: 280, image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600", category: "fashion", rating: 4.3, reviews: 1200, description: "Quilted design", features: ["Unisex", "Quilted"], inStock: true },
-  { id: "f3", name: "Off Road Ventures Women's Lightweight...", price: 734.60, originalPrice: 900, image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600", category: "fashion", rating: 3.5, reviews: 39, description: "Lightweight jacket", features: ["Breathable", "Light"], inStock: true },
-  { id: "f4", name: "Rowing Blazers Bright Multicolor Colorblock...", price: 1469.20, originalPrice: 1800, image: "https://images.unsplash.com/photo-1495105787522-5334e3ffa0ef?w=600", category: "fashion", rating: 4.5, reviews: 88, description: "Colorful blazer", features: ["Premium", "Colorful"], inStock: true },
-  { id: "f5", name: "U.S. Polo Assn. Women's Crop Color-Blocked Puffer...", price: 326.90, originalPrice: 450, image: "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=600", category: "fashion", rating: 4.0, reviews: 24, description: "Crop puffer", features: ["Crop Style", "Color Block"], inStock: true },
-  { id: "f6", name: "Pucci, Iride down jacket, Women, Multicolor, US 6...", price: 609.36, originalPrice: 800, image: "https://images.unsplash.com/photo-1539533113208-f6df8cc8b543?w=600", category: "fashion", rating: 4.5, reviews: 120, description: "Designer jacket", features: ["Designer", "Down Fill"], inStock: true },
-  { id: "f7", name: "Only Padded Coat in Pink & Red Color block-Multi", price: 209.36, originalPrice: 300, image: "https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?w=600", category: "fashion", rating: 3.5, reviews: 18, description: "Colorful coat", features: ["Padded", "Color Block"], inStock: true },
-  { id: "f8", name: "Classic Leather Jacket Black", price: 189.99, originalPrice: 249.99, image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600", category: "fashion", rating: 4.6, reviews: 892, description: "Timeless style", features: ["Genuine Leather", "Slim Fit"], inStock: true },
+  { 
+    id: "f1", 
+    name: "Color-blocked Puffer Jacket Multicolor", 
+    price: 300, 
+    originalPrice: 450, 
+    image: "https://images.unsplash.com/photo-1544923246-77307dd628b9?w=600", 
+    category: "fashion", 
+    rating: 4.5, 
+    reviews: 100, 
+    description: "Stylish puffer jacket with bold color blocking for a modern look.", 
+    features: ["Warm", "Waterproof", "Color Block Design"], 
+    inStock: true,
+    sizes: ["XS", "S", "M", "L", "XL"],
+    colors: [
+      { name: "Multicolor", hex: "#FF6B35", image: "https://images.unsplash.com/photo-1544923246-77307dd628b9?w=600" },
+      { name: "Black", hex: "#000000", image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600" },
+      { name: "Navy", hex: "#1E3A5F", image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600" },
+    ]
+  },
+  { 
+    id: "f2", 
+    name: "Unisex Printed Quilted Puffer Jacket", 
+    price: 200, 
+    originalPrice: 280, 
+    image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600", 
+    category: "fashion", 
+    rating: 4.3, 
+    reviews: 1200, 
+    description: "Quilted puffer jacket with unique print design, perfect for all seasons.", 
+    features: ["Unisex", "Quilted", "Lightweight"], 
+    inStock: true,
+    sizes: ["S", "M", "L", "XL", "XXL"],
+    colors: [
+      { name: "Black", hex: "#000000", image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600" },
+      { name: "Olive", hex: "#556B2F", image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600" },
+    ]
+  },
+  { id: "f3", name: "Off Road Ventures Women's Lightweight...", price: 734.60, originalPrice: 900, image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600", category: "fashion", rating: 3.5, reviews: 39, description: "Lightweight jacket", features: ["Breathable", "Light"], inStock: true, sizes: ["XS", "S", "M", "L"] },
+  { id: "f4", name: "Rowing Blazers Bright Multicolor Colorblock...", price: 1469.20, originalPrice: 1800, image: "https://images.unsplash.com/photo-1495105787522-5334e3ffa0ef?w=600", category: "fashion", rating: 4.5, reviews: 88, description: "Colorful blazer", features: ["Premium", "Colorful"], inStock: true, sizes: ["S", "M", "L", "XL"] },
+  { id: "f5", name: "U.S. Polo Assn. Women's Crop Color-Blocked Puffer...", price: 326.90, originalPrice: 450, image: "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=600", category: "fashion", rating: 4.0, reviews: 24, description: "Crop puffer", features: ["Crop Style", "Color Block"], inStock: true, sizes: ["XS", "S", "M", "L"] },
+  { id: "f6", name: "Pucci, Iride down jacket, Women, Multicolor, US 6...", price: 609.36, originalPrice: 800, image: "https://images.unsplash.com/photo-1539533113208-f6df8cc8b543?w=600", category: "fashion", rating: 4.5, reviews: 120, description: "Designer jacket", features: ["Designer", "Down Fill"], inStock: true, sizes: ["S", "M", "L"] },
+  { id: "f7", name: "Only Padded Coat in Pink & Red Color block-Multi", price: 209.36, originalPrice: 300, image: "https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?w=600", category: "fashion", rating: 3.5, reviews: 18, description: "Colorful coat", features: ["Padded", "Color Block"], inStock: true, sizes: ["XS", "S", "M", "L", "XL"] },
+  { 
+    id: "f8", 
+    name: "Classic Leather Jacket Black", 
+    price: 189.99, 
+    originalPrice: 249.99, 
+    image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600", 
+    category: "fashion", 
+    rating: 4.6, 
+    reviews: 892, 
+    description: "Timeless leather jacket with a slim fit silhouette.", 
+    features: ["Genuine Leather", "Slim Fit", "Classic Design"], 
+    inStock: true,
+    sizes: ["S", "M", "L", "XL", "XXL"],
+    colors: [
+      { name: "Black", hex: "#000000", image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600" },
+      { name: "Brown", hex: "#8B4513", image: "https://images.unsplash.com/photo-1544923246-77307dd628b9?w=600" },
+      { name: "Burgundy", hex: "#800020", image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600" },
+    ]
+  },
   { id: "f9", name: "Denim Jacket Vintage Wash", price: 129.99, originalPrice: 169.99, image: "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=600", category: "fashion", rating: 4.4, reviews: 567, description: "Classic denim", features: ["Cotton", "Vintage"], inStock: true },
   { id: "f10", name: "Wool Blend Overcoat Grey", price: 299.99, originalPrice: 399.99, image: "https://images.unsplash.com/photo-1544923246-77307dd628b9?w=600", category: "fashion", rating: 4.7, reviews: 234, description: "Elegant overcoat", features: ["Wool Blend", "Formal"], inStock: true },
   { id: "f11", name: "Summer Floral Dress", price: 89.99, originalPrice: 129.99, image: "https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=600", category: "fashion", rating: 4.5, reviews: 456, description: "Beautiful floral", features: ["Floral", "Light"], inStock: true },
