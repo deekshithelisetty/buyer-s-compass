@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { Trash2, Minus, Plus, ShoppingBag, CheckCircle, Star, ChevronDown, Lock, MapPin } from "lucide-react";
+import { Trash2, Minus, Plus, ShoppingBag, CheckCircle, Star, ChevronDown, Lock, MapPin, Heart, Share2, Truck } from "lucide-react";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -679,53 +679,132 @@ const Checkout = () => {
               </div>
 
               <div className="divide-y divide-border">
-                {items.map((item) => (
-                  <div key={item.id} className="flex gap-4 p-4">
-                    <Link to={`/product/${item.id}`} className="flex-shrink-0">
-                      <img
-                        src={item.image}
-                        alt={item.name}
-                        className="w-24 h-24 object-contain rounded"
-                      />
-                    </Link>
-                    <div className="flex-1 min-w-0">
-                      <Link to={`/product/${item.id}`}>
-                        <h3 className="font-medium text-primary hover:underline line-clamp-2">
-                          {item.name}
-                        </h3>
+                {items.map((item) => {
+                  const discount = item.originalPrice
+                    ? Math.round(((item.originalPrice - item.price) / item.originalPrice) * 100)
+                    : 0;
+                  const deliveryDate = new Date();
+                  deliveryDate.setDate(deliveryDate.getDate() + 3);
+                  const formattedDelivery = deliveryDate.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+
+                  return (
+                    <div key={item.id} className="flex gap-4 p-4">
+                      {/* Checkbox */}
+                      <div className="flex items-start pt-2">
+                        <input type="checkbox" defaultChecked className="w-4 h-4 rounded border-border" />
+                      </div>
+
+                      {/* Product Image */}
+                      <Link to={`/product/${item.id}`} className="flex-shrink-0">
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          className="w-32 h-32 object-contain rounded bg-muted/30 p-2"
+                        />
                       </Link>
-                      <p className="text-xs text-green-600 mt-1">In Stock</p>
-                      
-                      <div className="flex items-center gap-4 mt-3">
-                        <div className="flex items-center border border-border rounded bg-muted/50">
+
+                      {/* Product Details */}
+                      <div className="flex-1 min-w-0">
+                        <Link to={`/product/${item.id}`}>
+                          <h3 className="font-medium text-foreground hover:text-primary line-clamp-2 text-base">
+                            {item.name}
+                          </h3>
+                        </Link>
+
+                        <p className="text-sm text-green-600 mt-1 font-medium">In Stock</p>
+
+                        {/* Delivery Info */}
+                        <div className="flex items-center gap-2 mt-1">
+                          <Truck className="w-4 h-4 text-muted-foreground" />
+                          <span className="text-sm text-muted-foreground">
+                            FREE delivery <span className="font-medium text-foreground">{formattedDelivery}</span>
+                          </span>
+                        </div>
+
+                        {/* Color & Size if available */}
+                        <div className="flex flex-wrap gap-3 mt-2 text-sm text-muted-foreground">
+                          {item.colors && item.colors.length > 0 && (
+                            <span>Colour: <span className="text-foreground">{item.colors[0].name}</span></span>
+                          )}
+                          {item.sizes && item.sizes.length > 0 && (
+                            <span>Size: <span className="text-foreground">{item.sizes[0]}</span></span>
+                          )}
+                          <span>Category: <span className="text-foreground capitalize">{item.category}</span></span>
+                        </div>
+
+                        {/* Actions Row */}
+                        <div className="flex items-center gap-3 mt-3 flex-wrap">
+                          {/* Quantity Controls */}
+                          <div className="flex items-center border border-border rounded-lg bg-muted/50 overflow-hidden">
+                            <button
+                              onClick={() => {
+                                if (item.quantity === 1) {
+                                  removeFromCart(item.id);
+                                } else {
+                                  updateQuantity(item.id, item.quantity - 1);
+                                }
+                              }}
+                              className="w-8 h-8 flex items-center justify-center hover:bg-muted transition-colors"
+                            >
+                              {item.quantity === 1 ? <Trash2 className="w-3.5 h-3.5 text-muted-foreground" /> : <Minus className="w-3 h-3" />}
+                            </button>
+                            <span className="w-10 text-center text-sm font-medium">{item.quantity}</span>
+                            <button
+                              onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                              className="w-8 h-8 flex items-center justify-center hover:bg-muted transition-colors"
+                            >
+                              <Plus className="w-3 h-3" />
+                            </button>
+                          </div>
+
+                          <span className="text-muted-foreground/50">|</span>
+
                           <button
-                            onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                            className="w-8 h-8 flex items-center justify-center hover:bg-muted"
+                            onClick={() => removeFromCart(item.id)}
+                            className="text-sm text-primary hover:underline"
                           >
-                            <Minus className="w-3 h-3" />
+                            Delete
                           </button>
-                          <span className="w-8 text-center text-sm">{item.quantity}</span>
-                          <button
-                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                            className="w-8 h-8 flex items-center justify-center hover:bg-muted"
-                          >
-                            <Plus className="w-3 h-3" />
+
+                          <span className="text-muted-foreground/50">|</span>
+
+                          <button className="text-sm text-primary hover:underline flex items-center gap-1">
+                            <Heart className="w-3.5 h-3.5" />
+                            Save for later
+                          </button>
+
+                          <span className="text-muted-foreground/50 hidden sm:inline">|</span>
+
+                          <button className="text-sm text-primary hover:underline hidden sm:inline">
+                            See more like this
+                          </button>
+
+                          <span className="text-muted-foreground/50 hidden sm:inline">|</span>
+
+                          <button className="text-sm text-primary hover:underline hidden sm:flex items-center gap-1">
+                            <Share2 className="w-3.5 h-3.5" />
+                            Share
                           </button>
                         </div>
-                        <span className="text-muted-foreground">|</span>
-                        <button
-                          onClick={() => removeFromCart(item.id)}
-                          className="text-sm text-primary hover:underline"
-                        >
-                          Delete
-                        </button>
+                      </div>
+
+                      {/* Price */}
+                      <div className="text-right flex-shrink-0">
+                        {discount > 0 && (
+                          <span className="inline-block bg-destructive text-destructive-foreground text-xs font-medium px-2 py-0.5 rounded mb-1">
+                            -{discount}%
+                          </span>
+                        )}
+                        <p className="text-xl font-bold">${item.price.toFixed(2)}</p>
+                        {item.originalPrice && (
+                          <p className="text-sm text-muted-foreground line-through">
+                            M.R.P: ${item.originalPrice.toFixed(2)}
+                          </p>
+                        )}
                       </div>
                     </div>
-                    <div className="text-right">
-                      <p className="text-lg font-bold">${(item.price * item.quantity).toFixed(2)}</p>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
 
               <div className="p-4 border-t border-border text-right">
