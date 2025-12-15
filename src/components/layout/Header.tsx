@@ -296,8 +296,8 @@ export function Header() {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={() => navigate("/orders")}>My Orders</DropdownMenuItem>
                   <DropdownMenuItem>My Account</DropdownMenuItem>
-                  <DropdownMenuItem>Orders</DropdownMenuItem>
                   <DropdownMenuItem onClick={logout}>Sign Out</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
