@@ -1,5 +1,5 @@
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { Star, ShoppingCart, Heart, Shirt, PaintBucket, Footprints } from "lucide-react";
+import { Star, ShoppingCart, Heart } from "lucide-react";
 import { useState } from "react";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
@@ -49,20 +49,40 @@ const ProductDetail = () => {
     }
   };
 
-  // Positions for floating related products in a circle
+  // Positions for floating related products in a circle - rounded rectangles like reference
   const floatingPositions = [
-    { top: "8%", left: "25%", size: "w-14 h-14" },
-    { top: "8%", left: "65%", size: "w-12 h-12" },
-    { top: "30%", left: "5%", size: "w-12 h-12" },
-    { top: "32%", left: "80%", size: "w-14 h-14" },
-    { top: "70%", left: "10%", size: "w-12 h-12" },
-    { top: "72%", left: "75%", size: "w-14 h-14" },
+    { top: "5%", left: "20%", size: "w-16 h-16", rotate: "-5deg" },
+    { top: "5%", left: "60%", size: "w-14 h-14", rotate: "5deg" },
+    { top: "35%", left: "-5%", size: "w-14 h-14", rotate: "-10deg" },
+    { top: "35%", left: "78%", size: "w-16 h-16", rotate: "10deg" },
+    { top: "65%", left: "0%", size: "w-14 h-14", rotate: "-5deg" },
+    { top: "75%", left: "35%", size: "w-12 h-12", rotate: "0deg" },
   ];
 
+  // SVG icons matching the reference image style
+  const TshirtIcon = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-5 h-5 text-muted-foreground">
+      <path d="M20 6L17 3H7L4 6l3 2v12h10V8l3-2z" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  );
+
+  const PantIcon = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-5 h-5 text-muted-foreground">
+      <path d="M6 2h12v4l-2 16h-3l-1-12-1 12H8L6 6V2z" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  );
+
+  const ShoeIcon = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-5 h-5 text-muted-foreground">
+      <path d="M2 16l2-4h4l2 2h10a2 2 0 012 2v2H2v-2z" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M4 12l2-6h4l2 2" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  );
+
   const getItemIcon = (index: number) => {
-    const icons = [Shirt, PaintBucket, Footprints];
+    const icons = [TshirtIcon, PantIcon, ShoeIcon];
     const Icon = icons[index % icons.length];
-    return <Icon className="w-4 h-4 text-muted-foreground" />;
+    return <Icon />;
   };
 
   return (
@@ -88,10 +108,13 @@ const ProductDetail = () => {
                     left: floatingPositions[index]?.left,
                   }}
                 >
-                  <div className={cn(
-                    "rounded-full bg-card border border-border shadow-lg overflow-hidden hover:scale-110 transition-all duration-300 hover:shadow-xl",
-                    floatingPositions[index]?.size || "w-14 h-14"
-                  )}>
+                  <div 
+                    className={cn(
+                      "rounded-2xl bg-card border border-border/50 shadow-lg overflow-hidden hover:scale-110 transition-all duration-300 hover:shadow-xl",
+                      floatingPositions[index]?.size || "w-14 h-14"
+                    )}
+                    style={{ transform: `rotate(${floatingPositions[index]?.rotate || '0deg'})` }}
+                  >
                     <img
                       src={item.image}
                       alt={item.name}
