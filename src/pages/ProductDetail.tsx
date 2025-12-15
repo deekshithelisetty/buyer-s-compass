@@ -49,14 +49,14 @@ const ProductDetail = () => {
     }
   };
 
-  // Positions for floating related products in a circle - rounded rectangles like reference
+  // Positions for floating related products within the circle
   const floatingPositions = [
-    { top: "5%", left: "20%", size: "w-16 h-16", rotate: "-5deg" },
-    { top: "5%", left: "60%", size: "w-14 h-14", rotate: "5deg" },
-    { top: "35%", left: "-5%", size: "w-14 h-14", rotate: "-10deg" },
-    { top: "35%", left: "78%", size: "w-16 h-16", rotate: "10deg" },
-    { top: "65%", left: "0%", size: "w-14 h-14", rotate: "-5deg" },
-    { top: "75%", left: "35%", size: "w-12 h-12", rotate: "0deg" },
+    { top: "12%", left: "32%", size: "w-14 h-14", rotate: "-5deg" },
+    { top: "8%", left: "55%", size: "w-12 h-12", rotate: "5deg" },
+    { top: "38%", left: "18%", size: "w-14 h-14", rotate: "-8deg" },
+    { top: "35%", left: "65%", size: "w-14 h-14", rotate: "8deg" },
+    { top: "62%", left: "20%", size: "w-12 h-12", rotate: "-5deg" },
+    { top: "70%", left: "45%", size: "w-14 h-14", rotate: "0deg" },
   ];
 
   // SVG icons matching the reference image style
@@ -112,7 +112,7 @@ const ProductDetail = () => {
                 >
                   <div 
                     className={cn(
-                      "rounded-2xl bg-card border border-border/50 shadow-lg overflow-hidden hover:scale-110 transition-all duration-300 hover:shadow-xl",
+                      "rounded-2xl bg-card border border-border/50 shadow-lg overflow-hidden transition-all duration-300 hover:scale-125 hover:shadow-2xl hover:z-30",
                       floatingPositions[index]?.size || "w-14 h-14"
                     )}
                     style={{ transform: `rotate(${floatingPositions[index]?.rotate || '0deg'})` }}
@@ -120,7 +120,7 @@ const ProductDetail = () => {
                     <img
                       src={item.image}
                       alt={item.name}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                     />
                   </div>
                 </Link>
