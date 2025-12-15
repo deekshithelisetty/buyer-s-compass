@@ -73,25 +73,29 @@ const ProductDetail = () => {
 
   return (
     <Layout>
-      <div className="container mx-auto px-4 py-8">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16">
+      <div className="container mx-auto px-4 py-6">
+        {/* Main Product Section - Fits viewport */}
+        <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 min-h-[calc(100vh-180px)]">
           {/* Product Image Gallery */}
-          <div className="animate-fade-in-up">
-            <ProductImageGallery
-              images={galleryImages}
-              productName={product.name}
-              discount={discount}
-              bgColor={bgColor}
-            />
+          <div className="animate-fade-in h-full flex items-center">
+            <div className="w-full h-full max-h-[500px] lg:max-h-[600px]">
+              <ProductImageGallery
+                images={galleryImages}
+                productName={product.name}
+                discount={discount}
+                bgColor={bgColor}
+              />
+            </div>
           </div>
 
-          {/* Product Info */}
-          <div className="space-y-5 animate-fade-in-up delay-200">
+          {/* Product Info - Scrollable if needed */}
+          <div className="flex flex-col justify-center space-y-4 animate-fade-in lg:max-h-[600px] lg:overflow-y-auto lg:pr-2 scrollbar-thin">
+            {/* Category & Title */}
             <div>
-              <span className="text-sm text-primary font-semibold uppercase tracking-wider">
+              <span className="text-xs text-primary font-semibold uppercase tracking-wider">
                 {product.category}
               </span>
-              <h1 className="text-3xl md:text-4xl font-display font-bold mt-2 leading-tight">
+              <h1 className="text-2xl lg:text-3xl font-display font-bold mt-1 leading-tight">
                 {product.name}
               </h1>
             </div>
@@ -103,7 +107,7 @@ const ProductDetail = () => {
                   <Star
                     key={i}
                     className={cn(
-                      "w-5 h-5",
+                      "w-4 h-4",
                       i < Math.floor(product.rating)
                         ? "text-amber-400 fill-amber-400"
                         : "text-muted fill-muted"
@@ -111,36 +115,36 @@ const ProductDetail = () => {
                   />
                 ))}
               </div>
-              <span className="text-foreground font-semibold">{product.rating}</span>
-              <span className="text-muted-foreground">
+              <span className="text-sm text-foreground font-semibold">{product.rating}</span>
+              <span className="text-sm text-muted-foreground">
                 ({product.reviews.toLocaleString()} reviews)
               </span>
             </div>
 
             {/* Price */}
             <div className="flex items-baseline gap-3">
-              <span className="text-4xl font-bold text-foreground">
+              <span className="text-3xl font-bold text-foreground">
                 ${product.price.toFixed(2)}
               </span>
               {product.originalPrice && (
-                <span className="text-xl text-muted-foreground line-through">
+                <span className="text-lg text-muted-foreground line-through">
                   ${product.originalPrice.toFixed(2)}
                 </span>
               )}
             </div>
 
             {/* Description */}
-            <p className="text-muted-foreground leading-relaxed text-base">
+            <p className="text-sm text-muted-foreground leading-relaxed">
               {product.description}
             </p>
 
             {/* Size Selector */}
             {sizes.length > 0 && (
-              <div className="space-y-3">
+              <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="font-medium text-foreground">Size</span>
+                  <span className="text-sm font-medium text-foreground">Size</span>
                   {selectedSize && (
-                    <span className="text-sm text-muted-foreground">Selected: {selectedSize}</span>
+                    <span className="text-xs text-muted-foreground">{selectedSize}</span>
                   )}
                 </div>
                 <div className="flex flex-wrap gap-2">
@@ -149,7 +153,7 @@ const ProductDetail = () => {
                       key={size}
                       onClick={() => setSelectedSize(size)}
                       className={cn(
-                        "min-w-[48px] h-10 px-4 rounded-lg border-2 font-medium text-sm transition-all",
+                        "min-w-[40px] h-9 px-3 rounded-lg border-2 font-medium text-xs transition-all",
                         selectedSize === size
                           ? "border-primary bg-primary text-primary-foreground"
                           : "border-border bg-card text-foreground hover:border-primary/50"
@@ -164,22 +168,22 @@ const ProductDetail = () => {
 
             {/* Color Selector */}
             {colors.length > 0 && (
-              <div className="space-y-3">
+              <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="font-medium text-foreground">Color</span>
+                  <span className="text-sm font-medium text-foreground">Color</span>
                   {selectedColor && (
-                    <span className="text-sm text-muted-foreground">
+                    <span className="text-xs text-muted-foreground">
                       {colors.find(c => c.hex === selectedColor)?.name}
                     </span>
                   )}
                 </div>
-                <div className="flex flex-wrap gap-3">
+                <div className="flex flex-wrap gap-2">
                   {colors.map((color) => (
                     <button
                       key={color.hex}
                       onClick={() => setSelectedColor(color.hex)}
                       className={cn(
-                        "w-10 h-10 rounded-full relative transition-all",
+                        "w-8 h-8 rounded-full relative transition-all",
                         selectedColor === color.hex
                           ? "ring-2 ring-primary ring-offset-2 ring-offset-background"
                           : "hover:scale-110"
@@ -194,8 +198,8 @@ const ProductDetail = () => {
                         <span className="absolute inset-0 flex items-center justify-center">
                           <svg
                             className={cn(
-                              "w-5 h-5",
-                              color.hex === "#FFFFFF" || color.hex === "#C0C0C0" || color.hex === "#D4AF37" || color.hex === "#D4C4A8" || color.hex === "#E3BC9A"
+                              "w-4 h-4",
+                              color.hex === "#FFFFFF" || color.hex === "#C0C0C0" || color.hex === "#D4AF37" || color.hex === "#D4C4A8" || color.hex === "#E3BC9A" || color.hex === "#F5F5DC"
                                 ? "text-foreground"
                                 : "text-white"
                             )}
@@ -213,76 +217,67 @@ const ProductDetail = () => {
               </div>
             )}
 
-            {/* Features */}
+            {/* Features - Compact */}
             {product.features && (
-              <div className="space-y-3">
-                <h3 className="font-semibold text-foreground">Features</h3>
-                <ul className="grid grid-cols-2 gap-x-6 gap-y-2">
-                  {product.features.map((feature) => (
-                    <li
-                      key={feature}
-                      className="flex items-center gap-2 text-sm text-muted-foreground"
-                    >
-                      <span className="w-2 h-2 bg-primary rounded-full flex-shrink-0" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
+              <div className="flex flex-wrap gap-2">
+                {product.features.map((feature) => (
+                  <span
+                    key={feature}
+                    className="text-xs bg-muted px-3 py-1.5 rounded-full text-muted-foreground"
+                  >
+                    {feature}
+                  </span>
+                ))}
               </div>
             )}
 
-            {/* Quantity */}
-            <div className="flex items-center gap-4">
-              <span className="font-medium text-foreground">Quantity:</span>
+            {/* Quantity & Actions */}
+            <div className="flex items-center gap-4 pt-2">
               <div className="flex items-center border border-border rounded-full bg-card">
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-10 w-10 rounded-full"
+                  className="h-9 w-9 rounded-full"
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
                 >
                   <Minus className="w-4 h-4" />
                 </Button>
-                <span className="w-10 text-center font-semibold">{quantity}</span>
+                <span className="w-8 text-center font-semibold text-sm">{quantity}</span>
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-10 w-10 rounded-full"
+                  className="h-9 w-9 rounded-full"
                   onClick={() => setQuantity(quantity + 1)}
                 >
                   <Plus className="w-4 h-4" />
                 </Button>
               </div>
-            </div>
-
-            {/* Actions */}
-            <div className="flex gap-4 pt-2">
               <Button
-                className="flex-1 h-14 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-base"
+                className="flex-1 h-11 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-sm"
                 onClick={handleAddToCart}
                 disabled={!product.inStock}
               >
-                <ShoppingCart className="w-5 h-5 mr-2" />
+                <ShoppingCart className="w-4 h-4 mr-2" />
                 Add to Cart
               </Button>
               <Button 
                 variant="outline" 
-                className="h-14 px-8 rounded-xl font-semibold text-base border-2"
+                className="h-11 px-6 rounded-xl font-semibold text-sm border-2"
               >
                 Buy Now
               </Button>
             </div>
 
-            {/* Trust badges */}
-            <div className="grid grid-cols-3 gap-4 pt-6 border-t border-border">
+            {/* Trust badges - Compact */}
+            <div className="flex items-center justify-between pt-4 border-t border-border">
               {[
                 { icon: Truck, text: "Free Shipping" },
                 { icon: Shield, text: "2 Year Warranty" },
                 { icon: RotateCcw, text: "30-Day Returns" },
               ].map((item) => (
-                <div key={item.text} className="text-center">
-                  <item.icon className="w-7 h-7 mx-auto text-primary mb-2" />
-                  <span className="text-sm text-muted-foreground">{item.text}</span>
+                <div key={item.text} className="flex items-center gap-2 text-muted-foreground">
+                  <item.icon className="w-4 h-4 text-primary" />
+                  <span className="text-xs">{item.text}</span>
                 </div>
               ))}
             </div>

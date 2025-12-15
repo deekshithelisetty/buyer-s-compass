@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Heart, ChevronLeft, ChevronRight } from "lucide-react";
+import { Heart, ChevronUp, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface ProductImageGalleryProps {
@@ -26,72 +26,74 @@ export function ProductImageGallery({
   };
 
   return (
-    <div className="space-y-4">
+    <div className="flex gap-4 h-full">
+      {/* Vertical Thumbnails */}
+      {images.length > 1 && (
+        <div className="flex flex-col gap-2 relative">
+          {images.length > 4 && (
+            <button
+              onClick={handlePrevious}
+              className="absolute -top-2 left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-card shadow-md flex items-center justify-center z-10 hover:bg-muted transition-colors"
+            >
+              <ChevronUp className="w-4 h-4 text-foreground" />
+            </button>
+          )}
+          <div className="flex flex-col gap-2 max-h-[400px] overflow-hidden py-1">
+            {images.map((image, index) => (
+              <button
+                key={index}
+                onClick={() => setSelectedIndex(index)}
+                className={cn(
+                  "relative w-16 h-16 lg:w-20 lg:h-20 rounded-xl overflow-hidden transition-all duration-200 flex-shrink-0",
+                  selectedIndex === index
+                    ? "ring-2 ring-primary ring-offset-2 ring-offset-background"
+                    : "opacity-50 hover:opacity-100"
+                )}
+              >
+                <div className={cn("absolute inset-0", bgColor)} />
+                <img
+                  src={image}
+                  alt={`${productName} thumbnail ${index + 1}`}
+                  className="relative w-full h-full object-contain p-2"
+                />
+              </button>
+            ))}
+          </div>
+          {images.length > 4 && (
+            <button
+              onClick={handleNext}
+              className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-card shadow-md flex items-center justify-center z-10 hover:bg-muted transition-colors"
+            >
+              <ChevronDown className="w-4 h-4 text-foreground" />
+            </button>
+          )}
+        </div>
+      )}
+
       {/* Main Image */}
-      <div className={cn("relative aspect-square rounded-3xl overflow-hidden", bgColor)}>
-        <img
-          src={images[selectedIndex]}
-          alt={`${productName} - View ${selectedIndex + 1}`}
-          className="w-full h-full object-contain p-8 transition-opacity duration-300"
-        />
+      <div className={cn("relative flex-1 rounded-2xl overflow-hidden", bgColor)}>
+        <div className="aspect-square h-full w-full flex items-center justify-center">
+          <img
+            src={images[selectedIndex]}
+            alt={`${productName} - View ${selectedIndex + 1}`}
+            className="max-w-full max-h-full object-contain p-6 transition-all duration-300"
+          />
+        </div>
         
         {/* Discount Badge */}
         {discount && discount > 0 && (
-          <span className="absolute top-5 left-5 bg-destructive text-destructive-foreground text-sm font-bold px-4 py-2 rounded-xl shadow-lg">
-            -{discount}% OFF
+          <span className="absolute top-4 left-4 bg-destructive text-destructive-foreground text-xs font-bold px-3 py-1.5 rounded-lg shadow-lg">
+            -{discount}%
           </span>
         )}
         
         {/* Wishlist Button */}
         <button
-          className="absolute top-5 right-5 w-12 h-12 rounded-full bg-card shadow-lg flex items-center justify-center transition-all hover:scale-110"
+          className="absolute top-4 right-4 w-10 h-10 rounded-full bg-card/90 backdrop-blur-sm shadow-lg flex items-center justify-center transition-all hover:scale-110 group"
         >
-          <Heart className="w-6 h-6 text-muted-foreground hover:text-destructive transition-colors" />
+          <Heart className="w-5 h-5 text-muted-foreground group-hover:text-destructive transition-colors" />
         </button>
-
-        {/* Navigation Arrows */}
-        {images.length > 1 && (
-          <>
-            <button
-              onClick={handlePrevious}
-              className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-card/90 shadow-lg flex items-center justify-center transition-all hover:scale-110 hover:bg-card"
-            >
-              <ChevronLeft className="w-5 h-5 text-foreground" />
-            </button>
-            <button
-              onClick={handleNext}
-              className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-card/90 shadow-lg flex items-center justify-center transition-all hover:scale-110 hover:bg-card"
-            >
-              <ChevronRight className="w-5 h-5 text-foreground" />
-            </button>
-          </>
-        )}
       </div>
-
-      {/* Thumbnails */}
-      {images.length > 1 && (
-        <div className="flex gap-3 justify-center">
-          {images.map((image, index) => (
-            <button
-              key={index}
-              onClick={() => setSelectedIndex(index)}
-              className={cn(
-                "relative w-16 h-16 md:w-20 md:h-20 rounded-xl overflow-hidden transition-all duration-200",
-                selectedIndex === index
-                  ? "ring-2 ring-primary ring-offset-2 ring-offset-background scale-105"
-                  : "opacity-60 hover:opacity-100 hover:scale-105"
-              )}
-            >
-              <div className={cn("absolute inset-0", bgColor)} />
-              <img
-                src={image}
-                alt={`${productName} thumbnail ${index + 1}`}
-                className="relative w-full h-full object-contain p-2"
-              />
-            </button>
-          ))}
-        </div>
-      )}
     </div>
   );
 }
