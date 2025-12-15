@@ -93,7 +93,7 @@ const ProductDetail = () => {
           <div className="flex items-center justify-center gap-0 lg:gap-0 min-h-[70vh] relative">
             
            {/* LEFT: Related Products in Circle */}
-            <div className="hidden lg:block relative w-[450px] h-[450px] z-10 -mr-16">
+            <div className="hidden lg:block relative w-[380px] h-[380px] z-10 -mr-12">
               {/* Large round circle outline - thick border overlapping with center */}
               <div className="absolute inset-4 border-2 border-muted-foreground/30 rounded-full" />
               
@@ -129,7 +129,7 @@ const ProductDetail = () => {
             {/* CENTER: Main Product Image in Oval */}
             <div className="relative flex-shrink-0 z-20">
               {/* Main product container - stadium shape with curved sides */}
-              <div className="relative w-56 h-80 md:w-64 md:h-96 lg:w-72 lg:h-[420px] rounded-[50%/30%] overflow-hidden bg-muted shadow-2xl">
+              <div className="relative w-64 h-96 md:w-72 md:h-[420px] lg:w-80 lg:h-[500px] rounded-[50%/30%] overflow-hidden bg-muted shadow-2xl">
                 <img
                   src={product.image}
                   alt={product.name}
@@ -139,7 +139,7 @@ const ProductDetail = () => {
             </div>
 
             {/* RIGHT: Item List & Order */}
-            <div className="hidden lg:block relative w-[450px] h-[450px] z-10 -ml-16">
+            <div className="hidden lg:block relative w-[380px] h-[380px] z-10 -ml-12">
               {/* Large round circle outline - thick border overlapping with center */}
               <div className="absolute inset-4 border-2 border-muted-foreground/30 rounded-full" />
               
