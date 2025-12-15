@@ -12,49 +12,29 @@ const Auth = () => {
   const redirectTo = searchParams.get("redirect") || "/";
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [name, setName] = useState("Demo User");
+  const [email, setEmail] = useState("demo@example.com");
+  const [password, setPassword] = useState("demo123");
   const { login, signup } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-
-    try {
-      let success;
-      if (isLogin) {
-        success = await login(email, password);
-      } else {
-        success = await signup(name, email, password);
-      }
-
-      if (success) {
-        toast({
-          title: isLogin ? "Welcome back!" : "Account created!",
-          description: isLogin
-            ? "You have successfully signed in."
-            : "Your account has been created successfully.",
-        });
-        navigate(redirectTo);
-      } else {
-        toast({
-          title: "Error",
-          description: "Please check your credentials and try again.",
-          variant: "destructive",
-        });
-      }
-    } catch {
-      toast({
-        title: "Error",
-        description: "Something went wrong. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
+    
+    // Instant demo login/signup
+    if (isLogin) {
+      login(email, password);
+    } else {
+      signup(name, email, password);
     }
+    
+    toast({
+      title: isLogin ? "Welcome back!" : "Account created!",
+      description: isLogin
+        ? "You have successfully signed in."
+        : "Your account has been created successfully.",
+    });
+    navigate(redirectTo);
   };
 
   return (
@@ -160,9 +140,8 @@ const Auth = () => {
               variant="hero"
               size="lg"
               className="w-full"
-              disabled={isLoading}
             >
-              {isLoading ? "Please wait..." : isLogin ? "Sign In" : "Create Account"}
+              {isLogin ? "Sign In" : "Create Account"}
             </Button>
           </form>
 
