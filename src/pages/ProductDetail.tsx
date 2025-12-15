@@ -92,10 +92,10 @@ const ProductDetail = () => {
           {/* Main 3-Column Layout */}
           <div className="flex items-center justify-center gap-0 lg:gap-0 min-h-[70vh] relative">
             
-            {/* LEFT: Related Products in Circle */}
-            <div className="hidden lg:block relative w-[450px] h-[450px] z-10">
-              {/* Large round circle outline */}
-              <div className="absolute inset-4 border-2 border-border/50 rounded-full" />
+           {/* LEFT: Related Products in Circle */}
+            <div className="hidden lg:block relative w-[450px] h-[450px] z-10 -mr-16">
+              {/* Large round circle outline - thick border overlapping with center */}
+              <div className="absolute inset-4 border-[6px] border-muted-foreground/30 rounded-full" />
               
               {/* Floating product items around the circle */}
               {similarProducts.map((item, index) => (
@@ -139,9 +139,9 @@ const ProductDetail = () => {
             </div>
 
             {/* RIGHT: Item List & Order */}
-            <div className="hidden lg:block relative w-[450px] h-[450px] z-10">
-              {/* Large round circle outline */}
-              <div className="absolute inset-4 border-2 border-border/50 rounded-full" />
+            <div className="hidden lg:block relative w-[450px] h-[450px] z-10 -ml-16">
+              {/* Large round circle outline - thick border overlapping with center */}
+              <div className="absolute inset-4 border-[6px] border-muted-foreground/30 rounded-full" />
               
               {/* Content - item list */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 space-y-4">
