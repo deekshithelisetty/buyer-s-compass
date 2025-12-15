@@ -129,14 +129,12 @@ const ProductDetail = () => {
             {/* CENTER: Main Product Image in Oval */}
             <div className="relative flex-shrink-0">
               {/* Main product container - stadium shape with curved sides */}
-              <div className="relative w-56 h-80 md:w-64 md:h-96 lg:w-72 lg:h-[420px] rounded-[50%/30%] overflow-hidden bg-gradient-to-b from-[#f5a070] via-[#f8a585] to-[#f0b0a8] dark:from-primary/30 dark:via-primary/20 dark:to-primary/30 shadow-2xl">
-                <div className="absolute inset-3 rounded-[50%/28%] overflow-hidden">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-full object-cover object-center"
-                  />
-                </div>
+              <div className="relative w-56 h-80 md:w-64 md:h-96 lg:w-72 lg:h-[420px] rounded-[50%/30%] overflow-hidden bg-muted shadow-2xl">
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="w-full h-full object-cover object-center"
+                />
               </div>
             </div>
 
