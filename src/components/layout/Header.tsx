@@ -275,10 +275,14 @@ export function Header() {
                         className="w-full bg-amber-400 hover:bg-amber-500 text-foreground font-medium rounded-full"
                         onClick={() => {
                           setIsCartOpen(false);
-                          navigate("/checkout?step=address");
+                          if (isAuthenticated) {
+                            navigate("/checkout?step=address");
+                          } else {
+                            navigate("/auth?redirect=/checkout?step=address");
+                          }
                         }}
                       >
-                        Proceed to checkout
+                        Proceed to Buy ({totalItems} items)
                       </Button>
                     </div>
                   </div>
