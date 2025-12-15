@@ -291,13 +291,13 @@ const Checkout = () => {
               <Button
                 className="bg-amber-400 hover:bg-amber-500 text-foreground font-medium px-8"
                 size="lg"
-                onClick={() => navigate("/auth")}
+                onClick={() => navigate("/auth?redirect=/checkout?step=address")}
               >
                 Sign In
               </Button>
               <p className="text-sm text-muted-foreground mt-4">
                 New customer?{" "}
-                <Link to="/auth" className="text-primary hover:underline">
+                <Link to="/auth?redirect=/checkout?step=address" className="text-primary hover:underline">
                   Create an account
                 </Link>
               </p>
