@@ -93,7 +93,7 @@ const ProductDetail = () => {
           <div className="flex items-center justify-center gap-0 lg:gap-0 min-h-[70vh] relative">
             
             {/* LEFT: Related Products in Circle */}
-            <div className="hidden lg:block relative w-72 h-72 z-10">
+            <div className="hidden lg:block relative w-96 h-96 z-10">
               {/* Large round circle outline */}
               <div className="absolute inset-4 border-2 border-border/50 rounded-full" />
               
@@ -139,7 +139,7 @@ const ProductDetail = () => {
             </div>
 
             {/* RIGHT: Item List & Order */}
-            <div className="hidden lg:block relative w-72 h-72 z-10">
+            <div className="hidden lg:block relative w-96 h-96 z-10">
               {/* Large round circle outline */}
               <div className="absolute inset-4 border-2 border-border/50 rounded-full" />
               
