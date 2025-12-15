@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Search, ShoppingCart, User, Menu, X, Sparkles, Globe, ChevronDown } from "lucide-react";
+import { Search, ShoppingCart, User, Menu, X, Sparkles, Globe, ChevronDown, Minus, Plus, Trash2, Heart, Share2, Truck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCart } from "@/context/CartContext";
@@ -12,11 +12,17 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 export function Header() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { totalItems } = useCart();
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const { items, totalItems, totalPrice, removeFromCart, updateQuantity } = useCart();
   const { isAuthenticated, user, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -88,21 +94,197 @@ export function Header() {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            {/* Cart Button */}
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => navigate("/checkout")}
-              className="flex items-center gap-1.5 relative text-foreground"
-            >
-              <ShoppingCart className="w-4 h-4" />
-              {totalItems > 0 && (
-                <span className="absolute -top-0.5 left-3 w-4 h-4 bg-primary text-primary-foreground text-[10px] rounded-full flex items-center justify-center">
-                  {totalItems}
-                </span>
-              )}
-              <span className="text-sm font-medium hidden sm:inline">Cart</span>
-            </Button>
+            {/* Cart Button with Popover */}
+            <Popover open={isCartOpen} onOpenChange={setIsCartOpen}>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="flex items-center gap-1.5 relative text-foreground"
+                >
+                  <ShoppingCart className="w-4 h-4" />
+                  {totalItems > 0 && (
+                    <span className="absolute -top-0.5 left-3 w-4 h-4 bg-primary text-primary-foreground text-[10px] rounded-full flex items-center justify-center">
+                      {totalItems}
+                    </span>
+                  )}
+                  <span className="text-sm font-medium hidden sm:inline">Cart</span>
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-[420px] p-0" align="end">
+                {items.length === 0 ? (
+                  <div className="p-6 text-center">
+                    <ShoppingCart className="w-12 h-12 mx-auto text-muted-foreground mb-3" />
+                    <p className="text-muted-foreground">Your cart is empty</p>
+                    <Button 
+                      className="mt-4" 
+                      onClick={() => { setIsCartOpen(false); navigate("/"); }}
+                    >
+                      Continue Shopping
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="max-h-[70vh] flex flex-col">
+                    {/* Header */}
+                    <div className="p-4 border-b border-border">
+                      <h3 className="text-lg font-semibold">Shopping Cart</h3>
+                    </div>
+
+                    {/* Cart Items - Scrollable */}
+                    <div className="flex-1 overflow-y-auto divide-y divide-border max-h-[350px]">
+                      {items.map((item) => {
+                        const discount = item.originalPrice
+                          ? Math.round(((item.originalPrice - item.price) / item.originalPrice) * 100)
+                          : 0;
+                        const deliveryDate = new Date();
+                        deliveryDate.setDate(deliveryDate.getDate() + 3);
+                        const formattedDelivery = deliveryDate.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+
+                        return (
+                          <div key={item.id} className="flex gap-3 p-4">
+                            {/* Checkbox */}
+                            <div className="flex items-start pt-1">
+                              <input type="checkbox" defaultChecked className="w-4 h-4 rounded border-border" />
+                            </div>
+
+                            {/* Product Image */}
+                            <Link 
+                              to={`/product/${item.id}`} 
+                              onClick={() => setIsCartOpen(false)}
+                              className="flex-shrink-0"
+                            >
+                              <img
+                                src={item.image}
+                                alt={item.name}
+                                className="w-24 h-24 object-contain rounded bg-amber-100 p-1"
+                              />
+                            </Link>
+
+                            {/* Product Details */}
+                            <div className="flex-1 min-w-0">
+                              <Link 
+                                to={`/product/${item.id}`}
+                                onClick={() => setIsCartOpen(false)}
+                              >
+                                <h4 className="text-sm font-medium text-foreground hover:text-primary line-clamp-1">
+                                  {item.name}
+                                </h4>
+                              </Link>
+
+                              <p className="text-xs text-green-600 mt-0.5 font-medium">In Stock</p>
+
+                              {/* Delivery Info */}
+                              <div className="flex items-center gap-1 mt-0.5">
+                                <Truck className="w-3 h-3 text-muted-foreground" />
+                                <span className="text-xs text-muted-foreground">
+                                  FREE delivery <span className="font-medium text-foreground">{formattedDelivery}</span>
+                                </span>
+                              </div>
+
+                              {/* Color & Category */}
+                              <div className="flex flex-wrap gap-2 mt-1 text-xs text-muted-foreground">
+                                {item.colors && item.colors.length > 0 && (
+                                  <span>Colour: <span className="text-foreground">{item.colors[0].name}</span></span>
+                                )}
+                                <span>Category: <span className="text-foreground capitalize">{item.category}</span></span>
+                              </div>
+
+                              {/* Actions Row */}
+                              <div className="flex items-center gap-2 mt-2 flex-wrap">
+                                {/* Quantity Controls */}
+                                <div className="flex items-center border border-border rounded bg-muted/50 overflow-hidden">
+                                  <button
+                                    onClick={() => {
+                                      if (item.quantity === 1) {
+                                        removeFromCart(item.id);
+                                      } else {
+                                        updateQuantity(item.id, item.quantity - 1);
+                                      }
+                                    }}
+                                    className="w-6 h-6 flex items-center justify-center hover:bg-muted transition-colors"
+                                  >
+                                    {item.quantity === 1 ? <Trash2 className="w-3 h-3 text-muted-foreground" /> : <Minus className="w-2.5 h-2.5" />}
+                                  </button>
+                                  <span className="w-6 text-center text-xs font-medium">{item.quantity}</span>
+                                  <button
+                                    onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                                    className="w-6 h-6 flex items-center justify-center hover:bg-muted transition-colors"
+                                  >
+                                    <Plus className="w-2.5 h-2.5" />
+                                  </button>
+                                </div>
+
+                                <span className="text-muted-foreground/50">|</span>
+
+                                <button
+                                  onClick={() => removeFromCart(item.id)}
+                                  className="text-xs text-primary hover:underline"
+                                >
+                                  Delete
+                                </button>
+
+                                <span className="text-muted-foreground/50">|</span>
+
+                                <button className="text-xs text-primary hover:underline flex items-center gap-0.5">
+                                  <Heart className="w-3 h-3" />
+                                  Save for later
+                                </button>
+                              </div>
+
+                              {/* Second row actions */}
+                              <div className="flex items-center gap-2 mt-1">
+                                <button className="text-xs text-primary hover:underline">
+                                  See more like this
+                                </button>
+                                <span className="text-muted-foreground/50">|</span>
+                                <button className="text-xs text-primary hover:underline flex items-center gap-0.5">
+                                  <Share2 className="w-3 h-3" />
+                                  Share
+                                </button>
+                              </div>
+                            </div>
+
+                            {/* Price */}
+                            <div className="text-right flex-shrink-0">
+                              {discount > 0 && (
+                                <span className="inline-block bg-destructive text-destructive-foreground text-[10px] font-medium px-1.5 py-0.5 rounded mb-1">
+                                  -{discount}%
+                                </span>
+                              )}
+                              <p className="text-base font-bold">${item.price.toFixed(2)}</p>
+                              {item.originalPrice && (
+                                <p className="text-xs text-muted-foreground line-through">
+                                  M.R.P: ${item.originalPrice.toFixed(2)}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    {/* Footer */}
+                    <div className="p-4 border-t border-border bg-muted/30">
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="text-sm text-muted-foreground">
+                          Subtotal ({totalItems} items):
+                        </span>
+                        <span className="text-lg font-bold">${totalPrice.toFixed(2)}</span>
+                      </div>
+                      <Button
+                        className="w-full bg-amber-400 hover:bg-amber-500 text-foreground font-medium rounded-full"
+                        onClick={() => {
+                          setIsCartOpen(false);
+                          navigate("/checkout");
+                        }}
+                      >
+                        Proceed to checkout
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </PopoverContent>
+            </Popover>
 
             {/* Auth Button */}
             {isAuthenticated ? (
