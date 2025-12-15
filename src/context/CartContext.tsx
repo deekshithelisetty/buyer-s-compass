@@ -6,6 +6,7 @@ const CART_STORAGE_KEY = "infinityhub_cart";
 
 interface CartContextType {
   items: CartItem[];
+  isLoading: boolean;
   addToCart: (product: Product) => void;
   removeFromCart: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
@@ -26,11 +27,22 @@ const getStoredCart = (): CartItem[] => {
 };
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>(() => getStoredCart());
+  const [items, setItems] = useState<CartItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
+  // Load cart from localStorage on mount
   useEffect(() => {
-    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
-  }, [items]);
+    const storedCart = getStoredCart();
+    setItems(storedCart);
+    setIsLoading(false);
+  }, []);
+
+  // Persist cart to localStorage (only after initial load)
+  useEffect(() => {
+    if (!isLoading) {
+      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
+    }
+  }, [items, isLoading]);
 
   const addToCart = useCallback((product: Product) => {
     setItems((prevItems) => {
@@ -88,6 +100,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     <CartContext.Provider
       value={{
         items,
+        isLoading,
         addToCart,
         removeFromCart,
         updateQuantity,
