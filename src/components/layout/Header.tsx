@@ -356,10 +356,10 @@ export function Header() {
         </form>
       </div>
 
-      {/* Categories Navigation - Gradient Style */}
+      {/* Categories Navigation - Animated Gradient Style */}
       <nav className="bg-card border-t border-border/50 overflow-x-auto">
         <div className="container mx-auto px-4">
-          <ul className="flex items-center justify-center gap-8 py-3 min-w-max">
+          <ul className="flex items-center justify-center gap-4 py-4 min-w-max">
             {categories.map((category, index) => {
               const gradients = [
                 { from: '#a955ff', to: '#ea51ff' }, // Electronics - purple
@@ -382,15 +382,22 @@ export function Header() {
                   <Link
                     to={`/?category=${category.id}`}
                     style={{ '--gradient-from': gradient.from, '--gradient-to': gradient.to } as React.CSSProperties}
-                    className="group relative flex items-center gap-2 px-4 py-2 text-sm font-medium text-foreground transition-all duration-300 hover:text-white rounded-full"
+                    className="relative w-[50px] h-[50px] bg-card shadow-md rounded-full flex items-center justify-center transition-all duration-500 hover:w-[140px] hover:shadow-none group cursor-pointer border border-border/50"
                   >
                     {/* Gradient background on hover */}
-                    <span className="absolute inset-0 rounded-full bg-[linear-gradient(45deg,var(--gradient-from),var(--gradient-to))] opacity-0 transition-all duration-300 group-hover:opacity-100" />
-                    {/* Blur glow on hover */}
-                    <span className="absolute top-[5px] inset-x-0 h-full rounded-full bg-[linear-gradient(45deg,var(--gradient-from),var(--gradient-to))] blur-[10px] opacity-0 -z-10 transition-all duration-300 group-hover:opacity-40" />
-                    
-                    <span className="relative z-10 text-lg">{category.icon}</span>
-                    <span className="relative z-10">{category.name}</span>
+                    <span className="absolute inset-0 rounded-full bg-[linear-gradient(45deg,var(--gradient-from),var(--gradient-to))] opacity-0 transition-all duration-500 group-hover:opacity-100" />
+                    {/* Blur glow */}
+                    <span className="absolute top-[8px] inset-x-0 h-full rounded-full bg-[linear-gradient(45deg,var(--gradient-from),var(--gradient-to))] blur-[12px] opacity-0 -z-10 transition-all duration-500 group-hover:opacity-50" />
+
+                    {/* Icon */}
+                    <span className="relative z-10 transition-all duration-500 group-hover:scale-0 delay-0">
+                      <span className="text-xl text-muted-foreground">{category.icon}</span>
+                    </span>
+
+                    {/* Title */}
+                    <span className="absolute text-white uppercase tracking-wide text-xs font-semibold transition-all duration-500 scale-0 group-hover:scale-100 delay-150 whitespace-nowrap">
+                      {category.name}
+                    </span>
                   </Link>
                 </li>
               );
