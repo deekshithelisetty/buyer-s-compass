@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import { Trash2, Minus, Plus, ShoppingBag, CheckCircle, Star, ChevronDown, Lock, MapPin, Heart, Share2, Truck } from "lucide-react";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
@@ -50,6 +50,7 @@ const savedAddresses = [
 
 const Checkout = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { items, removeFromCart, updateQuantity, totalPrice, clearCart } = useCart();
   const { isAuthenticated } = useAuth();
   const [step, setStep] = useState<"cart" | "address" | "payment" | "confirmation">("cart");
@@ -58,6 +59,14 @@ const Checkout = () => {
   const [selectedAddress, setSelectedAddress] = useState(savedAddresses[0]?.id || "");
   const [showAllAddresses, setShowAllAddresses] = useState(false);
   const [showNewAddressForm, setShowNewAddressForm] = useState(false);
+
+  // Handle step from URL params
+  useEffect(() => {
+    const stepParam = searchParams.get("step");
+    if (stepParam === "address" && isAuthenticated && items.length > 0) {
+      setStep("address");
+    }
+  }, [searchParams, isAuthenticated, items.length]);
 
   const shipping = totalPrice > 50 ? 0 : 9.99;
   const tax = totalPrice * 0.08;
