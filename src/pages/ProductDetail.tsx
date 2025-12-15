@@ -134,8 +134,8 @@ const ProductDetail = () => {
               {/* Decorative outer curve connecting to right circle */}
               <div className="hidden lg:block absolute -right-12 top-1/2 -translate-y-1/2 w-24 h-64 border-r border-border/30 rounded-r-full" />
               
-              {/* Main product oval container */}
-              <div className="relative w-64 h-80 md:w-72 md:h-96 lg:w-80 lg:h-[420px] rounded-[50%] overflow-hidden bg-gradient-to-br from-[#f8b195] via-[#f5a386] to-[#f5d0c5] dark:from-primary/30 dark:via-primary/20 dark:to-primary/30 shadow-2xl">
+              {/* Main product container */}
+              <div className="relative w-56 h-72 md:w-64 md:h-80 lg:w-72 lg:h-[380px] rounded-[60px] overflow-hidden bg-gradient-to-b from-[#f8b195] via-[#f5a386] to-[#f5d0c5] dark:from-primary/30 dark:via-primary/20 dark:to-primary/30 shadow-2xl">
                 <img
                   src={product.image}
                   alt={product.name}
