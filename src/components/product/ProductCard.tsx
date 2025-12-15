@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Star, ShoppingCart, Heart, Eye } from "lucide-react";
+import { Star, ShoppingCart, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Product } from "@/types/product";
 import { useCart } from "@/context/CartContext";
@@ -10,90 +10,68 @@ interface ProductCardProps {
   index?: number;
 }
 
+// Generate a soft background color based on category
+const categoryBgColors: Record<string, string> = {
+  electronics: "bg-amber-100",
+  fashion: "bg-rose-100",
+  home: "bg-emerald-100",
+  sports: "bg-blue-100",
+  books: "bg-orange-100",
+  beauty: "bg-purple-100",
+};
+
 export function ProductCard({ product, index = 0 }: ProductCardProps) {
   const { addToCart } = useCart();
   const discount = product.originalPrice
     ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
     : 0;
 
+  const bgColor = categoryBgColors[product.category] || "bg-secondary";
+
   return (
     <div
-      className="group relative bg-card rounded-2xl overflow-hidden card-shadow hover:card-hover-shadow transition-all duration-500 animate-fade-in-up hover:-translate-y-2"
-      style={{ animationDelay: `${index * 80}ms` }}
+      className="group relative bg-card rounded-2xl overflow-hidden card-shadow hover:card-hover-shadow transition-all duration-500 animate-fade-in-up"
+      style={{ animationDelay: `${index * 60}ms` }}
     >
       {/* Image Container */}
-      <Link to={`/product/${product.id}`} className="block relative aspect-[4/5] overflow-hidden">
+      <Link to={`/product/${product.id}`} className={cn("block relative aspect-square overflow-hidden", bgColor)}>
         <img
           src={product.image}
           alt={product.name}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+          className="w-full h-full object-contain p-6 transition-transform duration-500 group-hover:scale-105"
         />
         
-        {/* Gradient overlay on hover */}
-        <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        
-        {/* Quick action buttons */}
-        <div className="absolute bottom-4 inset-x-4 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
-          <Button
-            size="icon"
-            className="h-10 w-10 rounded-full bg-card/90 backdrop-blur-sm hover:bg-primary text-foreground hover:text-primary-foreground shadow-lg"
-            onClick={(e) => {
-              e.preventDefault();
-              addToCart(product);
-            }}
-          >
-            <ShoppingCart className="w-4 h-4" />
-          </Button>
-          <Button
-            size="icon"
-            className="h-10 w-10 rounded-full bg-card/90 backdrop-blur-sm hover:bg-primary text-foreground hover:text-primary-foreground shadow-lg"
-            onClick={(e) => e.preventDefault()}
-          >
-            <Heart className="w-4 h-4" />
-          </Button>
-          <Button
-            size="icon"
-            className="h-10 w-10 rounded-full bg-card/90 backdrop-blur-sm hover:bg-primary text-foreground hover:text-primary-foreground shadow-lg"
-            asChild
-          >
-            <Link to={`/product/${product.id}`} onClick={(e) => e.stopPropagation()}>
-              <Eye className="w-4 h-4" />
-            </Link>
-          </Button>
-        </div>
-
         {/* Badges */}
-        <div className="absolute top-3 left-3 flex flex-col gap-2">
-          {discount > 0 && (
-            <span className="bg-destructive text-destructive-foreground text-xs font-bold px-2.5 py-1 rounded-full animate-pulse">
-              -{discount}%
-            </span>
-          )}
-          {product.inStock === false && (
-            <span className="bg-muted text-muted-foreground text-xs font-medium px-2.5 py-1 rounded-full">
-              Sold Out
-            </span>
-          )}
-        </div>
+        {discount > 0 && (
+          <span className="absolute top-3 left-3 bg-destructive text-destructive-foreground text-xs font-bold px-3 py-1.5 rounded-lg shadow-lg">
+            -{discount}% OFF
+          </span>
+        )}
+        
+        {product.inStock === false && (
+          <span className="absolute top-3 left-3 bg-muted text-muted-foreground text-xs font-medium px-3 py-1.5 rounded-lg">
+            Sold Out
+          </span>
+        )}
 
         {/* Wishlist button */}
         <button
-          className="absolute top-3 right-3 w-9 h-9 rounded-full bg-card/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:bg-card hover:scale-110"
+          className="absolute top-3 right-3 w-10 h-10 rounded-full bg-card shadow-md flex items-center justify-center transition-all hover:scale-110 hover:shadow-lg"
           onClick={(e) => e.preventDefault()}
         >
-          <Heart className="w-4 h-4 text-foreground" />
+          <Heart className="w-5 h-5 text-muted-foreground hover:text-destructive transition-colors" />
         </button>
       </Link>
 
       {/* Content */}
-      <div className="p-4 space-y-3">
+      <div className="p-5 space-y-3">
         {/* Category tag */}
-        <span className="text-xs font-medium text-primary uppercase tracking-wider">
+        <span className="text-xs font-semibold text-primary uppercase tracking-wider">
           {product.category}
         </span>
 
         <Link to={`/product/${product.id}`}>
-          <h3 className="font-semibold text-foreground line-clamp-2 group-hover:text-primary transition-colors leading-tight">
+          <h3 className="font-bold text-lg text-foreground line-clamp-1 group-hover:text-primary transition-colors">
             {product.name}
           </h3>
         </Link>
@@ -105,7 +83,7 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
               <Star
                 key={i}
                 className={cn(
-                  "w-3.5 h-3.5",
+                  "w-4 h-4",
                   i < Math.floor(product.rating)
                     ? "text-amber-400 fill-amber-400"
                     : "text-muted fill-muted"
@@ -113,18 +91,19 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
               />
             ))}
           </div>
-          <span className="text-xs text-muted-foreground">
-            ({product.reviews.toLocaleString()})
+          <span className="text-sm font-medium text-foreground">{product.rating}</span>
+          <span className="text-sm text-muted-foreground">
+            ({product.reviews.toLocaleString()} reviews)
           </span>
         </div>
 
         {/* Price */}
-        <div className="flex items-baseline gap-2">
-          <span className="text-xl font-bold text-foreground">
+        <div className="flex items-baseline gap-2 pt-1">
+          <span className="text-2xl font-bold text-foreground">
             ${product.price.toFixed(2)}
           </span>
           {product.originalPrice && (
-            <span className="text-sm text-muted-foreground line-through">
+            <span className="text-base text-muted-foreground line-through">
               ${product.originalPrice.toFixed(2)}
             </span>
           )}
@@ -132,13 +111,11 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
 
         {/* Add to Cart Button */}
         <Button
-          variant="cart"
-          size="sm"
-          className="w-full mt-1 rounded-xl"
+          className="w-full mt-2 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold h-12"
           onClick={() => addToCart(product)}
           disabled={!product.inStock}
         >
-          <ShoppingCart className="w-4 h-4 mr-2" />
+          <ShoppingCart className="w-5 h-5 mr-2" />
           Add to Cart
         </Button>
       </div>

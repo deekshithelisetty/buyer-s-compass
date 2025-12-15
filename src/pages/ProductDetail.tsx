@@ -36,47 +36,57 @@ const ProductDetail = () => {
     }
   };
 
+  // Generate background color based on category
+  const categoryBgColors: Record<string, string> = {
+    electronics: "bg-amber-200",
+    fashion: "bg-rose-200",
+    home: "bg-emerald-200",
+    sports: "bg-blue-200",
+    books: "bg-orange-200",
+    beauty: "bg-purple-200",
+  };
+
+  const bgColor = categoryBgColors[product.category] || "bg-secondary";
+
   return (
     <Layout>
       <div className="container mx-auto px-4 py-8">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16">
           {/* Product Image */}
           <div className="animate-fade-in-up">
-            <div className="relative aspect-square rounded-3xl overflow-hidden bg-secondary">
+            <div className={cn("relative aspect-square rounded-3xl overflow-hidden", bgColor)}>
               <img
                 src={product.image}
                 alt={product.name}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain p-8"
               />
               {discount > 0 && (
-                <span className="absolute top-4 left-4 bg-destructive text-destructive-foreground text-sm font-bold px-3 py-1.5 rounded-lg">
+                <span className="absolute top-5 left-5 bg-destructive text-destructive-foreground text-sm font-bold px-4 py-2 rounded-xl shadow-lg">
                   -{discount}% OFF
                 </span>
               )}
-              <Button
-                size="icon"
-                variant="secondary"
-                className="absolute top-4 right-4 h-10 w-10 rounded-full"
+              <button
+                className="absolute top-5 right-5 w-12 h-12 rounded-full bg-card shadow-lg flex items-center justify-center transition-all hover:scale-110"
               >
-                <Heart className="w-5 h-5" />
-              </Button>
+                <Heart className="w-6 h-6 text-muted-foreground hover:text-destructive transition-colors" />
+              </button>
             </div>
           </div>
 
           {/* Product Info */}
-          <div className="space-y-6 animate-fade-in-up delay-200">
+          <div className="space-y-5 animate-fade-in-up delay-200">
             <div>
-              <span className="text-sm text-primary font-medium uppercase tracking-wide">
+              <span className="text-sm text-primary font-semibold uppercase tracking-wider">
                 {product.category}
               </span>
-              <h1 className="text-3xl md:text-4xl font-display font-bold mt-2">
+              <h1 className="text-3xl md:text-4xl font-display font-bold mt-2 leading-tight">
                 {product.name}
               </h1>
             </div>
 
             {/* Rating */}
-            <div className="flex items-center gap-3">
-              <div className="flex items-center gap-1">
+            <div className="flex items-center gap-2">
+              <div className="flex items-center gap-0.5">
                 {[...Array(5)].map((_, i) => (
                   <Star
                     key={i}
@@ -84,12 +94,12 @@ const ProductDetail = () => {
                       "w-5 h-5",
                       i < Math.floor(product.rating)
                         ? "text-amber-400 fill-amber-400"
-                        : "text-muted"
+                        : "text-muted fill-muted"
                     )}
                   />
                 ))}
               </div>
-              <span className="text-foreground font-medium">{product.rating}</span>
+              <span className="text-foreground font-semibold">{product.rating}</span>
               <span className="text-muted-foreground">
                 ({product.reviews.toLocaleString()} reviews)
               </span>
@@ -108,21 +118,21 @@ const ProductDetail = () => {
             </div>
 
             {/* Description */}
-            <p className="text-muted-foreground leading-relaxed">
+            <p className="text-muted-foreground leading-relaxed text-base">
               {product.description}
             </p>
 
             {/* Features */}
             {product.features && (
-              <div className="space-y-2">
-                <h3 className="font-semibold">Features</h3>
-                <ul className="grid grid-cols-2 gap-2">
+              <div className="space-y-3">
+                <h3 className="font-semibold text-foreground">Features</h3>
+                <ul className="grid grid-cols-2 gap-x-6 gap-y-2">
                   {product.features.map((feature) => (
                     <li
                       key={feature}
                       className="flex items-center gap-2 text-sm text-muted-foreground"
                     >
-                      <span className="w-1.5 h-1.5 bg-primary rounded-full" />
+                      <span className="w-2 h-2 bg-primary rounded-full flex-shrink-0" />
                       {feature}
                     </li>
                   ))}
@@ -132,21 +142,21 @@ const ProductDetail = () => {
 
             {/* Quantity */}
             <div className="flex items-center gap-4">
-              <span className="font-medium">Quantity:</span>
-              <div className="flex items-center border border-border rounded-lg">
+              <span className="font-medium text-foreground">Quantity:</span>
+              <div className="flex items-center border border-border rounded-full bg-card">
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-10 w-10"
+                  className="h-10 w-10 rounded-full"
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
                 >
                   <Minus className="w-4 h-4" />
                 </Button>
-                <span className="w-12 text-center font-medium">{quantity}</span>
+                <span className="w-10 text-center font-semibold">{quantity}</span>
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-10 w-10"
+                  className="h-10 w-10 rounded-full"
                   onClick={() => setQuantity(quantity + 1)}
                 >
                   <Plus className="w-4 h-4" />
@@ -155,18 +165,19 @@ const ProductDetail = () => {
             </div>
 
             {/* Actions */}
-            <div className="flex gap-4">
+            <div className="flex gap-4 pt-2">
               <Button
-                variant="hero"
-                size="xl"
-                className="flex-1"
+                className="flex-1 h-14 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-base"
                 onClick={handleAddToCart}
                 disabled={!product.inStock}
               >
                 <ShoppingCart className="w-5 h-5 mr-2" />
                 Add to Cart
               </Button>
-              <Button variant="outline" size="xl">
+              <Button 
+                variant="outline" 
+                className="h-14 px-8 rounded-xl font-semibold text-base border-2"
+              >
                 Buy Now
               </Button>
             </div>
@@ -179,8 +190,8 @@ const ProductDetail = () => {
                 { icon: RotateCcw, text: "30-Day Returns" },
               ].map((item) => (
                 <div key={item.text} className="text-center">
-                  <item.icon className="w-6 h-6 mx-auto text-primary mb-1" />
-                  <span className="text-xs text-muted-foreground">{item.text}</span>
+                  <item.icon className="w-7 h-7 mx-auto text-primary mb-2" />
+                  <span className="text-sm text-muted-foreground">{item.text}</span>
                 </div>
               ))}
             </div>

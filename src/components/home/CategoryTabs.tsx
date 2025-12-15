@@ -1,51 +1,66 @@
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { 
+  Smartphone, 
   Shirt, 
-  Laptop, 
   Home, 
   Dumbbell, 
-  Sparkles, 
-  BookOpen 
+  BookOpen, 
+  Sparkles 
 } from "lucide-react";
 import { categories } from "@/data/products";
+import { cn } from "@/lib/utils";
 
 const categoryIcons: Record<string, React.ReactNode> = {
-  fashion: <Shirt className="w-5 h-5" />,
-  electronics: <Laptop className="w-5 h-5" />,
-  home: <Home className="w-5 h-5" />,
-  sports: <Dumbbell className="w-5 h-5" />,
-  beauty: <Sparkles className="w-5 h-5" />,
-  books: <BookOpen className="w-5 h-5" />,
+  electronics: <Smartphone className="w-4 h-4" />,
+  fashion: <Shirt className="w-4 h-4" />,
+  home: <Home className="w-4 h-4" />,
+  sports: <Dumbbell className="w-4 h-4" />,
+  books: <BookOpen className="w-4 h-4" />,
+  beauty: <Sparkles className="w-4 h-4" />,
+};
+
+const categoryColors: Record<string, string> = {
+  electronics: "text-blue-500",
+  fashion: "text-pink-500",
+  home: "text-amber-500",
+  sports: "text-green-500",
+  books: "text-orange-500",
+  beauty: "text-red-500",
 };
 
 export function CategoryTabs() {
-  return (
-    <section className="py-12 bg-background">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground">
-            Shop by Category
-          </h2>
-        </div>
+  const [searchParams] = useSearchParams();
+  const activeCategory = searchParams.get("category");
 
-        <div className="flex flex-wrap gap-3">
-          {categories.map((category, index) => (
-            <Link
-              key={category.id}
-              to={`/?category=${category.id}`}
-              className="group flex items-center gap-3 px-5 py-3 bg-card border border-border rounded-xl hover:border-primary hover:bg-primary/5 transition-all duration-300 animate-fade-in-up"
-              style={{ animationDelay: `${index * 50}ms` }}
-            >
-              <span className="text-muted-foreground group-hover:text-primary transition-colors">
-                {categoryIcons[category.id] || <Sparkles className="w-5 h-5" />}
-              </span>
-              <span className="font-medium text-foreground group-hover:text-primary transition-colors">
-                {category.name}
-              </span>
-            </Link>
-          ))}
+  return (
+    <nav className="border-b border-border bg-card">
+      <div className="container mx-auto px-4">
+        <div className="flex items-center justify-center gap-1 py-2 overflow-x-auto scrollbar-sleek">
+          {categories.map((category) => {
+            const isActive = activeCategory === category.id;
+            return (
+              <Link
+                key={category.id}
+                to={`/?category=${category.id}`}
+                className={cn(
+                  "flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap",
+                  isActive
+                    ? "bg-primary/10 text-primary"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                )}
+              >
+                <span className={cn(
+                  "transition-colors",
+                  isActive ? "text-primary" : categoryColors[category.id]
+                )}>
+                  {categoryIcons[category.id] || <Sparkles className="w-4 h-4" />}
+                </span>
+                <span>{category.name}</span>
+              </Link>
+            );
+          })}
         </div>
       </div>
-    </section>
+    </nav>
   );
 }
