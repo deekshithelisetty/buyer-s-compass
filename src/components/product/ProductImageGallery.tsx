@@ -38,23 +38,22 @@ export function ProductImageGallery({
               <ChevronUp className="w-4 h-4 text-foreground" />
             </button>
           )}
-          <div className="flex flex-col gap-2 max-h-[400px] overflow-hidden py-1">
+          <div className="flex flex-col gap-2 max-h-[320px] overflow-hidden py-1">
             {images.map((image, index) => (
               <button
                 key={index}
                 onClick={() => setSelectedIndex(index)}
                 className={cn(
-                  "relative w-16 h-16 lg:w-20 lg:h-20 rounded-xl overflow-hidden transition-all duration-200 flex-shrink-0",
+                  "relative w-14 h-14 lg:w-16 lg:h-16 rounded-xl overflow-hidden transition-all duration-200 flex-shrink-0 bg-muted/30 border border-border/50",
                   selectedIndex === index
                     ? "ring-2 ring-primary ring-offset-2 ring-offset-background"
-                    : "opacity-50 hover:opacity-100"
+                    : "opacity-60 hover:opacity-100"
                 )}
               >
-                <div className={cn("absolute inset-0", bgColor)} />
                 <img
                   src={image}
                   alt={`${productName} thumbnail ${index + 1}`}
-                  className="relative w-full h-full object-contain p-2"
+                  className="w-full h-full object-cover"
                 />
               </button>
             ))}
@@ -71,12 +70,12 @@ export function ProductImageGallery({
       )}
 
       {/* Main Image */}
-      <div className={cn("relative flex-1 rounded-2xl overflow-hidden", bgColor)}>
-        <div className="aspect-square h-full w-full flex items-center justify-center">
+      <div className="relative flex-1 rounded-2xl overflow-hidden bg-muted/30 border border-border/50">
+        <div className="aspect-[4/3] h-full w-full flex items-center justify-center">
           <img
             src={images[selectedIndex]}
             alt={`${productName} - View ${selectedIndex + 1}`}
-            className="max-w-full max-h-full object-contain p-6 transition-all duration-300"
+            className="max-w-full max-h-full object-contain p-4 transition-all duration-300"
           />
         </div>
         
