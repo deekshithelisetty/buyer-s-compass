@@ -4,6 +4,7 @@ export interface Product {
   price: number;
   originalPrice?: number;
   image: string;
+  images?: string[]; // Multiple product images for gallery
   category: string;
   rating: number;
   reviews: number;
