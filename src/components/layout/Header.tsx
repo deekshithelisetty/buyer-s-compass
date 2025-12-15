@@ -275,7 +275,7 @@ export function Header() {
                         className="w-full bg-amber-400 hover:bg-amber-500 text-foreground font-medium rounded-full"
                         onClick={() => {
                           setIsCartOpen(false);
-                          navigate("/checkout");
+                          navigate("/checkout?step=address");
                         }}
                       >
                         Proceed to checkout
