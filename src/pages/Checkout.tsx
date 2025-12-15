@@ -51,8 +51,8 @@ const savedAddresses = [
 const Checkout = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { items, removeFromCart, updateQuantity, totalPrice, clearCart } = useCart();
-  const { isAuthenticated } = useAuth();
+  const { items, removeFromCart, updateQuantity, totalPrice, clearCart, isLoading: isCartLoading } = useCart();
+  const { isAuthenticated, isLoading: isAuthLoading } = useAuth();
   const [step, setStep] = useState<"cart" | "address" | "payment" | "confirmation">("cart");
   const [orderNumber, setOrderNumber] = useState<string>("");
   const [orderDate, setOrderDate] = useState<Date | null>(null);
@@ -60,13 +60,15 @@ const Checkout = () => {
   const [showAllAddresses, setShowAllAddresses] = useState(false);
   const [showNewAddressForm, setShowNewAddressForm] = useState(false);
 
-  // Handle step from URL params
+  // Handle step from URL params - wait for loading to complete
   useEffect(() => {
+    if (isCartLoading || isAuthLoading) return;
+    
     const stepParam = searchParams.get("step");
     if (stepParam === "address" && items.length > 0 && isAuthenticated) {
       setStep("address");
     }
-  }, [searchParams, items.length, isAuthenticated]);
+  }, [searchParams, items.length, isAuthenticated, isCartLoading, isAuthLoading]);
 
   const shipping = totalPrice > 50 ? 0 : 9.99;
   const tax = totalPrice * 0.08;
@@ -96,7 +98,7 @@ const Checkout = () => {
 
   const handleProceedToAddress = () => {
     if (!isAuthenticated) {
-      navigate("/auth");
+      navigate("/auth?redirect=/checkout?step=address");
     } else {
       setStep("address");
     }
@@ -108,31 +110,40 @@ const Checkout = () => {
 
   const visibleAddresses = showAllAddresses ? savedAddresses : savedAddresses.slice(0, 3);
 
-  // Only show empty cart message if we're on the cart step
-  // When redirected to checkout with step=address, we should show checkout even while cart loads
-  if (items.length === 0 && step !== "confirmation") {
-    const stepParam = searchParams.get("step");
-    // If redirected to address step but cart is empty (still loading from localStorage), don't show empty cart immediately
-    if (stepParam !== "address") {
-      return (
-        <Layout>
-          <div className="container mx-auto px-4 py-20">
-            <div className="max-w-md mx-auto text-center animate-fade-in">
-              <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-muted flex items-center justify-center">
-                <ShoppingBag className="w-12 h-12 text-muted-foreground" />
-              </div>
-              <h1 className="text-2xl font-semibold mb-4">Your cart is empty</h1>
-              <p className="text-muted-foreground mb-8">
-                Looks like you haven't added anything to your cart yet.
-              </p>
-              <Button className="bg-primary hover:bg-primary/90" size="lg" onClick={() => navigate("/")}>
-                Continue Shopping
-              </Button>
-            </div>
+  // Show loading state while cart or auth is loading
+  if (isCartLoading || isAuthLoading) {
+    return (
+      <Layout>
+        <div className="container mx-auto px-4 py-20">
+          <div className="max-w-md mx-auto text-center animate-fade-in">
+            <div className="w-12 h-12 mx-auto mb-4 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+            <p className="text-muted-foreground">Loading your cart...</p>
           </div>
-        </Layout>
-      );
-    }
+        </div>
+      </Layout>
+    );
+  }
+
+  // Show empty cart message only if cart is truly empty (after loading)
+  if (items.length === 0 && step !== "confirmation") {
+    return (
+      <Layout>
+        <div className="container mx-auto px-4 py-20">
+          <div className="max-w-md mx-auto text-center animate-fade-in">
+            <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-muted flex items-center justify-center">
+              <ShoppingBag className="w-12 h-12 text-muted-foreground" />
+            </div>
+            <h1 className="text-2xl font-semibold mb-4">Your cart is empty</h1>
+            <p className="text-muted-foreground mb-8">
+              Looks like you haven't added anything to your cart yet.
+            </p>
+            <Button className="bg-primary hover:bg-primary/90" size="lg" onClick={() => navigate("/")}>
+              Continue Shopping
+            </Button>
+          </div>
+        </div>
+      </Layout>
+    );
   }
 
   // Order Confirmation View
