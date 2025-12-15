@@ -134,17 +134,19 @@ const ProductDetail = () => {
               {/* Decorative outer curve connecting to right circle */}
               <div className="hidden lg:block absolute -right-12 top-1/2 -translate-y-1/2 w-24 h-64 border-r-2 border-border/40 rounded-r-full" />
               
-              {/* Main product container */}
-              <div className="relative w-56 h-72 md:w-64 md:h-80 lg:w-72 lg:h-[380px] rounded-[100px] overflow-hidden bg-gradient-to-b from-[#f5a070] via-[#f8a585] to-[#f0b0a8] dark:from-primary/30 dark:via-primary/20 dark:to-primary/30 shadow-2xl">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-full object-cover"
-                />
+              {/* Main product container - stadium shape with curved sides */}
+              <div className="relative w-56 h-80 md:w-64 md:h-96 lg:w-72 lg:h-[420px] rounded-[50%/30%] overflow-hidden bg-gradient-to-b from-[#f5a070] via-[#f8a585] to-[#f0b0a8] dark:from-primary/30 dark:via-primary/20 dark:to-primary/30 shadow-2xl">
+                <div className="absolute inset-3 rounded-[50%/28%] overflow-hidden">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-full object-cover object-center"
+                  />
+                </div>
                 
-                {/* Wishlist button */}
-                <button className="absolute top-4 right-4 w-9 h-9 rounded-full bg-card/80 backdrop-blur-sm border border-border flex items-center justify-center hover:bg-card transition-colors shadow-lg">
-                  <Heart className="w-4 h-4 text-muted-foreground hover:text-destructive transition-colors" />
+                {/* Favorite button */}
+                <button className="absolute top-6 right-6 w-10 h-10 rounded-full bg-card/90 backdrop-blur-sm border-2 border-border flex items-center justify-center hover:bg-destructive/10 hover:border-destructive/50 transition-all shadow-lg group z-10">
+                  <Heart className="w-5 h-5 text-muted-foreground group-hover:text-destructive group-hover:fill-destructive transition-colors" />
                 </button>
               </div>
             </div>
