@@ -18,10 +18,82 @@ export const stores = [
 
 // Electronics products
 const electronicsProducts: Product[] = [
-  { id: "e1", name: "Premium Wireless Headphones", price: 299.99, originalPrice: 399.99, image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600", category: "electronics", rating: 4.8, reviews: 2341, description: "Experience unparalleled audio quality", features: ["Active Noise Cancellation", "40-hour Battery Life"], inStock: true },
-  { id: "e2", name: "Smart Watch Pro Series", price: 449.99, originalPrice: 549.99, image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600", category: "electronics", rating: 4.7, reviews: 1856, description: "Stay connected and track fitness", features: ["Heart Rate Monitor", "GPS"], inStock: true },
-  { id: "e3", name: "Wireless Earbuds Pro", price: 179.99, originalPrice: 229.99, image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=600", category: "electronics", rating: 4.6, reviews: 2109, description: "Immersive sound compact design", features: ["ANC", "24hr Battery"], inStock: true },
-  { id: "e4", name: "4K Ultra HD Smart TV 55\"", price: 799.99, originalPrice: 999.99, image: "https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=600", category: "electronics", rating: 4.9, reviews: 1234, description: "Crystal clear display", features: ["4K HDR", "Smart OS"], inStock: true },
+  { 
+    id: "e1", 
+    name: "Premium Wireless Headphones", 
+    price: 299.99, 
+    originalPrice: 399.99, 
+    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600", 
+    images: [
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600",
+      "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=600",
+      "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=600",
+      "https://images.unsplash.com/photo-1524678606370-a47ad25cb82a?w=600"
+    ],
+    category: "electronics", 
+    rating: 4.8, 
+    reviews: 2341, 
+    description: "Experience unparalleled audio quality with our premium wireless headphones. Featuring advanced noise cancellation technology and crystal-clear sound reproduction.", 
+    features: ["Active Noise Cancellation", "40-hour Battery Life", "Premium Drivers", "Bluetooth 5.2"], 
+    inStock: true 
+  },
+  { 
+    id: "e2", 
+    name: "Smart Watch Pro Series", 
+    price: 449.99, 
+    originalPrice: 549.99, 
+    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600", 
+    images: [
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600",
+      "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=600",
+      "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=600",
+      "https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?w=600"
+    ],
+    category: "electronics", 
+    rating: 4.7, 
+    reviews: 1856, 
+    description: "Stay connected and track your fitness goals with the Smart Watch Pro Series. Advanced health monitoring meets sleek design.", 
+    features: ["Heart Rate Monitor", "GPS", "Water Resistant", "Always-On Display"], 
+    inStock: true 
+  },
+  { 
+    id: "e3", 
+    name: "Wireless Earbuds Pro", 
+    price: 179.99, 
+    originalPrice: 229.99, 
+    image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=600", 
+    images: [
+      "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=600",
+      "https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?w=600",
+      "https://images.unsplash.com/photo-1598331668826-20cecc596b86?w=600",
+      "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=600"
+    ],
+    category: "electronics", 
+    rating: 4.6, 
+    reviews: 2109, 
+    description: "Immersive sound in a compact design. These wireless earbuds deliver studio-quality audio wherever you go.", 
+    features: ["ANC", "24hr Battery", "Touch Controls", "IPX5 Waterproof"], 
+    inStock: true 
+  },
+  { 
+    id: "e4", 
+    name: "4K Ultra HD Smart TV 55\"", 
+    price: 799.99, 
+    originalPrice: 999.99, 
+    image: "https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=600", 
+    images: [
+      "https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=600",
+      "https://images.unsplash.com/photo-1567690187548-f07b1d7bf5a9?w=600",
+      "https://images.unsplash.com/photo-1461151304267-38535e780c79?w=600",
+      "https://images.unsplash.com/photo-1558888401-3cc1de77652d?w=600"
+    ],
+    category: "electronics", 
+    rating: 4.9, 
+    reviews: 1234, 
+    description: "Crystal clear 4K display with HDR support. Transform your living room into a home theater.", 
+    features: ["4K HDR", "Smart OS", "Dolby Vision", "Voice Control"], 
+    inStock: true 
+  },
   { id: "e5", name: "Portable Bluetooth Speaker", price: 89.99, originalPrice: 129.99, image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=600", category: "electronics", rating: 4.5, reviews: 987, description: "Powerful bass on the go", features: ["Waterproof", "20hr Battery"], inStock: true },
   { id: "e6", name: "Gaming Mechanical Keyboard", price: 159.99, originalPrice: 199.99, image: "https://images.unsplash.com/photo-1541140532154-b024d705b90a?w=600", category: "electronics", rating: 4.7, reviews: 654, description: "RGB gaming keyboard", features: ["Mechanical Switches", "RGB"], inStock: true },
   { id: "e7", name: "Wireless Gaming Mouse", price: 79.99, originalPrice: 99.99, image: "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=600", category: "electronics", rating: 4.6, reviews: 1432, description: "Precision gaming mouse", features: ["16000 DPI", "Wireless"], inStock: true },
