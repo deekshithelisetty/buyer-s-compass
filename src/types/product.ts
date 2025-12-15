@@ -1,3 +1,9 @@
+export interface ProductColor {
+  name: string;
+  hex: string;
+  image?: string; // Optional image for this color variant
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -11,6 +17,8 @@ export interface Product {
   description?: string;
   features?: string[];
   inStock: boolean;
+  sizes?: string[]; // Available sizes for this product
+  colors?: ProductColor[]; // Available colors with optional variant images
 }
 
 export interface CartItem extends Product {

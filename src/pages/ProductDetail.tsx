@@ -18,52 +18,9 @@ const ProductDetail = () => {
 
   const product = products.find((p) => p.id === id);
 
-  // Available sizes and colors based on category
-  const sizeOptions: Record<string, string[]> = {
-    fashion: ["XS", "S", "M", "L", "XL", "XXL"],
-    sports: ["S", "M", "L", "XL"],
-    electronics: ["32GB", "64GB", "128GB", "256GB"],
-    home: ["Small", "Medium", "Large"],
-    beauty: ["30ml", "50ml", "100ml"],
-    books: ["Paperback", "Hardcover", "E-book"],
-  };
-
-  const colorOptions: Record<string, { name: string; hex: string }[]> = {
-    electronics: [
-      { name: "Space Gray", hex: "#4A4A4A" },
-      { name: "Silver", hex: "#C0C0C0" },
-      { name: "Gold", hex: "#D4AF37" },
-      { name: "Midnight", hex: "#1C1C1E" },
-    ],
-    fashion: [
-      { name: "Black", hex: "#000000" },
-      { name: "White", hex: "#FFFFFF" },
-      { name: "Navy", hex: "#1E3A5F" },
-      { name: "Red", hex: "#C41E3A" },
-      { name: "Beige", hex: "#D4C4A8" },
-    ],
-    sports: [
-      { name: "Black", hex: "#000000" },
-      { name: "White", hex: "#FFFFFF" },
-      { name: "Blue", hex: "#2563EB" },
-      { name: "Red", hex: "#DC2626" },
-    ],
-    home: [
-      { name: "White", hex: "#FFFFFF" },
-      { name: "Gray", hex: "#6B7280" },
-      { name: "Brown", hex: "#8B4513" },
-      { name: "Green", hex: "#22C55E" },
-    ],
-    beauty: [
-      { name: "Rose", hex: "#FF007F" },
-      { name: "Coral", hex: "#FF7F50" },
-      { name: "Nude", hex: "#E3BC9A" },
-    ],
-    books: [],
-  };
-
-  const sizes = sizeOptions[product?.category || ""] || [];
-  const colors = colorOptions[product?.category || ""] || [];
+  // Get product-specific sizes and colors
+  const sizes = product?.sizes || [];
+  const colors = product?.colors || [];
 
   if (!product) {
     return (
@@ -98,15 +55,21 @@ const ProductDetail = () => {
 
   const bgColor = categoryBgColors[product.category] || "bg-secondary";
 
-  // Generate gallery images - use product.images if available, otherwise create variations
-  const galleryImages = product.images?.length 
-    ? product.images 
-    : [
-        product.image,
-        product.image.replace("w=600", "w=601"), // Slight variation for demo
-        product.image.replace("w=600", "w=602"),
-        product.image.replace("w=600", "w=603"),
-      ];
+  // Get the selected color's image if available
+  const selectedColorData = colors.find(c => c.hex === selectedColor);
+  const colorImage = selectedColorData?.image;
+
+  // Generate gallery images - prioritize color image, then product.images, then fallback
+  const galleryImages = colorImage 
+    ? [colorImage, ...(product.images?.filter(img => img !== colorImage) || [product.image])]
+    : product.images?.length 
+      ? product.images 
+      : [
+          product.image,
+          product.image.replace("w=600", "w=601"),
+          product.image.replace("w=600", "w=602"),
+          product.image.replace("w=600", "w=603"),
+        ];
 
   return (
     <Layout>
