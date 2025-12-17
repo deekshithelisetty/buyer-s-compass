@@ -70,7 +70,7 @@ const OrderConfirmation = () => {
           <div className="flex items-center justify-center gap-0 lg:gap-0 min-h-[60vh] relative">
             
             {/* LEFT: Related Products in Circle */}
-            <div className="hidden lg:block relative w-[380px] h-[380px] z-10 -mr-12">
+            <div className="hidden lg:block relative w-[480px] h-[480px] z-10 -mr-16">
               {/* Large round circle outline */}
               <div className="absolute inset-4 border-2 border-muted-foreground/30 rounded-full" />
               
@@ -116,7 +116,7 @@ const OrderConfirmation = () => {
             </div>
 
             {/* RIGHT: Item List & Track Order */}
-            <div className="hidden lg:block relative w-[380px] h-[380px] z-10 -ml-12">
+            <div className="hidden lg:block relative w-[480px] h-[480px] z-10 -ml-16">
               {/* Large round circle outline */}
               <div className="absolute inset-4 border-2 border-muted-foreground/30 rounded-full" />
               
