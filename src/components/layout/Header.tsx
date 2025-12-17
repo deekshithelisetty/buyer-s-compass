@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Search, ShoppingCart, User, Menu, X, Sparkles, ChevronDown, Minus, Plus, Trash2, Heart, Share2, Truck } from "lucide-react";
+import { Search, ShoppingCart, User, Menu, X, Sparkles, ChevronDown, Minus, Plus, Trash2, Heart, Share2, Truck, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
+import { usePincode } from "@/context/PincodeContext";
 import { categories } from "@/data/products";
 import {
   DropdownMenu,
@@ -22,8 +23,11 @@ export function Header() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [pincodeOpen, setPincodeOpen] = useState(false);
+  const [pincodeInput, setPincodeInput] = useState("");
   const { items, totalItems, totalPrice, removeFromCart, updateQuantity } = useCart();
   const { isAuthenticated, user, logout } = useAuth();
+  const { pincode, setPincode } = usePincode();
   const navigate = useNavigate();
 
   const handleSearch = (e: React.FormEvent) => {
@@ -80,14 +84,41 @@ export function Header() {
           {/* Right Actions */}
           <div className="flex items-center gap-1">
             {/* Pincode Selector */}
-            <Button variant="ghost" size="sm" className="hidden md:flex items-center gap-1.5 text-foreground">
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                <circle cx="12" cy="10" r="3"/>
-              </svg>
-              <span className="text-sm font-medium">560001</span>
-              <ChevronDown className="w-3 h-3" />
-            </Button>
+            <Popover open={pincodeOpen} onOpenChange={setPincodeOpen}>
+              <PopoverTrigger asChild>
+                <Button variant="ghost" size="sm" className="hidden md:flex items-center gap-1.5 text-foreground">
+                  <MapPin className="w-4 h-4 text-primary" />
+                  <span className="text-sm font-medium">{pincode}</span>
+                  <ChevronDown className="w-3 h-3" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-56 p-4 bg-background border border-border shadow-lg z-50 rounded-xl" align="end">
+                <div className="space-y-3">
+                  <p className="text-sm font-medium text-foreground">Enter your pincode</p>
+                  <Input
+                    type="text"
+                    placeholder="Enter pincode"
+                    value={pincodeInput}
+                    onChange={(e) => setPincodeInput(e.target.value)}
+                    className="h-10 rounded-lg border-primary/50 focus:border-primary"
+                    maxLength={6}
+                  />
+                  <Button
+                    size="sm"
+                    className="w-full rounded-lg bg-primary hover:bg-primary/90"
+                    onClick={() => {
+                      if (pincodeInput.trim()) {
+                        setPincode(pincodeInput.trim());
+                        setPincodeOpen(false);
+                        setPincodeInput("");
+                      }
+                    }}
+                  >
+                    Apply
+                  </Button>
+                </div>
+              </PopoverContent>
+            </Popover>
 
             {/* Cart Button with Popover */}
             <Popover open={isCartOpen} onOpenChange={setIsCartOpen}>
