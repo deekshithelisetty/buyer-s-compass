@@ -1,5 +1,5 @@
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { Star, ShoppingCart, Heart, Truck, RotateCcw, Shield, Award } from "lucide-react";
+import { Star, ShoppingCart, Heart, Truck, RotateCcw, Shield, Award, MapPin, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
@@ -16,6 +16,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Input } from "@/components/ui/input";
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -23,6 +29,9 @@ const ProductDetail = () => {
   const { addToCart } = useCart();
   const { isAuthenticated } = useAuth();
   const [quantity, setQuantity] = useState("1");
+  const [pincode, setPincode] = useState("560001");
+  const [pincodeInput, setPincodeInput] = useState("");
+  const [pincodeOpen, setPincodeOpen] = useState(false);
 
   const product = products.find((p) => p.id === id);
 
@@ -204,6 +213,46 @@ const ProductDetail = () => {
                 <div className="text-2xl font-medium text-foreground">
                   ${product.price.toFixed(2)}
                 </div>
+
+                {/* Pincode / Delivery Location */}
+                <Popover open={pincodeOpen} onOpenChange={setPincodeOpen}>
+                  <PopoverTrigger asChild>
+                    <div className="flex items-center gap-2 px-4 py-2 bg-muted/50 rounded-full border border-border/50 hover:bg-muted transition-colors cursor-pointer">
+                      <MapPin className="w-4 h-4 text-primary" />
+                      <div className="text-left flex-1">
+                        <p className="text-[10px] text-muted-foreground leading-none">Deliver to</p>
+                        <p className="text-xs font-medium text-foreground">{pincode}</p>
+                      </div>
+                      <ChevronDown className="w-3 h-3 text-muted-foreground" />
+                    </div>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-48 p-3 bg-background border border-border shadow-lg z-50" align="start">
+                    <div className="space-y-3">
+                      <p className="text-sm font-medium text-foreground">Enter your pincode</p>
+                      <Input
+                        type="text"
+                        placeholder="Enter pincode"
+                        value={pincodeInput}
+                        onChange={(e) => setPincodeInput(e.target.value)}
+                        className="h-9"
+                        maxLength={6}
+                      />
+                      <Button
+                        size="sm"
+                        className="w-full"
+                        onClick={() => {
+                          if (pincodeInput.trim()) {
+                            setPincode(pincodeInput.trim());
+                            setPincodeOpen(false);
+                            setPincodeInput("");
+                          }
+                        }}
+                      >
+                        Apply
+                      </Button>
+                    </div>
+                  </PopoverContent>
+                </Popover>
 
                 {/* Delivery Info */}
                 <div className="space-y-1 text-sm">
