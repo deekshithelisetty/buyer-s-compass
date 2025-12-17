@@ -121,36 +121,35 @@ const OrderConfirmation = () => {
               <div className="absolute inset-4 border-2 border-muted-foreground/30 rounded-full" />
               
               {/* Content - item list */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 space-y-4">
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-56 space-y-3">
                 {/* Success message */}
-                <p className="text-sm text-green-600 dark:text-green-500">
+                <p className="text-sm text-green-600 dark:text-green-500 font-medium">
                   Order Placed Successfully!
                 </p>
 
-                {/* Item count */}
-                <h2 className="text-3xl font-bold text-foreground">
-                  {orderItems.length} item
-                </h2>
-
-                {/* Item list */}
-                <div className="space-y-3">
-                  {orderItems.map((item, index) => (
-                    <div key={item.id} className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        {getItemIcon(index)}
-                        <span className="text-sm text-muted-foreground">{item.name.split(' ')[0]}</span>
-                      </div>
-                      <span className="text-sm font-medium text-foreground">${item.price.toFixed(0)}</span>
-                    </div>
+                {/* Item names */}
+                <div className="space-y-1">
+                  {orderItems.map((item) => (
+                    <p key={item.id} className="text-sm text-foreground font-medium truncate">
+                      {item.name}
+                    </p>
                   ))}
                 </div>
 
-                {/* Total */}
-                <div className="pt-4 border-t border-border/50">
-                  <span className="text-2xl font-bold text-foreground">
-                    ${total > 0 ? total.toFixed(0) : totalPrice.toFixed(0)}
-                  </span>
-                </div>
+                {/* Delivery date */}
+                <p className="text-sm text-muted-foreground">
+                  Delivery by {new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
+                </p>
+
+                {/* Price */}
+                <p className="text-lg font-bold text-foreground">
+                  ${total > 0 ? total.toFixed(2) : totalPrice.toFixed(2)}
+                </p>
+
+                {/* Order number */}
+                <p className="text-xs text-muted-foreground">
+                  Order #{orderId}
+                </p>
               </div>
             </div>
           </div>
