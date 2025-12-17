@@ -899,7 +899,7 @@ export function SearchResults({
             {/* Main Content */}
             <div className="flex-1">
               {/* Results Section with Filters or Promo View */}
-              <div className="bg-background rounded-3xl p-6 shadow-sm animate-slide-up delay-200 h-[calc(100vh-6rem)] flex flex-col overflow-hidden">
+              <div className="bg-background rounded-3xl p-6 shadow-sm animate-slide-up delay-200 h-[calc(100vh-180px)] flex flex-col overflow-hidden">
                 {showPromoView ? (
                   /* Promo Landing View */
                   <div className="flex-1 overflow-y-auto pr-1 scrollbar-sleek">
