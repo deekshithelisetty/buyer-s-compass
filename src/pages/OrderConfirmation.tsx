@@ -118,12 +118,18 @@ const OrderConfirmation = () => {
 
             {/* CENTER: Main Product Image in Oval */}
             <div className="relative flex-shrink-0 z-20">
-              {/* Main product container - stadium shape */}
-              <div className="relative w-64 h-96 md:w-72 md:h-[420px] lg:w-80 lg:h-[480px] rounded-[50%/30%] overflow-hidden bg-gradient-to-b from-orange-200 via-pink-200 to-orange-100 shadow-2xl">
+              {/* Main product container - stadium shape with warm gradient */}
+              <div className="relative w-64 h-96 md:w-72 md:h-[420px] lg:w-80 lg:h-[480px] rounded-[50%/30%] overflow-hidden shadow-2xl">
+                {/* Gradient background layer */}
+                <div className="absolute inset-0 bg-gradient-to-b from-orange-300 via-orange-400 to-pink-400" />
+                {/* Secondary glow effect */}
+                <div className="absolute inset-0 bg-gradient-to-t from-pink-300/50 via-transparent to-orange-200/30" />
+                {/* Inner radial glow */}
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(255,200,150,0.3)_0%,_transparent_70%)]" />
                 <img
                   src={mainProduct.image}
                   alt={mainProduct.name}
-                  className="w-full h-full object-cover object-center"
+                  className="relative w-full h-full object-cover object-center"
                 />
               </div>
             </div>
