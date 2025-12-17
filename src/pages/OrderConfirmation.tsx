@@ -130,11 +130,8 @@ const OrderConfirmation = () => {
 
             {/* RIGHT: Order Details Circle */}
             <div className="hidden lg:block relative w-[480px] h-[480px] z-10 -ml-16">
-              {/* Gradient circle background */}
-              <div className="absolute inset-4 rounded-full bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 dark:from-green-950/20 dark:via-emerald-950/20 dark:to-teal-950/20 border border-green-200/50 dark:border-green-800/30 shadow-inner" />
-              
-              {/* Inner decorative ring */}
-              <div className="absolute inset-12 rounded-full border border-dashed border-green-300/50 dark:border-green-700/30" />
+              {/* Circle outline */}
+              <div className="absolute inset-4 rounded-full border-2 border-muted-foreground/30" />
               
               {/* Content - centered modern layout */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 text-center space-y-4">
