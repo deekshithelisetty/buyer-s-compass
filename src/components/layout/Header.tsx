@@ -86,11 +86,14 @@ export function Header() {
             {/* Pincode Selector */}
             <Popover open={pincodeOpen} onOpenChange={setPincodeOpen}>
               <PopoverTrigger asChild>
-                <Button variant="ghost" size="sm" className="hidden md:flex items-center gap-1.5 text-foreground">
+                <div className="hidden md:inline-flex items-center gap-2 px-3 py-1.5 bg-muted/50 rounded-full border border-border/50 cursor-pointer hover:bg-muted transition-colors">
                   <MapPin className="w-4 h-4 text-primary" />
-                  <span className="text-sm font-medium">{pincode}</span>
-                  <ChevronDown className="w-3 h-3" />
-                </Button>
+                  <div className="text-left">
+                    <p className="text-[10px] text-muted-foreground leading-none">Deliver to</p>
+                    <p className="text-xs font-medium text-foreground">{pincode}</p>
+                  </div>
+                  <ChevronDown className="w-3 h-3 text-muted-foreground" />
+                </div>
               </PopoverTrigger>
               <PopoverContent className="w-56 p-4 bg-background border border-border shadow-lg z-50 rounded-xl" align="end">
                 <div className="space-y-3">
@@ -100,12 +103,12 @@ export function Header() {
                     placeholder="Enter pincode"
                     value={pincodeInput}
                     onChange={(e) => setPincodeInput(e.target.value)}
-                    className="h-10 rounded-lg border-primary/50 focus:border-primary"
+                    className="h-10 rounded-full border-primary/50 focus:border-primary"
                     maxLength={6}
                   />
                   <Button
                     size="sm"
-                    className="w-full rounded-lg bg-primary hover:bg-primary/90"
+                    className="w-full rounded-full bg-primary hover:bg-primary/90"
                     onClick={() => {
                       if (pincodeInput.trim()) {
                         setPincode(pincodeInput.trim());
