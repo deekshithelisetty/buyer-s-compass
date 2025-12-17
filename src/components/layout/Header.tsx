@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Search, ShoppingCart, User, Menu, X, Sparkles, Globe, ChevronDown, Minus, Plus, Trash2, Heart, Share2, Truck } from "lucide-react";
+import { Search, ShoppingCart, User, Menu, X, Sparkles, ChevronDown, Minus, Plus, Trash2, Heart, Share2, Truck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCart } from "@/context/CartContext";
@@ -79,20 +79,15 @@ export function Header() {
 
           {/* Right Actions */}
           <div className="flex items-center gap-1">
-            {/* Country Selector */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="hidden md:flex items-center gap-1.5 text-foreground">
-                  <Globe className="w-4 h-4" />
-                  <span className="text-sm font-medium">EN</span>
-                  <ChevronDown className="w-3 h-3" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem>English (EN)</DropdownMenuItem>
-                <DropdownMenuItem>العربية (AR)</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            {/* Pincode Selector */}
+            <Button variant="ghost" size="sm" className="hidden md:flex items-center gap-1.5 text-foreground">
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+              <span className="text-sm font-medium">560001</span>
+              <ChevronDown className="w-3 h-3" />
+            </Button>
 
             {/* Cart Button with Popover */}
             <Popover open={isCartOpen} onOpenChange={setIsCartOpen}>
