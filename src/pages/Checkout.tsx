@@ -86,14 +86,14 @@ const Checkout = () => {
   const handlePlaceOrder = () => {
     // Generate order number
     const generatedOrderNumber = `INF-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
-    setOrderNumber(generatedOrderNumber);
-    setOrderDate(new Date());
-    setStep("confirmation");
+    const orderTotal = total;
     clearCart();
     toast({
       title: "Order Placed Successfully! 🎉",
       description: "Thank you for your purchase. You will receive a confirmation email shortly.",
     });
+    // Navigate to the visual order confirmation page
+    navigate(`/order-confirmation?orderId=${generatedOrderNumber}&total=${orderTotal.toFixed(2)}`);
   };
 
   const handleProceedToAddress = () => {
