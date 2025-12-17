@@ -118,8 +118,16 @@ const OrderConfirmation = () => {
 
             {/* CENTER: Main Product Image in Oval */}
             <div className="relative flex-shrink-0 z-20">
-              {/* Main product container - stadium shape with warm gradient and glow matching background */}
-              <div className="relative w-64 h-96 md:w-72 md:h-[420px] lg:w-80 lg:h-[480px] rounded-[50%/30%] overflow-hidden shadow-[0_0_40px_15px_rgba(253,186,116,0.5),0_0_80px_30px_rgba(251,146,60,0.35),0_0_120px_50px_rgba(244,114,182,0.25)]">
+              {/* Dynamic glow effect using blurred product image */}
+              <div className="absolute -inset-8 z-0">
+                <img
+                  src={mainProduct.image}
+                  alt=""
+                  className="w-full h-full object-cover blur-3xl opacity-60 scale-110"
+                />
+              </div>
+              {/* Main product container - stadium shape */}
+              <div className="relative w-64 h-96 md:w-72 md:h-[420px] lg:w-80 lg:h-[480px] rounded-[50%/30%] overflow-hidden shadow-2xl z-10">
                 {/* Gradient background layer */}
                 <div className="absolute inset-0 bg-gradient-to-b from-orange-300 via-orange-400 to-pink-400" />
                 {/* Secondary glow effect */}
