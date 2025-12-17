@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { products } from "@/data/products";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
+import { usePincode } from "@/context/PincodeContext";
 import { ProductImageGallery } from "@/components/product/ProductImageGallery";
 import { ProductCardMinimal } from "@/components/product/ProductCardMinimal";
 import { cn } from "@/lib/utils";
@@ -28,8 +29,8 @@ const ProductDetail = () => {
   const navigate = useNavigate();
   const { addToCart } = useCart();
   const { isAuthenticated } = useAuth();
+  const { pincode, setPincode } = usePincode();
   const [quantity, setQuantity] = useState("1");
-  const [pincode, setPincode] = useState("560001");
   const [pincodeInput, setPincodeInput] = useState("");
   const [pincodeOpen, setPincodeOpen] = useState(false);
 
