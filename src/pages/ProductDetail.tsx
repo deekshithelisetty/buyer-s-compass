@@ -257,16 +257,16 @@ const ProductDetail = () => {
                 </div>
 
                 {/* Action Buttons */}
-                <div className="space-y-2">
+                <div className="flex gap-2">
                   <Button
-                    className="w-full h-10 rounded-full bg-amber-400 hover:bg-amber-500 text-foreground"
+                    className="flex-1 h-10 rounded-full bg-amber-400 hover:bg-amber-500 text-foreground"
                     onClick={handleAddToCart}
                     disabled={!product.inStock}
                   >
                     Add to Cart
                   </Button>
                   <Button
-                    className="w-full h-10 rounded-full bg-orange-500 hover:bg-orange-600 text-white"
+                    className="flex-1 h-10 rounded-full bg-orange-500 hover:bg-orange-600 text-white"
                     onClick={handleBuyNow}
                     disabled={!product.inStock}
                   >
