@@ -128,90 +128,41 @@ const OrderConfirmation = () => {
               </div>
             </div>
 
-            {/* RIGHT: Order Details Modern Card */}
+            {/* RIGHT: Item List & Track Order */}
             <div className="hidden lg:block relative w-[480px] h-[480px] z-10 -ml-16">
-              {/* Large round circle outline with gradient */}
-              <div className="absolute inset-4 border-2 border-muted-foreground/20 rounded-full bg-gradient-to-br from-white/5 to-white/10 dark:from-white/5 dark:to-white/10" />
+              {/* Large round circle outline */}
+              <div className="absolute inset-4 border-2 border-muted-foreground/30 rounded-full" />
               
-              {/* Modern glassmorphism card */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72">
-                <div className="bg-card/80 backdrop-blur-xl rounded-3xl p-6 shadow-2xl border border-border/50 space-y-5">
-                  {/* Success badge */}
-                  <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center">
-                      <svg className="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
-                    <span className="text-sm font-semibold text-green-500">Order Confirmed!</span>
-                  </div>
+              {/* Content - item list */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-56 space-y-3">
+                {/* Success message */}
+                <p className="text-sm text-green-600 dark:text-green-500 font-medium">
+                  Order Placed Successfully!
+                </p>
 
-                  {/* Order items with images */}
-                  <div className="space-y-3">
-                    {orderItems.slice(0, 3).map((item) => (
-                      <div key={item.id} className="flex items-center gap-3 group">
-                        <div className="w-12 h-12 rounded-xl overflow-hidden bg-muted flex-shrink-0 ring-2 ring-border/30 group-hover:ring-primary/50 transition-all">
-                          <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium text-foreground truncate">{item.name.split(' ').slice(0, 3).join(' ')}</p>
-                          <p className="text-xs text-muted-foreground">${item.price.toFixed(2)}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Divider */}
-                  <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent" />
-
-                  {/* Delivery info */}
-                  <div className="flex items-center gap-3 bg-muted/50 rounded-xl p-3">
-                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                      <Truck className="w-5 h-5 text-primary" />
-                    </div>
-                    <div>
-                      <p className="text-xs text-muted-foreground">Estimated Delivery</p>
-                      <p className="text-sm font-semibold text-foreground">
-                        {new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Total and Order ID */}
-                  <div className="flex items-end justify-between">
-                    <div>
-                      <p className="text-xs text-muted-foreground uppercase tracking-wider">Total</p>
-                      <p className="text-2xl font-bold text-foreground">
-                        ${total > 0 ? total.toFixed(2) : totalPrice.toFixed(2)}
-                      </p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Order ID</p>
-                      <p className="text-xs font-mono text-muted-foreground">{orderId}</p>
-                    </div>
-                  </div>
-
-                  {/* Action buttons */}
-                  <div className="flex gap-2 pt-2">
-                    <Button 
-                      size="sm"
-                      className="flex-1 rounded-full bg-foreground hover:bg-foreground/90 text-background text-xs h-9"
-                      onClick={() => navigate(`/order-tracking?orderId=${orderId}`)}
-                    >
-                      <Package className="w-3.5 h-3.5 mr-1.5" />
-                      Track
-                    </Button>
-                    <Button 
-                      size="sm"
-                      variant="outline"
-                      className="flex-1 rounded-full text-xs h-9"
-                      onClick={() => navigate("/")}
-                    >
-                      <ShoppingCart className="w-3.5 h-3.5 mr-1.5" />
-                      Shop
-                    </Button>
-                  </div>
+                {/* Item names */}
+                <div className="space-y-1">
+                  {orderItems.map((item) => (
+                    <p key={item.id} className="text-sm text-foreground font-medium truncate">
+                      {item.name}
+                    </p>
+                  ))}
                 </div>
+
+                {/* Delivery date */}
+                <p className="text-sm text-muted-foreground">
+                  Delivery by {new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
+                </p>
+
+                {/* Price */}
+                <p className="text-lg font-bold text-foreground">
+                  ${total > 0 ? total.toFixed(2) : totalPrice.toFixed(2)}
+                </p>
+
+                {/* Order number */}
+                <p className="text-xs text-muted-foreground">
+                  Order #{orderId}
+                </p>
               </div>
             </div>
           </div>
