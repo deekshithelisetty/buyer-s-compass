@@ -128,41 +128,73 @@ const OrderConfirmation = () => {
               </div>
             </div>
 
-            {/* RIGHT: Item List & Track Order */}
+            {/* RIGHT: Order Details Circle */}
             <div className="hidden lg:block relative w-[480px] h-[480px] z-10 -ml-16">
-              {/* Large round circle outline */}
-              <div className="absolute inset-4 border-2 border-muted-foreground/30 rounded-full" />
+              {/* Gradient circle background */}
+              <div className="absolute inset-4 rounded-full bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 dark:from-green-950/20 dark:via-emerald-950/20 dark:to-teal-950/20 border border-green-200/50 dark:border-green-800/30 shadow-inner" />
               
-              {/* Content - item list */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-56 space-y-3">
-                {/* Success message */}
-                <p className="text-sm text-green-600 dark:text-green-500 font-medium">
-                  Order Placed Successfully!
-                </p>
-
-                {/* Item names */}
-                <div className="space-y-1">
-                  {orderItems.map((item) => (
-                    <p key={item.id} className="text-sm text-foreground font-medium truncate">
-                      {item.name}
-                    </p>
-                  ))}
+              {/* Inner decorative ring */}
+              <div className="absolute inset-12 rounded-full border border-dashed border-green-300/50 dark:border-green-700/30" />
+              
+              {/* Content - centered modern layout */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 text-center space-y-4">
+                {/* Success icon */}
+                <div className="mx-auto w-14 h-14 rounded-full bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center shadow-lg shadow-green-500/25">
+                  <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
                 </div>
 
-                {/* Delivery date */}
-                <p className="text-sm text-muted-foreground">
-                  Delivery by {new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
-                </p>
+                {/* Success message */}
+                <div>
+                  <p className="text-lg font-semibold text-green-600 dark:text-green-400">
+                    Order Confirmed!
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Thank you for your purchase
+                  </p>
+                </div>
+
+                {/* Divider */}
+                <div className="w-16 h-px bg-gradient-to-r from-transparent via-border to-transparent mx-auto" />
+
+                {/* Order ID */}
+                <div className="bg-card/80 backdrop-blur-sm rounded-xl py-2 px-4 border border-border/50 shadow-sm">
+                  <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Order ID</p>
+                  <p className="text-sm font-mono font-semibold text-foreground">{orderId}</p>
+                </div>
 
                 {/* Price */}
-                <p className="text-lg font-bold text-foreground">
-                  ${total > 0 ? total.toFixed(2) : totalPrice.toFixed(2)}
+                <div>
+                  <p className="text-2xl font-bold text-foreground">
+                    ${total > 0 ? total.toFixed(2) : totalPrice.toFixed(2)}
+                  </p>
+                  <p className="text-xs text-muted-foreground">Total Amount</p>
+                </div>
+
+                {/* Delivery info */}
+                <div className="flex items-center justify-center gap-2 text-sm">
+                  <Truck className="w-4 h-4 text-primary" />
+                  <span className="text-muted-foreground">Delivery by</span>
+                  <span className="font-medium text-foreground">
+                    {new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
+                  </span>
+                </div>
+
+                {/* Items count */}
+                <p className="text-xs text-muted-foreground">
+                  {orderItems.length} items in this order
                 </p>
 
-                {/* Order number */}
-                <p className="text-xs text-muted-foreground">
-                  Order #{orderId}
-                </p>
+                {/* Track Order Button */}
+                <Button 
+                  size="sm"
+                  className="rounded-full bg-foreground hover:bg-foreground/90 text-background shadow-lg"
+                  onClick={() => navigate(`/order-tracking?orderId=${orderId}`)}
+                >
+                  <Package className="w-3.5 h-3.5 mr-1.5" />
+                  Track Order
+                </Button>
               </div>
             </div>
           </div>
