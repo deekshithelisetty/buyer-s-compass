@@ -1,10 +1,11 @@
 import { useNavigate, useSearchParams, Link } from "react-router-dom";
-import { ShoppingCart, CheckCircle, Truck, RotateCcw, Package } from "lucide-react";
+import { CheckCircle, Truck, RotateCcw } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { products } from "@/data/products";
 import { cn } from "@/lib/utils";
+import { toast } from "@/hooks/use-toast";
 
 // SVG icons for item list
 const TshirtIcon = () => (
@@ -43,6 +44,23 @@ const OrderConfirmation = () => {
   const [orderItems, setOrderItems] = useState(products.slice(0, 3));
   const mainProduct = products[0];
 
+  // Show success toast on mount
+  useEffect(() => {
+    toast({
+      title: (
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center animate-scale-in">
+            <CheckCircle className="w-5 h-5 text-white" />
+          </div>
+          <span className="text-green-700 dark:text-green-400 font-bold">Order Placed Successfully!</span>
+        </div>
+      ) as unknown as string,
+      description: `Order #${orderId} • Confirmation sent to your email`,
+      duration: 5000,
+      className: "bg-green-50 dark:bg-green-950/90 border-green-200 dark:border-green-800 animate-slide-in-right",
+    });
+  }, [orderId]);
+
   // Floating positions for related products
   const floatingPositions = [
     { top: "12%", left: "32%", size: "w-14 h-14", rotate: "-5deg" },
@@ -65,24 +83,6 @@ const OrderConfirmation = () => {
   return (
     <Layout>
       <div className="min-h-[calc(100vh-140px)] bg-gradient-to-br from-orange-50 via-pink-50 to-amber-50 dark:from-background dark:via-background dark:to-background">
-        {/* Success Banner */}
-        <div className="container mx-auto px-4 pt-6">
-          <div className="max-w-2xl mx-auto">
-            <div className="bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-900 rounded-lg p-4 mb-6">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center flex-shrink-0">
-                  <CheckCircle className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <h1 className="text-lg font-bold text-green-700 dark:text-green-400">Order Placed Successfully!</h1>
-                  <p className="text-sm text-green-600 dark:text-green-500">
-                    Order #{orderId} • Confirmation sent to your email
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
 
         <div className="container mx-auto px-4 py-4">
           {/* Main 3-Column Layout */}
