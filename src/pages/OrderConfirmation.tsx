@@ -38,19 +38,21 @@ const OrderConfirmation = () => {
   const orderId = searchParams.get("orderId") || "";
   const total = parseFloat(searchParams.get("total") || "0");
   
-  // Get random products for display
-  const [displayProducts, setDisplayProducts] = useState(products.slice(0, 6));
+  // Get random products for display - increased to 8 products
+  const [displayProducts, setDisplayProducts] = useState(products.slice(0, 8));
   const [orderItems, setOrderItems] = useState(products.slice(0, 3));
   const mainProduct = products[0];
 
-  // Floating positions for related products
+  // Floating positions for related products - spread out for larger circle
   const floatingPositions = [
-    { top: "12%", left: "32%", size: "w-14 h-14", rotate: "-5deg" },
-    { top: "8%", left: "55%", size: "w-12 h-12", rotate: "5deg" },
-    { top: "38%", left: "18%", size: "w-14 h-14", rotate: "-8deg" },
-    { top: "35%", left: "65%", size: "w-14 h-14", rotate: "8deg" },
-    { top: "62%", left: "20%", size: "w-12 h-12", rotate: "-5deg" },
-    { top: "70%", left: "45%", size: "w-14 h-14", rotate: "0deg" },
+    { top: "8%", left: "38%", size: "w-16 h-16", rotate: "-5deg" },
+    { top: "5%", left: "58%", size: "w-14 h-14", rotate: "5deg" },
+    { top: "28%", left: "12%", size: "w-18 h-18", rotate: "-8deg" },
+    { top: "25%", left: "72%", size: "w-16 h-16", rotate: "8deg" },
+    { top: "52%", left: "8%", size: "w-14 h-14", rotate: "-5deg" },
+    { top: "70%", left: "35%", size: "w-16 h-16", rotate: "0deg" },
+    { top: "55%", left: "68%", size: "w-14 h-14", rotate: "6deg" },
+    { top: "78%", left: "55%", size: "w-14 h-14", rotate: "-3deg" },
   ];
 
   const totalPrice = orderItems.reduce((sum, item) => sum + item.price, 0);
@@ -58,7 +60,7 @@ const OrderConfirmation = () => {
   const handleRegenerateOutfit = () => {
     // Shuffle products for new outfit
     const shuffled = [...products].sort(() => Math.random() - 0.5);
-    setDisplayProducts(shuffled.slice(0, 6));
+    setDisplayProducts(shuffled.slice(0, 8));
     setOrderItems(shuffled.slice(0, 3));
   };
 
@@ -79,7 +81,7 @@ const OrderConfirmation = () => {
                 <Link
                   key={item.id}
                   to={`/product/${item.id}`}
-                  className="absolute group z-20"
+                  className="absolute group z-20 cursor-pointer"
                   style={{
                     top: floatingPositions[index]?.top,
                     left: floatingPositions[index]?.left,
@@ -87,16 +89,20 @@ const OrderConfirmation = () => {
                 >
                   <div 
                     className={cn(
-                      "rounded-2xl bg-card border border-border/50 shadow-lg overflow-hidden transition-all duration-300 hover:scale-125 hover:shadow-2xl hover:z-30",
-                      floatingPositions[index]?.size || "w-14 h-14"
+                      "rounded-2xl bg-card border-2 border-border/30 shadow-lg overflow-hidden transition-all duration-300 hover:scale-150 hover:shadow-2xl hover:z-50 hover:border-primary/50",
+                      floatingPositions[index]?.size || "w-16 h-16"
                     )}
                     style={{ transform: `rotate(${floatingPositions[index]?.rotate || '0deg'})` }}
                   >
                     <img
                       src={item.image}
                       alt={item.name}
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                      className="w-full h-full object-cover transition-transform duration-300"
                     />
+                  </div>
+                  {/* Tooltip on hover */}
+                  <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap bg-foreground text-background text-xs px-2 py-1 rounded-md pointer-events-none z-50">
+                    {item.name.split(' ').slice(0, 2).join(' ')}
                   </div>
                 </Link>
               ))}
