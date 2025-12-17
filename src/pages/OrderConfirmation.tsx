@@ -120,10 +120,10 @@ const OrderConfirmation = () => {
                 </Link>
               ))}
 
-              {/* Regenerate Button */}
+              {/* Regenerate Button - Bottom of left circle */}
               <button
                 onClick={handleRegenerateOutfit}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 bg-foreground text-background px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2 hover:bg-foreground/90 transition-colors shadow-xl"
+                className="absolute bottom-16 left-1/2 -translate-x-1/2 z-30 bg-foreground text-background px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2 hover:bg-foreground/90 transition-colors shadow-xl"
               >
                 <RotateCcw className="w-4 h-4" />
                 Regenerate outfit
@@ -142,7 +142,7 @@ const OrderConfirmation = () => {
               </div>
             </div>
 
-            {/* RIGHT: Item List & Order */}
+            {/* RIGHT: Item List & Track Order */}
             <div className="hidden lg:block relative w-[380px] h-[380px] z-10 -ml-12">
               {/* Large round circle outline */}
               <div className="absolute inset-4 border-2 border-muted-foreground/30 rounded-full" />
@@ -167,20 +167,22 @@ const OrderConfirmation = () => {
                   ))}
                 </div>
 
-                {/* Total and Track button */}
-                <div className="flex items-center justify-between pt-4 border-t border-border/50">
+                {/* Total */}
+                <div className="pt-4 border-t border-border/50">
                   <span className="text-2xl font-bold text-foreground">
                     ${total > 0 ? total.toFixed(0) : totalPrice.toFixed(0)}
                   </span>
-                  <Button 
-                    className="rounded-full bg-foreground hover:bg-foreground/90 text-background px-5 h-10"
-                    onClick={() => navigate(`/order-tracking?orderId=${orderId}`)}
-                  >
-                    <Truck className="w-4 h-4 mr-2" />
-                    Track order
-                  </Button>
                 </div>
               </div>
+
+              {/* Track Order Button - Bottom of right circle */}
+              <Button 
+                className="absolute bottom-16 left-1/2 -translate-x-1/2 z-30 rounded-full bg-foreground hover:bg-foreground/90 text-background px-5 h-10 shadow-xl"
+                onClick={() => navigate(`/order-tracking?orderId=${orderId}`)}
+              >
+                <Truck className="w-4 h-4 mr-2" />
+                Track order
+              </Button>
             </div>
           </div>
 
