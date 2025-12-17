@@ -72,8 +72,13 @@ const OrderConfirmation = () => {
 
   return (
     <Layout>
-      <div className="min-h-[calc(100vh-140px)] bg-gradient-to-br from-orange-50 via-pink-50 to-amber-50 dark:from-background dark:via-background dark:to-background">
-        <div className="container mx-auto px-4 py-6">
+      {/* Full page gradient background matching center oval */}
+      <div className="min-h-[calc(100vh-140px)] relative overflow-hidden">
+        {/* Radial gradient background emanating from center */}
+        <div className="absolute inset-0 bg-gradient-to-b from-orange-100 via-pink-100/80 to-amber-50 dark:from-orange-900/20 dark:via-pink-900/10 dark:to-background" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-orange-200/60 via-pink-100/40 to-transparent dark:from-orange-800/20 dark:via-pink-800/10 dark:to-transparent" />
+        
+        <div className="container mx-auto px-4 py-6 relative z-10">
           {/* Main 3-Column Layout */}
           <div className="flex items-center justify-center gap-0 lg:gap-0 min-h-[60vh] relative">
             
@@ -119,7 +124,7 @@ const OrderConfirmation = () => {
             {/* CENTER: Main Product Image in Oval */}
             <div className="relative flex-shrink-0 z-20">
               {/* Main product container - stadium shape */}
-              <div className="relative w-64 h-96 md:w-72 md:h-[420px] lg:w-80 lg:h-[480px] rounded-[50%/30%] overflow-hidden bg-gradient-to-b from-orange-200 via-pink-200 to-orange-100 shadow-2xl">
+              <div className="relative w-64 h-96 md:w-72 md:h-[420px] lg:w-80 lg:h-[480px] rounded-[50%/30%] overflow-hidden bg-gradient-to-b from-orange-300 via-pink-300 to-orange-200 shadow-2xl">
                 <img
                   src={mainProduct.image}
                   alt={mainProduct.name}
@@ -128,39 +133,51 @@ const OrderConfirmation = () => {
               </div>
             </div>
 
-            {/* RIGHT: Item List & Track Order */}
+            {/* RIGHT: Modern Item List & Track Order */}
             <div className="hidden lg:block relative w-[480px] h-[480px] z-10 -ml-16">
               {/* Large round circle outline */}
               <div className="absolute inset-4 border-2 border-muted-foreground/30 rounded-full" />
               
-              {/* Content - item list */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-56 space-y-3">
-                {/* Success message */}
-                <p className="text-sm text-green-600 dark:text-green-500 font-medium">
-                  Order Placed Successfully!
-                </p>
+              {/* Content - modern item list */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48">
+                {/* Item count header */}
+                <h3 className="text-2xl font-bold text-foreground mb-4">
+                  {orderItems.length} item{orderItems.length > 1 ? 's' : ''}
+                </h3>
 
-                {/* Item names */}
-                <div className="space-y-1">
-                  {orderItems.map((item) => (
-                    <p key={item.id} className="text-sm text-foreground font-medium truncate">
-                      {item.name}
-                    </p>
+                {/* Item list with icons */}
+                <div className="space-y-3 mb-6">
+                  {orderItems.map((item, index) => (
+                    <div key={item.id} className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        {getItemIcon(index)}
+                        <span className="text-sm text-muted-foreground font-medium">
+                          {item.name.split(' ').slice(0, 2).join(' ')}
+                        </span>
+                      </div>
+                      <span className="text-sm font-semibold text-foreground">
+                        ${item.price.toFixed(0)}
+                      </span>
+                    </div>
                   ))}
                 </div>
 
-                {/* Delivery date */}
-                <p className="text-sm text-muted-foreground">
-                  Delivery by {new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
-                </p>
+                {/* Total and Track Button */}
+                <div className="flex items-center justify-between">
+                  <span className="text-2xl font-bold text-foreground">
+                    ${total > 0 ? total.toFixed(0) : totalPrice.toFixed(0)}
+                  </span>
+                  <Button 
+                    className="rounded-full bg-foreground hover:bg-foreground/90 text-background px-5 py-2 h-auto text-sm font-medium"
+                    onClick={() => navigate(`/order-tracking?orderId=${orderId}`)}
+                  >
+                    <Truck className="w-4 h-4 mr-1.5" />
+                    Track order
+                  </Button>
+                </div>
 
-                {/* Price */}
-                <p className="text-lg font-bold text-foreground">
-                  ${total > 0 ? total.toFixed(2) : totalPrice.toFixed(2)}
-                </p>
-
-                {/* Order number */}
-                <p className="text-xs text-muted-foreground">
+                {/* Order ID below */}
+                <p className="text-xs text-muted-foreground mt-4 text-center">
                   Order #{orderId}
                 </p>
               </div>
@@ -170,46 +187,37 @@ const OrderConfirmation = () => {
           {/* Mobile View */}
           <div className="lg:hidden mt-6 space-y-4">
             {/* Order Summary Card */}
-            <div className="bg-card rounded-2xl shadow-xl p-6 space-y-4">
-              <h2 className="text-xl font-bold">Your Order</h2>
+            <div className="bg-card/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 space-y-4">
+              <h2 className="text-xl font-bold">{orderItems.length} item{orderItems.length > 1 ? 's' : ''}</h2>
               
               <div className="space-y-3">
                 {orderItems.map((item, index) => (
                   <div key={item.id} className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <img src={item.image} alt={item.name} className="w-12 h-12 rounded-lg object-cover" />
-                      <span className="text-sm">{item.name.split(' ').slice(0, 2).join(' ')}</span>
+                      {getItemIcon(index)}
+                      <span className="text-sm text-muted-foreground">{item.name.split(' ').slice(0, 2).join(' ')}</span>
                     </div>
-                    <span className="font-medium">${item.price.toFixed(2)}</span>
+                    <span className="font-medium">${item.price.toFixed(0)}</span>
                   </div>
                 ))}
               </div>
 
               <div className="flex items-center justify-between pt-4 border-t border-border">
-                <span className="text-xl font-bold">Total</span>
-                <span className="text-xl font-bold">${total > 0 ? total.toFixed(2) : totalPrice.toFixed(2)}</span>
-              </div>
-
-              <div className="flex gap-3">
+                <span className="text-2xl font-bold">${total > 0 ? total.toFixed(0) : totalPrice.toFixed(0)}</span>
                 <Button 
-                  className="flex-1 rounded-full bg-foreground hover:bg-foreground/90 text-background"
+                  className="rounded-full bg-foreground hover:bg-foreground/90 text-background"
                   onClick={() => navigate(`/order-tracking?orderId=${orderId}`)}
                 >
                   <Truck className="w-4 h-4 mr-2" />
-                  Track Order
-                </Button>
-                <Button 
-                  variant="outline"
-                  className="flex-1 rounded-full"
-                  onClick={() => navigate("/")}
-                >
-                  Continue Shopping
+                  Track order
                 </Button>
               </div>
+
+              <p className="text-xs text-muted-foreground text-center">Order #{orderId}</p>
             </div>
 
             {/* Related Products */}
-            <div className="bg-card rounded-2xl shadow-xl p-6">
+            <div className="bg-card/80 backdrop-blur-sm rounded-2xl shadow-xl p-6">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="font-semibold">You might also like</h3>
                 <button
