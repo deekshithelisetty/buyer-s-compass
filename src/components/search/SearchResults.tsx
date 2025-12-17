@@ -7,6 +7,7 @@ import { ChevronDown, ChevronRight, X, Mic, Search, ShoppingCart, User, Globe, H
 import { useNavigate } from "react-router-dom";
 import { Product } from "@/types/product";
 import { useCart } from "@/context/CartContext";
+import { Header } from "@/components/layout/Header";
 interface SearchResultsProps {
   searchQuery?: string;
   categoryFilter?: string;
@@ -745,56 +746,29 @@ export function SearchResults({
       </PopoverContent>
     </Popover>
   );
-  return <div className="min-h-screen bg-muted/30 px-7 py-2 animate-zoom-in">
-      <div className="bg-muted rounded-3xl min-h-[calc(100vh-1rem)] overflow-hidden shadow-xl">
-        {/* Header */}
-        <header className="sticky top-0 z-50 bg-card/95 backdrop-blur-md border-b border-border/30 rounded-t-3xl">
-          <div className="max-w-7xl mx-auto px-6 py-3">
-            {/* Single row - Logo, Search Bar, and Actions */}
-            <div className="flex items-center gap-6">
-              {/* Brand Name with Gradient */}
-              <button onClick={handleLogoClick} className="flex-shrink-0">
-                <span 
-                  className="text-2xl font-bold tracking-tight"
-                  style={{
-                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
-                  }}
-                >
-                  InfinityHub
-                </span>
-              </button>
-
-              {/* Search Bar - Flexible width */}
-              <form onSubmit={handleSearch} className="flex-1 flex justify-center">
-                <div className="relative w-full max-w-2xl">
-                  {/* Glassy gray border - always visible */}
-                  <div className="absolute -inset-2 rounded-[50px] bg-muted/40 backdrop-blur-sm border border-border/50" />
-                  {/* Aurora gradient glow - only on focus */}
-                  <div className={`absolute -inset-[8px] rounded-[52px] blur-md transition-opacity duration-500 ${isFocused ? 'opacity-60' : 'opacity-0'}`} style={{
-                  background: 'conic-gradient(from 0deg, #0081CF, #FFD700, #FF6FD8, #9B59B6, #00ffbf, #0081CF)'
-                }} />
-                  {/* Aurora gradient border - only on focus */}
-                  <div className={`absolute -inset-[3px] rounded-[47px] transition-opacity duration-500 ${isFocused ? 'opacity-100' : 'opacity-0'}`} style={{
-                  background: 'conic-gradient(from 0deg, #0081CF, #FFD700, #FF6FD8, #9B59B6, #00ffbf, #0081CF)'
-                }} />
-                  {/* Search input container */}
-                  <div className="relative flex items-center bg-muted rounded-[45px] shadow-lg border border-border/30">
-                    <input type="text" value={localSearchQuery} onChange={e => setLocalSearchQuery(e.target.value)} onFocus={() => setIsFocused(true)} onBlur={() => setIsFocused(false)} placeholder={searchQuery || "Ask anything..."} className="flex-1 px-6 py-3 bg-transparent rounded-[45px] text-foreground placeholder:text-muted-foreground focus:outline-none text-sm" />
-                    {localSearchQuery ? <button type="button" onClick={() => setLocalSearchQuery("")} className="p-2.5 mr-2 rounded-full bg-[#0081CF] text-white transition-all hover:bg-[#006bb3] shadow-[0_0_15px_rgba(0,129,207,0.5)]">
-                        <X className="w-4 h-4" />
-                      </button> : <button type="button" className="p-2.5 mr-2 rounded-full bg-white transition-all">
-                        <Mic className="w-4 h-4 text-gray-500 opacity-70" />
-                      </button>}
-                  </div>
+  return (
+    <div className="min-h-screen bg-muted/30 animate-zoom-in">
+      {/* Site Header */}
+      <Header />
+      
+      {/* Content Container */}
+      <div className="px-7 py-2">
+        <div className="bg-muted rounded-3xl min-h-[calc(100vh-7rem)] overflow-hidden shadow-xl">
+          {/* Secondary Filter Bar with Pincode */}
+          <div className="sticky top-[96px] z-40 bg-card/95 backdrop-blur-md border-b border-border/30 rounded-t-3xl">
+            <div className="max-w-7xl mx-auto px-6 py-2">
+              <div className="flex items-center justify-between gap-4">
+                {/* Left - Back button & Title */}
+                <div className="flex items-center gap-3">
+                  <button onClick={handleLogoClick} className="p-2 rounded-full hover:bg-muted transition-colors">
+                    <ArrowLeft className="w-4 h-4 text-muted-foreground" />
+                  </button>
+                  <span className="text-sm font-medium text-foreground">
+                    {categoryFilter ? categories.find(c => c.id === categoryFilter)?.name || categoryFilter : 'All Products'}
+                  </span>
                 </div>
-              </form>
 
-              {/* Right section */}
-              <div className="flex items-center gap-4 flex-shrink-0">
-                {/* Pincode */}
+                {/* Right - Pincode */}
                 <Popover open={pincodeOpen} onOpenChange={setPincodeOpen}>
                   <PopoverTrigger asChild>
                     <div className="flex items-center gap-2 px-4 py-2 min-w-[140px] bg-muted/50 rounded-full border border-border/50 hover:bg-muted transition-colors cursor-pointer">
@@ -806,7 +780,7 @@ export function SearchResults({
                       <ChevronDown className="w-3 h-3 text-muted-foreground" />
                     </div>
                   </PopoverTrigger>
-                  <PopoverContent className="w-48 p-3 bg-background border border-border shadow-lg z-50" align="start">
+                  <PopoverContent className="w-48 p-3 bg-background border border-border shadow-lg z-50" align="end">
                     <div className="space-y-3">
                       <p className="text-sm font-medium text-foreground">Enter your pincode</p>
                       <Input
@@ -833,67 +807,11 @@ export function SearchResults({
                     </div>
                   </PopoverContent>
                 </Popover>
-                <button className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  <ShoppingCart className="w-4 h-4" />
-                  <span className="hidden sm:inline">Cart</span>
-                </button>
-                <button className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  <User className="w-4 h-4" />
-                  <span className="hidden sm:inline">Sign In</span>
-                </button>
               </div>
             </div>
           </div>
-        </header>
 
-        {/* Categories Navigation - Animated Gradient Style */}
-        <nav className="bg-card/95 backdrop-blur-md border-b border-border/30 overflow-x-auto">
-          <div className="max-w-7xl mx-auto px-6">
-            <ul className="flex items-center justify-center gap-3 py-2 min-w-max">
-              {categories.map((category, index) => {
-                const gradients = [
-                  { from: '#a955ff', to: '#ea51ff' },
-                  { from: '#56CCF2', to: '#2F80ED' },
-                  { from: '#FF9966', to: '#FF5E62' },
-                  { from: '#80FF72', to: '#7EE8FA' },
-                  { from: '#FFD93D', to: '#FF9F43' },
-                  { from: '#ffa9c6', to: '#f434e2' },
-                  { from: '#6366f1', to: '#8b5cf6' },
-                  { from: '#22c55e', to: '#84cc16' },
-                  { from: '#ef4444', to: '#f97316' },
-                  { from: '#ec4899', to: '#a855f7' },
-                  { from: '#f59e0b', to: '#eab308' },
-                  { from: '#14b8a6', to: '#06b6d4' },
-                ];
-                const gradient = gradients[index % gradients.length];
-                
-                return (
-                  <li key={category.id}>
-                    <button
-                      onClick={() => {
-                        navigate(`/?category=${category.id}`);
-                        setShowPromoView(false);
-                      }}
-                      style={{ '--gradient-from': gradient.from, '--gradient-to': gradient.to } as React.CSSProperties}
-                      className="relative w-[40px] h-[40px] bg-card shadow-md rounded-full flex items-center justify-center transition-all duration-500 hover:w-[120px] hover:shadow-none group cursor-pointer border border-border/50"
-                    >
-                      <span className="absolute inset-0 rounded-full bg-[linear-gradient(45deg,var(--gradient-from),var(--gradient-to))] opacity-0 transition-all duration-500 group-hover:opacity-100" />
-                      <span className="absolute top-[6px] inset-x-0 h-full rounded-full bg-[linear-gradient(45deg,var(--gradient-from),var(--gradient-to))] blur-[10px] opacity-0 -z-10 transition-all duration-500 group-hover:opacity-50" />
-                      <span className="relative z-10 transition-all duration-500 group-hover:scale-0 delay-0">
-                        <span className="text-base text-muted-foreground">{category.icon}</span>
-                      </span>
-                      <span className="absolute text-white uppercase tracking-wide text-[10px] font-semibold transition-all duration-500 scale-0 group-hover:scale-100 delay-150 whitespace-nowrap">
-                        {category.name}
-                      </span>
-                    </button>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        </nav>
-
-        {/* Content */}
+          {/* Content */}
         <div className="max-w-[1800px] mx-auto pl-2 pr-2 pt-2 pb-6">
           <div className="flex gap-2">
             {/* Main Content */}
@@ -1224,6 +1142,8 @@ export function SearchResults({
             </svg>
           </button>
         )}
+        </div>
       </div>
-    </div>;
+    </div>
+  );
 }
