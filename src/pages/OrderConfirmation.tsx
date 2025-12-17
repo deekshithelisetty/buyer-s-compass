@@ -119,15 +119,7 @@ const OrderConfirmation = () => {
                   </div>
                 </Link>
               ))}
-
-              {/* Regenerate Button - Bottom of left circle */}
-              <button
-                onClick={handleRegenerateOutfit}
-                className="absolute bottom-16 left-1/2 -translate-x-1/2 z-30 bg-foreground text-background px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2 hover:bg-foreground/90 transition-colors shadow-xl"
-              >
-                <RotateCcw className="w-4 h-4" />
-                Regenerate outfit
-              </button>
+            
             </div>
 
             {/* CENTER: Main Product Image in Oval */}
@@ -174,15 +166,6 @@ const OrderConfirmation = () => {
                   </span>
                 </div>
               </div>
-
-              {/* Track Order Button - Bottom of right circle */}
-              <Button 
-                className="absolute bottom-16 left-1/2 -translate-x-1/2 z-30 rounded-full bg-foreground hover:bg-foreground/90 text-background px-5 h-10 shadow-xl"
-                onClick={() => navigate(`/order-tracking?orderId=${orderId}`)}
-              >
-                <Truck className="w-4 h-4 mr-2" />
-                Track order
-              </Button>
             </div>
           </div>
 
