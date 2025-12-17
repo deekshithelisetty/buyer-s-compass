@@ -465,8 +465,8 @@ export function SearchResults({
   const [selectedCategory, setSelectedCategory] = useState(categoryFilter || "");
   const [localSearchQuery, setLocalSearchQuery] = useState(searchQuery || "");
   const [isFocused, setIsFocused] = useState(false);
-  const [isChatOpen, setIsChatOpen] = useState(true);
-  const [visibleCount, setVisibleCount] = useState(isChatOpen ? 10 : 15);
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(15);
   const [isLoading, setIsLoading] = useState(false);
   const [pincode, setPincode] = useState("123456");
   const [pincodeInput, setPincodeInput] = useState("");
