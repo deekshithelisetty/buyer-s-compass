@@ -1151,7 +1151,7 @@ export function SearchResults({
           </div>
         </div>
 
-        {/* Floating Chat Button */}
+        {/* Floating Chat Button - handled by Layout now */}
         {!isChatOpen && (
           <button
             onClick={() => setIsChatOpen(true)}
