@@ -1,5 +1,5 @@
 import { useNavigate, useSearchParams, Link } from "react-router-dom";
-import { ShoppingCart, CheckCircle, Truck, RotateCcw, Package } from "lucide-react";
+import { ShoppingCart, Truck, RotateCcw, Package } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
@@ -65,26 +65,7 @@ const OrderConfirmation = () => {
   return (
     <Layout>
       <div className="min-h-[calc(100vh-140px)] bg-gradient-to-br from-orange-50 via-pink-50 to-amber-50 dark:from-background dark:via-background dark:to-background">
-        {/* Success Banner */}
-        <div className="container mx-auto px-4 pt-6">
-          <div className="max-w-2xl mx-auto">
-            <div className="bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-900 rounded-lg p-4 mb-6">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center flex-shrink-0">
-                  <CheckCircle className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <h1 className="text-lg font-bold text-green-700 dark:text-green-400">Order Placed Successfully!</h1>
-                  <p className="text-sm text-green-600 dark:text-green-500">
-                    Order #{orderId} • Confirmation sent to your email
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="container mx-auto px-4 py-4">
+        <div className="container mx-auto px-4 py-6">
           {/* Main 3-Column Layout */}
           <div className="flex items-center justify-center gap-0 lg:gap-0 min-h-[60vh] relative">
             
@@ -141,6 +122,11 @@ const OrderConfirmation = () => {
               
               {/* Content - item list */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 space-y-4">
+                {/* Success message */}
+                <p className="text-sm text-green-600 dark:text-green-500">
+                  Order Placed Successfully!
+                </p>
+
                 {/* Item count */}
                 <h2 className="text-3xl font-bold text-foreground">
                   {orderItems.length} item
