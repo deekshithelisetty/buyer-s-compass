@@ -39,18 +39,22 @@ const OrderConfirmation = () => {
   const total = parseFloat(searchParams.get("total") || "0");
   
   // Get random products for display
-  const [displayProducts, setDisplayProducts] = useState(products.slice(0, 6));
+  const [displayProducts, setDisplayProducts] = useState(products.slice(0, 10));
   const [orderItems, setOrderItems] = useState(products.slice(0, 3));
   const mainProduct = products[0];
 
-  // Floating positions for related products
+  // Floating positions for related products - more items with larger sizes
   const floatingPositions = [
-    { top: "12%", left: "32%", size: "w-14 h-14", rotate: "-5deg" },
-    { top: "8%", left: "55%", size: "w-12 h-12", rotate: "5deg" },
-    { top: "38%", left: "18%", size: "w-14 h-14", rotate: "-8deg" },
-    { top: "35%", left: "65%", size: "w-14 h-14", rotate: "8deg" },
-    { top: "62%", left: "20%", size: "w-12 h-12", rotate: "-5deg" },
-    { top: "70%", left: "45%", size: "w-14 h-14", rotate: "0deg" },
+    { top: "5%", left: "40%", size: "w-[72px] h-[72px]", rotate: "-5deg" },
+    { top: "8%", left: "60%", size: "w-16 h-16", rotate: "5deg" },
+    { top: "22%", left: "15%", size: "w-20 h-20", rotate: "-8deg" },
+    { top: "20%", left: "70%", size: "w-[72px] h-[72px]", rotate: "8deg" },
+    { top: "45%", left: "8%", size: "w-16 h-16", rotate: "-3deg" },
+    { top: "42%", left: "75%", size: "w-20 h-20", rotate: "6deg" },
+    { top: "65%", left: "18%", size: "w-[72px] h-[72px]", rotate: "-6deg" },
+    { top: "68%", left: "62%", size: "w-16 h-16", rotate: "4deg" },
+    { top: "85%", left: "35%", size: "w-16 h-16", rotate: "-4deg" },
+    { top: "82%", left: "55%", size: "w-[72px] h-[72px]", rotate: "3deg" },
   ];
 
   const totalPrice = orderItems.reduce((sum, item) => sum + item.price, 0);
