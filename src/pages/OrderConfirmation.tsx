@@ -38,29 +38,35 @@ const OrderConfirmation = () => {
   const orderId = searchParams.get("orderId") || "";
   const total = parseFloat(searchParams.get("total") || "0");
   
-  // Get random products for display
-  const [displayProducts, setDisplayProducts] = useState(products.slice(0, 8));
-  const [orderItems, setOrderItems] = useState(products.slice(0, 3));
+  // Get the main product and related products by category
   const mainProduct = products[0];
+  const relatedProducts = products
+    .filter(p => p.category === mainProduct.category && p.id !== mainProduct.id)
+    .slice(0, 8);
+  // If not enough related products, fill with other products
+  const displayProducts = relatedProducts.length >= 8 
+    ? relatedProducts 
+    : [...relatedProducts, ...products.filter(p => p.id !== mainProduct.id && !relatedProducts.includes(p))].slice(0, 8);
+  
+  const [orderItems, setOrderItems] = useState(products.slice(0, 3));
 
   // Floating positions for 8 products evenly distributed around the circle
   const floatingPositions = [
-    { top: "8%", left: "42%", size: "w-16 h-16", rotate: "-3deg" },    // top
-    { top: "18%", left: "68%", size: "w-[72px] h-[72px]", rotate: "5deg" },  // top-right
-    { top: "42%", left: "78%", size: "w-16 h-16", rotate: "8deg" },    // right
-    { top: "68%", left: "68%", size: "w-[72px] h-[72px]", rotate: "-5deg" }, // bottom-right
-    { top: "78%", left: "42%", size: "w-16 h-16", rotate: "3deg" },    // bottom
-    { top: "68%", left: "16%", size: "w-[72px] h-[72px]", rotate: "-8deg" }, // bottom-left
-    { top: "42%", left: "6%", size: "w-16 h-16", rotate: "6deg" },     // left
-    { top: "18%", left: "16%", size: "w-[72px] h-[72px]", rotate: "-4deg" }, // top-left
+    { top: "8%", left: "42%", size: "w-16 h-16", rotate: "-3deg" },
+    { top: "18%", left: "68%", size: "w-[72px] h-[72px]", rotate: "5deg" },
+    { top: "42%", left: "78%", size: "w-16 h-16", rotate: "8deg" },
+    { top: "68%", left: "68%", size: "w-[72px] h-[72px]", rotate: "-5deg" },
+    { top: "78%", left: "42%", size: "w-16 h-16", rotate: "3deg" },
+    { top: "68%", left: "16%", size: "w-[72px] h-[72px]", rotate: "-8deg" },
+    { top: "42%", left: "6%", size: "w-16 h-16", rotate: "6deg" },
+    { top: "18%", left: "16%", size: "w-[72px] h-[72px]", rotate: "-4deg" },
   ];
 
   const totalPrice = orderItems.reduce((sum, item) => sum + item.price, 0);
 
   const handleRegenerateOutfit = () => {
-    // Shuffle products for new outfit
+    // Shuffle order items for new outfit
     const shuffled = [...products].sort(() => Math.random() - 0.5);
-    setDisplayProducts(shuffled.slice(0, 6));
     setOrderItems(shuffled.slice(0, 3));
   };
 
@@ -81,7 +87,7 @@ const OrderConfirmation = () => {
                 <Link
                   key={item.id}
                   to={`/product/${item.id}`}
-                  className="absolute group z-20"
+                  className="absolute group z-20 hover:z-50"
                   style={{
                     top: floatingPositions[index]?.top,
                     left: floatingPositions[index]?.left,
@@ -89,16 +95,21 @@ const OrderConfirmation = () => {
                 >
                   <div 
                     className={cn(
-                      "rounded-2xl bg-card border border-border/50 shadow-lg overflow-hidden transition-all duration-300 hover:scale-125 hover:shadow-2xl hover:z-30",
-                      floatingPositions[index]?.size || "w-14 h-14"
+                      "rounded-2xl bg-card border-2 border-border/50 shadow-lg overflow-hidden transition-all duration-500 ease-out",
+                      "hover:scale-[2.5] hover:shadow-2xl hover:border-primary/50 hover:rounded-xl",
+                      floatingPositions[index]?.size || "w-16 h-16"
                     )}
                     style={{ transform: `rotate(${floatingPositions[index]?.rotate || '0deg'})` }}
                   >
                     <img
                       src={item.image}
                       alt={item.name}
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                      className="w-full h-full object-cover"
                     />
+                  </div>
+                  {/* Product name tooltip on hover */}
+                  <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap bg-card/95 backdrop-blur-sm px-2 py-1 rounded-md shadow-lg text-xs font-medium z-50">
+                    {item.name.split(' ').slice(0, 3).join(' ')}
                   </div>
                 </Link>
               ))}
